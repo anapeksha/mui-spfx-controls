@@ -1,0 +1,18 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "people-picker-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/peoplePicker/PeoplePickerWebPart.js",
+          "manifest": "./src/webparts/peoplePicker/PeoplePickerWebPart.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "PeoplePickerWebPartStrings": "lib/webparts/peoplePicker/loc/{locale}.js"
+  }
+}
