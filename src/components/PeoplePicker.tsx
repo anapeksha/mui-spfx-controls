@@ -3,6 +3,7 @@ import * as React from "react";
 import {
   Autocomplete,
   Avatar,
+  Chip,
   ListItem,
   Skeleton,
   Stack,
@@ -39,7 +40,7 @@ export const PeoplePicker: FC<IPeoplePickerProps> = ({
   >([]);
   const [searchService] = useState(new PeopleSearchService(context));
   const [error, setError] = useState<Error | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     if (query.length > 0) {
@@ -49,13 +50,13 @@ export const PeoplePicker: FC<IPeoplePickerProps> = ({
         .then((response) => {
           // const filteredResponse = handleDuplicates(response, selectedUsers);
           // console.log("filtered", filteredResponse);
-          console.log(response);
           setSearchResults(response);
           setLoading(false);
         })
         .catch((error) => setError(error));
     } else if (query.length === 0) {
       setSearchResults([]);
+      console.log(selectedUsers);
     }
   }, [query]);
 
@@ -64,7 +65,6 @@ export const PeoplePicker: FC<IPeoplePickerProps> = ({
       multiple={true}
       options={searchResults}
       getOptionLabel={(option) => option.DisplayText}
-      value={selectedUsers}
       size={size}
       loading={loading}
       disabled={disabled}
@@ -82,14 +82,26 @@ export const PeoplePicker: FC<IPeoplePickerProps> = ({
         console.log(value, reason);
         if (reason === "selectOption" || reason === "removeOption") {
           setSelectedUsers(value);
+          setQuery("");
         } else if (reason === "clear") {
           setSelectedUsers([]);
+          setQuery("");
         }
       }}
       onInputChange={(event, newValue) => setQuery(newValue)}
+      renderTags={(users, getTagProps) => {
+        return users.map((user, index) => (
+          <Chip
+            variant="outlined"
+            {...getTagProps({ index: index })}
+            avatar={<Avatar src={user.Image} />}
+            label={user.DisplayText}
+          />
+        ));
+      }}
       renderOption={(props, option) => (
         <ListItem {...props}>
-          <Stack direction="row" spacing={1}>
+          <Stack direction="row" spacing={1} alignItems="center">
             {option.Image !== "" ? (
               <Avatar sx={{ width: 40, height: 40 }} src={option.Image} />
             ) : (
