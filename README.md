@@ -1,73 +1,89 @@
-# mui-spfx-controls
+# SPFx Material-UI Component Library
 
-## Summary
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+![Build](https://github.com/anapeksha/mui-spfx-controls/actions/workflows/npm-publish.yml/badge.svg?branch=main)
 
-Short summary on functionality and used technologies.
+This is a SharePoint Framework (SPFx) component library built using Material-UI (MUI). It provides reusable React components for building modern and visually appealing user interfaces in SharePoint.
 
-[picture of the solution in action, if possible]
+## Installation
 
-## Used SharePoint Framework Version
+To install this component library in your SPFx project, you can use npm:
 
-![version](https://img.shields.io/badge/version-1.18.2-green.svg)
+```bash
+npm install mui-spfx-controls --save
+```
 
-## Applies to
+## Usage
 
-- [SharePoint Framework](https://aka.ms/spfx)
-- [Microsoft 365 tenant](https://docs.microsoft.com/en-us/sharepoint/dev/spfx/set-up-your-developer-tenant)
+Once installed, you can import and use the components in your SPFx web part or extension. For example:
 
-> Get your own free development tenant by subscribing to [Microsoft 365 developer program](http://aka.ms/o365devprogram)
+```JSX
+import * as React from 'react';
+import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
+import { ThemeProvider } from '@mui/material';
+import { spfi, SPFx } from "@pnp/sp";
+import { PeoplePicker } from 'mui-spfx-controls';
+import { theme } from '/path/to/theme';
 
-## Prerequisites
 
-> Any special pre-requisites?
+export default class MyWebPart extends BaseClientWebPart {
+  public render(): React.ReactElement<any> {
+    const sp = spfi().using(SPFx(this.context));
+    return (
+      <ThemeProvider theme={theme}>
+        <PeoplePicker sp={sp} label="Search" color="primary" variant="outlined">
+      </ThemeProvider>
+    );
+  }
+}
+```
 
-## Solution
+## Components
 
-| Solution    | Author(s)                                               |
-| ----------- | ------------------------------------------------------- |
-| folder name | Author details (name, company, twitter alias with link) |
+### PeoplePicker
 
-## Version history
+A SharePoint people picker component with MUI library integration
 
-| Version | Date             | Comments        |
-| ------- | ---------------- | --------------- |
-| 1.1     | March 10, 2021   | Update comment  |
-| 1.0     | January 29, 2021 | Initial release |
+#### Props
 
-## Disclaimer
+- sp (required): SPFI object
+- label (required): Textfield label
+- variant (optional): Textfield variant ('standard', 'outlined', 'filled')
+- color (optional): Button color, e.g., "primary" or "secondary"
+- maxUsers (optional): Maximum user input
+- LoadingComponent (optional): A loading component
 
-**THIS CODE IS PROVIDED _AS IS_ WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING ANY IMPLIED WARRANTIES OF FITNESS FOR A PARTICULAR PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.**
+#### Hooks
 
----
+```JSX
+useUser(sp: SPFI, email: string) => {}
+```
 
-## Minimal Path to Awesome
+## Development
 
-- Clone this repository
-- Ensure that you are at the solution folder
-- in the command-line run:
-  - **npm install**
-  - **gulp serve**
+If you want to contribute or modify the library, you can follow these steps:
 
-> Include any additional steps as needed.
+Clone the repository:
 
-## Features
+```bash
+git clone https://github.com/anapeksha/mui-spfx-controls.git
+```
 
-Description of the extension that expands upon high-level summary above.
+Install dependencies:
 
-This extension illustrates the following concepts:
+```bash
+cd mui-spfx-controls
+npm install
+```
 
-- topic 1
-- topic 2
-- topic 3
+Build the library:
 
-> Notice that better pictures and documentation will increase the sample usage and the value you are providing for others. Thanks for your submissions advance.
+```bash
+npm run build
+```
 
-> Share your web part with others through Microsoft 365 Patterns and Practices program to get visibility and exposure. More details on the community, open-source projects and other activities from http://aka.ms/m365pnp.
+Test the components in a sample SPFx project
 
-## References
+## License
 
-- [Getting started with SharePoint Framework](https://docs.microsoft.com/en-us/sharepoint/dev/spfx/set-up-your-developer-tenant)
-- [Building for Microsoft teams](https://docs.microsoft.com/en-us/sharepoint/dev/spfx/build-for-teams-overview)
-- [Use Microsoft Graph in your solution](https://docs.microsoft.com/en-us/sharepoint/dev/spfx/web-parts/get-started/using-microsoft-graph-apis)
-- [Publish SharePoint Framework applications to the Marketplace](https://docs.microsoft.com/en-us/sharepoint/dev/spfx/publish-to-marketplace-overview)
-- [Microsoft 365 Patterns and Practices](https://aka.ms/m365pnp) - Guidance, tooling, samples and open-source controls for your Microsoft 365 development
+This project is licensed under the MIT License - see the `LICENSE.md` file for details.
