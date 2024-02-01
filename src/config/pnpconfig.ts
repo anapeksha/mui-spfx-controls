@@ -4,6 +4,7 @@ import "@pnp/sp/batching";
 import "@pnp/sp/items";
 import "@pnp/sp/lists";
 import "@pnp/sp/profiles";
+import "@pnp/sp/site-users/web";
 import "@pnp/sp/webs";
 
 let _sp: SPFI;
