@@ -15,7 +15,7 @@ npm install mui-spfx-controls --save
 
 ## Usage
 
-Once installed, you can import and use the components in your SPFx web part or extension. For example:
+Once installed, you can import and use the components in your SPFx web part or extension. Alternatively, prebuilt webparts can be used after deploying solution to site's AppCatalog For example:
 
 ```JSX
 import * as React from 'react';
@@ -46,18 +46,17 @@ A SharePoint people picker component with MUI library integration
 
 #### Props
 
-- sp (required): SPFI object
+- context (required): SP
 - label (required): Textfield label
+- onSelectionChange (optional): Get selection value updates
+- searchSuggestionLimit (optional): number of suggestions to provide
 - variant (optional): Textfield variant ('standard', 'outlined', 'filled')
 - color (optional): Button color, e.g., "primary" or "secondary"
-- maxUsers (optional): Maximum user input
+- disabled (optional): Is component disabled
+- size (optional): Size of component
 - LoadingComponent (optional): A loading component
-
-#### Hooks
-
-```JSX
-useUser(sp: SPFI, email: string) => {}
-```
+- styles (optional): Styles to apply
+- sx (optional): MUI's sx prop
 
 ## Development
 
@@ -76,13 +75,13 @@ cd mui-spfx-controls
 npm install
 ```
 
-Build the library:
+Serve the solution
 
 ```bash
-npm run build
+npm run dev
 ```
 
-Test the components in a sample SPFx project
+Test the components/webparts in a sample SPFx project
 
 ## License
 
