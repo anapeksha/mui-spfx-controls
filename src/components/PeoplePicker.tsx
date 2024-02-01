@@ -44,7 +44,6 @@ export const PeoplePicker: FC<IPeoplePickerProps> = ({
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
-    console.log(query);
     if (query.length > 0) {
       setLoading(true);
       searchService
