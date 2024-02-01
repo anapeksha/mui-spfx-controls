@@ -13,10 +13,10 @@ type AutocompleteBaseProps = AutocompleteProps<
 interface IPeoplePickerProps {
   context: WebPartContext;
   label: string;
+  onSelectionChange?: (value: IExtendedPeoplePickerEntity[]) => void;
   searchSuggestionLimit?: number;
   personSelectionLimit?: number;
   disabled?: boolean;
-  multiple?: boolean;
   variant?: TextFieldVariants;
   color?: "error" | "primary" | "secondary" | "info" | "success" | "warning";
   size?: "small" | "medium";
