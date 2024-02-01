@@ -1,11 +1,11 @@
 {
   "name": "mui-spfx-controls",
   "version": "0.0.1",
-  "private": true,
   "engines": {
     "node": ">=16.13.0 <17.0.0 || >=18.17.1 <19.0.0"
   },
   "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "scripts": {
     "build": "gulp bundle",
     "clean": "gulp clean",
