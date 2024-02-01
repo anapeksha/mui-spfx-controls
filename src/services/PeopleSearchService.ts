@@ -1,16 +1,22 @@
 import { WebPartContext } from "@microsoft/sp-webpart-base";
 import { SPFI } from "@pnp/sp";
+import { IPeoplePickerEntity } from "@pnp/sp/profiles";
 import { getSP } from "../config";
 import { IExtendedPeoplePickerEntity } from "../types";
 import { generateImageUrl } from "../utils";
 
 class PeopleSearchService {
   private extendedResults: IExtendedPeoplePickerEntity[] = [];
-  // private uniqueUsers: IPeoplePickerEntity[] = [];
-  // private keys: string[] = [];
   private sp: SPFI;
   constructor(context: WebPartContext) {
     this.sp = getSP(context);
+  }
+  private allowUnInvalidated(user: IPeoplePickerEntity): boolean {
+    return !(
+      user.EntityData &&
+      user.EntityData.PrincipalType &&
+      user.EntityData.PrincipalType === "UNVALIDATED_EMAIL_ADDRESS"
+    );
   }
   public async resolveUser(
     context: WebPartContext,
@@ -22,15 +28,14 @@ class PeopleSearchService {
         .clientPeoplePickerSearchUser({
           AllowEmailAddresses: true,
           AllowMultipleEntities: false,
-          MaximumEntitySuggestions: maximumSuggestions || 50,
-          QueryString: query,
+          AllUrlZones: false,
+          MaximumEntitySuggestions: maximumSuggestions || 25,
+          PrincipalSource: 15,
           PrincipalType: 1,
+          QueryString: query,
         })
         .then((response) => {
-          // this.keys = response.map((value) => value.Key);
-          // this.uniqueUsers = response.filter(
-          //   (value, index) => this.keys.lastIndexOf(value.Key) !== index
-          // );
+          response.filter((value) => this.allowUnInvalidated(value));
           response.forEach((value) => {
             this.extendedResults.push({
               ...value,
