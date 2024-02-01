@@ -14,11 +14,13 @@ jobs:
         with:
           node-version: "18.x"
           registry-url: "https://registry.npmjs.org"
-      - name: Install dependencies 📥
+      - name: Install dependencies
         run: npm install
-      - name: Build for production 🔨
+      - name: Clean dependencies
+        run: npm run clean
+      - name: Build for production
         run: npm run build
-      - name: Publish package on NPM 📦
+      - name: Publish package on NPM
         run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
