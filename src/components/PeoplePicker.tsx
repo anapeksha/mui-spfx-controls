@@ -17,12 +17,13 @@ import { IExtendedPeoplePickerEntity, IPeoplePickerProps } from "../types";
 
 import { AccountCircle } from "@mui/icons-material";
 import { PeopleSearchService } from "../services/PeopleSearchService";
+import { handleDuplicates } from "../utils";
 
 export const PeoplePicker: FC<IPeoplePickerProps> = ({
   context,
   label,
+  onSelectionChange,
   searchSuggestionLimit,
-  multiple,
   disabled,
   variant,
   color,
@@ -43,20 +44,18 @@ export const PeoplePicker: FC<IPeoplePickerProps> = ({
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
+    console.log(query);
     if (query.length > 0) {
       setLoading(true);
       searchService
         .resolveUser(context, query, searchSuggestionLimit)
         .then((response) => {
-          // const filteredResponse = handleDuplicates(response, selectedUsers);
-          // console.log("filtered", filteredResponse);
           setSearchResults(response);
           setLoading(false);
         })
         .catch((error) => setError(error));
     } else if (query.length === 0) {
       setSearchResults([]);
-      console.log(selectedUsers);
     }
   }, [query]);
 
@@ -65,6 +64,7 @@ export const PeoplePicker: FC<IPeoplePickerProps> = ({
       multiple={true}
       options={searchResults}
       getOptionLabel={(option) => option.DisplayText}
+      filterOptions={(options) => handleDuplicates(options, selectedUsers)}
       size={size}
       loading={loading}
       disabled={disabled}
@@ -79,21 +79,25 @@ export const PeoplePicker: FC<IPeoplePickerProps> = ({
         )
       }
       onChange={(event, value, reason) => {
-        console.log(value, reason);
         if (reason === "selectOption" || reason === "removeOption") {
           setSelectedUsers(value);
           setQuery("");
+          if (onSelectionChange) {
+            onSelectionChange(value);
+          }
         } else if (reason === "clear") {
           setSelectedUsers([]);
           setQuery("");
+          if (onSelectionChange) {
+            onSelectionChange([]);
+          }
         }
       }}
       onInputChange={(event, newValue) => setQuery(newValue)}
       renderTags={(users, getTagProps) => {
         return users.map((user, index) => (
           <Chip
-            variant="outlined"
-            {...getTagProps({ index: index })}
+            {...getTagProps({ index })}
             avatar={<Avatar src={user.Image} />}
             label={user.DisplayText}
           />
