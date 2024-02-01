@@ -21,17 +21,15 @@ Once installed, you can import and use the components in your SPFx web part or e
 import * as React from 'react';
 import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 import { ThemeProvider } from '@mui/material';
-import { spfi, SPFx } from "@pnp/sp";
+import { spfi, SPFx, SPFI } from "@pnp/sp";
 import { PeoplePicker } from 'mui-spfx-controls';
 import { theme } from '/path/to/theme';
 
-
-export default class MyWebPart extends BaseClientWebPart {
+export default class PeoplePickerWebPart extends BaseClientWebPart {
   public render(): React.ReactElement<any> {
-    const sp = spfi().using(SPFx(this.context));
     return (
       <ThemeProvider theme={theme}>
-        <PeoplePicker sp={sp} label="Search" color="primary" variant="outlined">
+        <PeoplePicker context={this.context} label="Search" color="primary" variant="outlined">
       </ThemeProvider>
     );
   }
@@ -60,7 +58,7 @@ A SharePoint people picker component with MUI library integration
 
 ## Development
 
-If you want to contribute or modify the library, you can follow these steps:
+If you want to contribute to the library, you can follow these steps:
 
 Clone the repository:
 
