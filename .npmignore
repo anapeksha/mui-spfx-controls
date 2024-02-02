@@ -6,6 +6,7 @@ gulpfile.js
 release
 src
 temp
+sharepoint
 
 tsconfig.json
 tslint.json
