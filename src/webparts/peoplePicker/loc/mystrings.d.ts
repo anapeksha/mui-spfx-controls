@@ -1,19 +1,14 @@
 declare interface IPeoplePickerWebPartStrings {
   PropertyPaneDescription: string;
   BasicGroupName: string;
-  DescriptionFieldLabel: string;
-  AppLocalEnvironmentSharePoint: string;
-  AppLocalEnvironmentTeams: string;
-  AppLocalEnvironmentOffice: string;
-  AppLocalEnvironmentOutlook: string;
-  AppSharePointEnvironment: string;
-  AppTeamsTabEnvironment: string;
-  AppOfficeEnvironment: string;
-  AppOutlookEnvironment: string;
-  UnknownEnvironment: string;
+  LabelFieldLabel: string;
+  SizeFieldLabel: string;
+  DisabledFieldLabel: string;
+  VariantFieldLabel: string;
+  ColorFieldLabel: string;
 }
 
-declare module 'PeoplePickerWebPartStrings' {
+declare module "PeoplePickerWebPartStrings" {
   const strings: IPeoplePickerWebPartStrings;
   export = strings;
 }
