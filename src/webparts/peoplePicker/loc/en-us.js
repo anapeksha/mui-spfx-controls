@@ -1,6 +1,7 @@
 define([], function () {
   return {
-    PropertyPaneDescription: "People Picker",
+    PropertyPaneDescription:
+      "SharePoint Framework component and webpart library built using Material-UI",
     BasicGroupName: "Properties",
     LabelFieldLabel: "Label",
     SizeFieldLabel: "Size",
