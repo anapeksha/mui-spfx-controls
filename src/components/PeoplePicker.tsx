@@ -95,6 +95,7 @@ export const PeoplePicker: FC<IPeoplePickerProps> = ({
       onInputChange={(event, newValue) => setQuery(newValue)}
       renderTags={(users, getTagProps) => {
         return users.map((user, index) => (
+          // eslint-disable-next-line
           <Chip
             {...getTagProps({ index })}
             avatar={<Avatar src={user.Image} />}
