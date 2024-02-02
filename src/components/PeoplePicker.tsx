@@ -119,8 +119,8 @@ export const PeoplePicker: FC<IPeoplePickerProps> = ({
       renderInput={(params) => (
         <TextField
           {...params}
-          color={color}
           variant={variant}
+          color={color}
           error={error !== null ? true : false}
           helperText={error ? "Something went wrong" : ""}
           label={label}
