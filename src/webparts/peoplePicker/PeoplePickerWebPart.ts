@@ -1,25 +1,35 @@
 import { Version } from "@microsoft/sp-core-library";
 import {
+  PropertyPaneChoiceGroup,
+  PropertyPaneDropdown,
   PropertyPaneTextField,
+  PropertyPaneToggle,
   type IPropertyPaneConfiguration,
 } from "@microsoft/sp-property-pane";
 import { BaseClientSideWebPart } from "@microsoft/sp-webpart-base";
 import * as strings from "PeoplePickerWebPartStrings";
 import * as React from "react";
 import * as ReactDom from "react-dom";
-import { IPeoplePickerDisplayProps } from "./IPeoplePickerDisplayProps";
+import { IPeoplePickerProps } from "../../types";
 import PeoplePickerDisplay from "./PeoplePickerDisplay";
 
-export interface IPeoplePickerWebPartProps {
+export interface IPeoplePickerWebPartProps extends IPeoplePickerProps {
   description: string;
 }
 
 export default class PeoplePickerWebPart extends BaseClientSideWebPart<IPeoplePickerWebPartProps> {
   public render(): void {
-    const element: React.ReactElement<IPeoplePickerDisplayProps> =
-      React.createElement(PeoplePickerDisplay, {
+    const element: React.ReactElement<IPeoplePickerProps> = React.createElement(
+      PeoplePickerDisplay,
+      {
         context: this.context,
-      });
+        label: this.properties.label,
+        size: this.properties.size,
+        disabled: this.properties.disabled,
+        variant: this.properties.variant,
+        color: this.properties.color,
+      }
+    );
 
     ReactDom.render(element, this.domElement);
   }
@@ -47,8 +57,72 @@ export default class PeoplePickerWebPart extends BaseClientSideWebPart<IPeoplePi
             {
               groupName: strings.BasicGroupName,
               groupFields: [
-                PropertyPaneTextField("description", {
-                  label: strings.DescriptionFieldLabel,
+                PropertyPaneTextField("label", {
+                  label: strings.LabelFieldLabel,
+                }),
+                PropertyPaneChoiceGroup("size", {
+                  label: strings.SizeFieldLabel,
+                  options: [
+                    {
+                      key: "small",
+                      text: "small",
+                    },
+                    {
+                      key: "medium",
+                      text: "medium",
+                    },
+                  ],
+                }),
+                PropertyPaneToggle("disabled", {
+                  label: strings.DisabledFieldLabel,
+                }),
+                PropertyPaneDropdown("variant", {
+                  label: strings.VariantFieldLabel,
+                  selectedKey: "outlined",
+                  options: [
+                    {
+                      key: "outlined",
+                      text: "outlined",
+                    },
+                    {
+                      key: "standard",
+                      text: "standard",
+                    },
+                    {
+                      key: "filled",
+                      text: "filled",
+                    },
+                  ],
+                }),
+                PropertyPaneDropdown("color", {
+                  label: strings.ColorFieldLabel,
+                  selectedKey: "primary",
+                  options: [
+                    {
+                      key: "primary",
+                      text: "primary",
+                    },
+                    {
+                      key: "secondary",
+                      text: "secondary",
+                    },
+                    {
+                      key: "info",
+                      text: "info",
+                    },
+                    {
+                      key: "success",
+                      text: "success",
+                    },
+                    {
+                      key: "warning",
+                      text: "warning",
+                    },
+                    {
+                      key: "error",
+                      text: "error",
+                    },
+                  ],
                 }),
               ],
             },
