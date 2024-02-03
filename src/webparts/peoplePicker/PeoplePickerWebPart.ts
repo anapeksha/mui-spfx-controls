@@ -27,7 +27,9 @@ export default class PeoplePickerWebPart extends BaseClientSideWebPart<IPeoplePi
         size: this.properties.size,
         disabled: this.properties.disabled,
         variant: this.properties.variant,
+        tagVariant: this.properties.tagVariant,
         color: this.properties.color,
+        tagColor: this.properties.tagColor,
       }
     );
 
@@ -94,10 +96,58 @@ export default class PeoplePickerWebPart extends BaseClientSideWebPart<IPeoplePi
                     },
                   ],
                 }),
+                PropertyPaneDropdown("tagVariant", {
+                  label: strings.TagVariantFieldLabel,
+                  selectedKey: "filled",
+                  options: [
+                    {
+                      key: "outlined",
+                      text: "outlined",
+                    },
+                    {
+                      key: "filled",
+                      text: "filled",
+                    },
+                  ],
+                }),
                 PropertyPaneDropdown("color", {
                   label: strings.ColorFieldLabel,
                   selectedKey: "primary",
                   options: [
+                    {
+                      key: "primary",
+                      text: "primary",
+                    },
+                    {
+                      key: "secondary",
+                      text: "secondary",
+                    },
+                    {
+                      key: "info",
+                      text: "info",
+                    },
+                    {
+                      key: "success",
+                      text: "success",
+                    },
+                    {
+                      key: "warning",
+                      text: "warning",
+                    },
+                    {
+                      key: "error",
+                      text: "error",
+                    },
+                  ],
+                }),
+                PropertyPaneDropdown("tagColor", {
+                  label: strings.TagColorFieldLabel,
+                  selectedKey: "default",
+                  options: [
+                    {
+                      key: "default",
+                      text: "default",
+                    },
                     {
                       key: "primary",
                       text: "primary",

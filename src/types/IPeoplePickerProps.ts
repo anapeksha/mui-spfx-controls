@@ -1,5 +1,10 @@
 import { WebPartContext } from "@microsoft/sp-webpart-base";
-import { AutocompleteProps, TextFieldVariants } from "@mui/material";
+import {
+  AutocompleteProps,
+  ChipOwnProps,
+  TextFieldProps,
+  TextFieldVariants,
+} from "@mui/material";
 import { CSSProperties, ReactNode } from "react";
 import { IExtendedPeoplePickerEntity } from "./IExtendedPeoplePicker";
 
@@ -18,8 +23,10 @@ interface IPeoplePickerProps {
   personSelectionLimit?: number;
   disabled?: boolean;
   variant?: TextFieldVariants;
-  color?: "error" | "primary" | "secondary" | "info" | "success" | "warning";
-  size?: "small" | "medium";
+  tagVariant?: ChipOwnProps["variant"];
+  color?: TextFieldProps["color"];
+  tagColor?: ChipOwnProps["color"];
+  size?: AutocompleteBaseProps["size"];
   styles?: CSSProperties;
   sx?: AutocompleteBaseProps["sx"];
   LoadingComponent?: ReactNode;

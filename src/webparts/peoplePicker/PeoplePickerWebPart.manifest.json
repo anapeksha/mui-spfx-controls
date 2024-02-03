@@ -21,13 +21,17 @@
         "default": "People Picker"
       },
       "description": {
-        "default": "SharePoint Framework component and webpart library built using Material-UI"
+        "default": "People Picker component with Material UI"
       },
       "officeFabricIconFontName": "People",
       "properties": {
         "label": "People",
         "size": "medium",
+        "disabled": false,
+        "variant": "outlined",
+        "tagVariant": "filled",
         "color": "primary",
+        "tagColor": "default",
         "searchSuggestionsLimit": 10
       }
     }
