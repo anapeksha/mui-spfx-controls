@@ -25,8 +25,7 @@
     "@mui/icons-material": "^5.15.6",
     "@mui/material": "^5.15.6",
     "@pnp/graph": "^3.22.0",
-    "@pnp/sp": "^3.22.0",
-    "tslib": "2.3.1"
+    "@pnp/sp": "^3.22.0"
   },
   "devDependencies": {
     "@microsoft/eslint-config-spfx": "1.18.2",
@@ -42,6 +41,7 @@
     "eslint": "8.7.0",
     "eslint-plugin-react-hooks": "4.3.0",
     "gulp": "4.0.2",
+    "tslib": "2.3.1",
     "typescript": "4.7.4"
   },
   "peerDependencies": {
