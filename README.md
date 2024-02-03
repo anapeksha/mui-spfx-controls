@@ -54,9 +54,11 @@ A SharePoint people picker component with MUI library integration
 - label (required): Textfield label
 - onSelectionChange (optional): Get selection value updates
 - searchSuggestionLimit (optional): number of suggestions to provide
-- variant (optional): Textfield variant ('standard', 'outlined', 'filled')
-- color (optional): Button color, e.g., "primary" or "secondary"
 - disabled (optional): Is component disabled
+- variant (optional): Textfield variant ('standard', 'outlined', 'filled')
+- tagVariant (optional): Chip variant ('filled', 'outlined')
+- color (optional): Button color, e.g., "primary" or "secondary"
+- tagColor (optional): Chip color, e.g., "default" or "secondary"
 - size (optional): Size of component
 - LoadingComponent (optional): A loading component
 - styles (optional): Styles to apply
