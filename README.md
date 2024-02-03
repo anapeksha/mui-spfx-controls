@@ -32,6 +32,7 @@ export default class PeoplePickerWebPart extends BaseClientWebPart {
         size: this.properties.size,
         disabled: this.properties.disabled,
         variant: this.properties.variant,
+        tagVariant: this.properties.tagVariant,
         color: this.properties.color,
         tagColor: this.properties.color
       }
