@@ -24,8 +24,12 @@
     "@microsoft/sp-webpart-base": "1.18.2",
     "@mui/icons-material": "^5.15.6",
     "@mui/material": "^5.15.6",
+    "@mui/x-date-pickers": "^6.19.3",
     "@pnp/graph": "^3.22.0",
-    "@pnp/sp": "^3.22.0"
+    "@pnp/sp": "^3.22.0",
+    "dayjs": "^1.11.10",
+    "react": "17.0.1",
+    "react-dom": "17.0.1"
   },
   "devDependencies": {
     "@microsoft/eslint-config-spfx": "1.18.2",

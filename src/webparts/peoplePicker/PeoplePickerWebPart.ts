@@ -13,9 +13,7 @@ import * as ReactDom from "react-dom";
 import { IPeoplePickerProps } from "../../types";
 import PeoplePickerDisplay from "./PeoplePickerDisplay";
 
-export interface IPeoplePickerWebPartProps extends IPeoplePickerProps {
-  description: string;
-}
+export interface IPeoplePickerWebPartProps extends IPeoplePickerProps {}
 
 export default class PeoplePickerWebPart extends BaseClientSideWebPart<IPeoplePickerWebPartProps> {
   public render(): void {
