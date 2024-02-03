@@ -1,7 +1,6 @@
 # SPFx Material-UI Component Library
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Create a release and publish to NPM registry](https://github.com/anapeksha/mui-spfx-controls/actions/workflows/npm-publish.yml/badge.svg?branch=main&event=release)](https://github.com/anapeksha/mui-spfx-controls/actions/workflows/npm-publish.yml)
 
 This is a SharePoint Framework (SPFx) component library built using Material-UI (MUI). It provides reusable React components for building modern and visually appealing user interfaces in SharePoint.
 
@@ -19,19 +18,26 @@ Once installed, you can import and use the components in your SPFx web part or e
 
 ```JSX
 import * as React from 'react';
+import * as ReactDom from "react-dom";
 import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
-import { ThemeProvider } from '@mui/material';
-import { spfi, SPFx, SPFI } from "@pnp/sp";
-import { PeoplePicker } from 'mui-spfx-controls';
-import { theme } from '/path/to/theme';
+import { PeoplePicker, IPeoplePickerProps } from 'mui-spfx-controls';
 
 export default class PeoplePickerWebPart extends BaseClientWebPart {
-  public render(): React.ReactElement<any> {
-    return (
-      <ThemeProvider theme={theme}>
-        <PeoplePicker context={this.context} label="Search" color="primary" variant="outlined">
-      </ThemeProvider>
+  public render(): void {
+    const element = React.ReactElement<IPeoplePickerProps> = React.createElement(
+      PeoplePickerDisplay,
+      {
+        context: this.context,
+        label: this.properties.label,
+        size: this.properties.size,
+        disabled: this.properties.disabled,
+        variant: this.properties.variant,
+        tagVariant: this.properties.tagVariant,
+        color: this.properties.color,
+        tagColor: this.properties.color
+      }
     );
+    ReactDom.render(element, this.domElement);
   }
 }
 ```
@@ -48,9 +54,11 @@ A SharePoint people picker component with MUI library integration
 - label (required): Textfield label
 - onSelectionChange (optional): Get selection value updates
 - searchSuggestionLimit (optional): number of suggestions to provide
-- variant (optional): Textfield variant ('standard', 'outlined', 'filled')
-- color (optional): Button color, e.g., "primary" or "secondary"
 - disabled (optional): Is component disabled
+- variant (optional): Textfield variant ('standard', 'outlined', 'filled')
+- tagVariant (optional): Chip variant ('filled', 'outlined')
+- color (optional): Button color, e.g., "primary" or "secondary"
+- tagColor (optional): Chip color, e.g., "default" or "secondary"
 - size (optional): Size of component
 - LoadingComponent (optional): A loading component
 - styles (optional): Styles to apply
@@ -73,10 +81,16 @@ cd mui-spfx-controls
 npm install
 ```
 
+Install gulp cli:
+
+```bash
+npm install -g gulp-cli
+```
+
 Serve the solution
 
 ```bash
-npm run dev
+gulp serve
 ```
 
 Test the components/webparts in a sample SPFx project

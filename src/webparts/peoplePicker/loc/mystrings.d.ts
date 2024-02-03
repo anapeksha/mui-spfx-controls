@@ -5,7 +5,9 @@ declare interface IPeoplePickerWebPartStrings {
   SizeFieldLabel: string;
   DisabledFieldLabel: string;
   VariantFieldLabel: string;
+  TagVariantFieldLabel: string;
   ColorFieldLabel: string;
+  TagColorFieldLabel: string;
 }
 
 declare module "PeoplePickerWebPartStrings" {

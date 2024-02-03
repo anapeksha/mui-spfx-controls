@@ -10,8 +10,10 @@ const PeoplePickerDisplay: React.FC<IPeoplePickerProps> = ({
   size,
   searchSuggestionLimit,
   variant,
+  tagVariant,
   disabled,
   color,
+  tagColor,
 }) => {
   return (
     <ThemeProvider theme={theme}>
@@ -20,7 +22,9 @@ const PeoplePickerDisplay: React.FC<IPeoplePickerProps> = ({
         context={context}
         size={size}
         variant={variant}
+        tagVariant={tagVariant}
         color={color}
+        tagColor={tagColor}
         disabled={disabled}
         searchSuggestionLimit={searchSuggestionLimit}
       />

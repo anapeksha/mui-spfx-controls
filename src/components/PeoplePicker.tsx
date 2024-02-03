@@ -26,7 +26,9 @@ export const PeoplePicker: FC<IPeoplePickerProps> = ({
   searchSuggestionLimit,
   disabled,
   variant,
+  tagVariant,
   color,
+  tagColor,
   size,
   LoadingComponent,
   styles,
@@ -98,6 +100,8 @@ export const PeoplePicker: FC<IPeoplePickerProps> = ({
           // eslint-disable-next-line
           <Chip
             {...getTagProps({ index })}
+            color={tagColor}
+            variant={tagVariant}
             avatar={<Avatar src={user.Image} />}
             label={user.DisplayText}
           />
