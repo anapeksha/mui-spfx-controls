@@ -34,6 +34,7 @@
   "devDependencies": {
     "@microsoft/eslint-config-spfx": "1.18.2",
     "@microsoft/eslint-plugin-spfx": "1.18.2",
+    "@microsoft/microsoft-graph-types": "^2.40.0",
     "@microsoft/rush-stack-compiler-4.7": "0.1.0",
     "@microsoft/sp-build-web": "1.18.2",
     "@microsoft/sp-module-interfaces": "1.18.2",
