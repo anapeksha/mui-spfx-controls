@@ -10,11 +10,11 @@
         }
       ]
     },
-    "calendar-web-part": {
+    "persona-web-part": {
       "components": [
         {
-          "entrypoint": "./lib/webparts/calendar/CalendarWebPart.js",
-          "manifest": "./src/webparts/calendar/CalendarWebPart.manifest.json"
+          "entrypoint": "./lib/webparts/persona/PersonaWebPart.js",
+          "manifest": "./src/webparts/persona/PersonaWebPart.manifest.json"
         }
       ]
     }
@@ -22,6 +22,6 @@
   "externals": {},
   "localizedResources": {
     "PeoplePickerWebPartStrings": "lib/webparts/peoplePicker/loc/{locale}.js",
-    "CalendarWebPartStrings": "lib/webparts/calendar/loc/{locale}.js"
+    "PersonaWebPartStrings": "lib/webparts/persona/loc/{locale}.js"
   }
 }
