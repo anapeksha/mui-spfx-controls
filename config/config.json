@@ -9,11 +9,20 @@
           "manifest": "./src/webparts/peoplePicker/PeoplePickerWebPart.manifest.json"
         }
       ]
+    },
+    "calendar-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/calendar/CalendarWebPart.js",
+          "manifest": "./src/webparts/calendar/CalendarWebPart.manifest.json"
+        }
+      ]
     }
   },
   "externals": {},
   "localizedResources": {
     "PeoplePickerWebPartStrings": "lib/webparts/peoplePicker/loc/{locale}.js",
-    "PersonaWebPartStrings": "lib/webparts/persona/loc/{locale}.js"
+    "PersonaWebPartStrings": "lib/webparts/persona/loc/{locale}.js",
+    "CalendarWebPartStrings": "lib/webparts/calendar/loc/{locale}.js"
   }
 }
