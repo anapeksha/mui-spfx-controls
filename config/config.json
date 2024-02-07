@@ -9,14 +9,6 @@
           "manifest": "./src/webparts/peoplePicker/PeoplePickerWebPart.manifest.json"
         }
       ]
-    },
-    "persona-web-part": {
-      "components": [
-        {
-          "entrypoint": "./lib/webparts/persona/PersonaWebPart.js",
-          "manifest": "./src/webparts/persona/PersonaWebPart.manifest.json"
-        }
-      ]
     }
   },
   "externals": {},
