@@ -46,7 +46,7 @@ export const PeoplePicker: FC<IPeoplePickerProps> = ({
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
-    if (query.length > 0) {
+    if (query !== "") {
       setLoading(true);
       searchService
         .resolveUser(context, query, searchSuggestionLimit)
@@ -55,7 +55,7 @@ export const PeoplePicker: FC<IPeoplePickerProps> = ({
           setLoading(false);
         })
         .catch((error) => setError(error));
-    } else if (query.length === 0) {
+    } else {
       setSearchResults([]);
     }
   }, [query]);
