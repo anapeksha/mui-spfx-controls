@@ -8,6 +8,7 @@ import { generateImageUrl } from "../utils";
 class PeopleSearchService {
   private extendedResults: IExtendedPeoplePickerEntity[] = [];
   private sp: SPFI;
+  private image: string;
   constructor(context: WebPartContext) {
     this.sp = getSP(context);
   }
@@ -37,9 +38,17 @@ class PeopleSearchService {
         .then((response) => {
           response.filter((value) => this.allowUnInvalidated(value));
           response.forEach((value) => {
+            if (value.Description && value.Description !== "") {
+              this.image = generateImageUrl(context, value.Description);
+            } else if (
+              value.EntityData.Email &&
+              value.EntityData.Email !== ""
+            ) {
+              this.image = generateImageUrl(context, value.EntityData.Email);
+            }
             this.extendedResults.push({
               ...value,
-              Image: generateImageUrl(context, value.Description),
+              Image: this.image,
             });
           });
           resolve(this.extendedResults);
