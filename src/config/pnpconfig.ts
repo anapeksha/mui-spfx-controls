@@ -2,11 +2,7 @@ import { WebPartContext } from "@microsoft/sp-webpart-base";
 import { graphfi, GraphFI, SPFx as GraphSPFx } from "@pnp/graph";
 import "@pnp/graph/calendars";
 import "@pnp/graph/users";
-<<<<<<< Updated upstream
-import { spfi, SPFI, SPFx } from "@pnp/sp";
-=======
 import { spfi, SPFI, SPFx as SpSPFx } from "@pnp/sp";
->>>>>>> Stashed changes
 import "@pnp/sp/batching";
 import "@pnp/sp/items";
 import "@pnp/sp/lists";
