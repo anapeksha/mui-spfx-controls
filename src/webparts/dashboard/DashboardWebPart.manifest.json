@@ -1,0 +1,23 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx/client-side-web-part-manifest.schema.json",
+  "id": "44b9f2b7-aceb-4d2e-897b-9333ffe8c013",
+  "alias": "DashboardWebPart",
+  "componentType": "WebPart",
+  "version": "*",
+  "manifestVersion": 2,
+  "requiresCustomScript": false,
+  "supportedHosts": ["SharePointWebPart", "SharePointFullPage"],
+  "supportsThemeVariants": true,
+  "preconfiguredEntries": [
+    {
+      "groupId": "5c03119e-3074-46fd-976b-c60198311f70",
+      "group": { "default": "Advanced" },
+      "title": { "default": "Dashboard" },
+      "description": { "default": "Dashboard description" },
+      "officeFabricIconFontName": "BIDashboard",
+      "properties": {
+        "description": "Dashboard"
+      }
+    }
+  ]
+}
