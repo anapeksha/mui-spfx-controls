@@ -2,11 +2,7 @@
   "@microsoft/generator-sharepoint": {
     "plusBeta": false,
     "isCreatingSolution": false,
-<<<<<<< Updated upstream
-    "nodeVersion": "18.19.0",
-=======
     "nodeVersion": "18.20.3",
->>>>>>> Stashed changes
     "sdksVersions": {
       "@microsoft/microsoft-graph-client": "3.0.2",
       "@microsoft/teams-js": "2.12.0"
