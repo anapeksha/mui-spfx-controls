@@ -10,7 +10,7 @@ declare interface IPeoplePickerWebPartStrings {
   TagColorFieldLabel: string;
 }
 
-declare module "PeoplePickerWebPartStrings" {
+declare module 'PeoplePickerWebPartStrings' {
   const strings: IPeoplePickerWebPartStrings;
   export = strings;
 }

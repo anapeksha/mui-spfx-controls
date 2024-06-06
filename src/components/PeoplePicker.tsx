@@ -1,4 +1,4 @@
-import * as React from "react";
+import * as React from 'react';
 
 import {
   Autocomplete,
@@ -9,15 +9,15 @@ import {
   Stack,
   TextField,
   Typography,
-} from "@mui/material";
+} from '@mui/material';
 
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useState } from 'react';
 
-import { IExtendedPeoplePickerEntity, IPeoplePickerProps } from "../types";
+import { IExtendedPeoplePickerEntity, IPeoplePickerProps } from '../types';
 
-import { AccountCircle } from "@mui/icons-material";
-import { PeopleSearchService } from "../services/PeopleSearchService";
-import { handleDuplicates } from "../utils";
+import { AccountCircle } from '@mui/icons-material';
+import { PeopleSearchService } from '../services/PeopleSearchService';
+import { handleDuplicates } from '../utils';
 
 export const PeoplePicker: FC<IPeoplePickerProps> = ({
   context,
@@ -34,7 +34,7 @@ export const PeoplePicker: FC<IPeoplePickerProps> = ({
   styles,
   sx,
 }) => {
-  const [query, setQuery] = useState<string>("");
+  const [query, setQuery] = useState<string>('');
   const [searchResults, setSearchResults] = useState<
     IExtendedPeoplePickerEntity[]
   >([]);
@@ -80,15 +80,15 @@ export const PeoplePicker: FC<IPeoplePickerProps> = ({
         )
       }
       onChange={(event, value, reason) => {
-        if (reason === "selectOption" || reason === "removeOption") {
+        if (reason === 'selectOption' || reason === 'removeOption') {
           setSelectedUsers(value);
-          setQuery("");
+          setQuery('');
           if (onSelectionChange) {
             onSelectionChange(value);
           }
-        } else if (reason === "clear") {
+        } else if (reason === 'clear') {
           setSelectedUsers([]);
-          setQuery("");
+          setQuery('');
           if (onSelectionChange) {
             onSelectionChange([]);
           }
@@ -110,7 +110,7 @@ export const PeoplePicker: FC<IPeoplePickerProps> = ({
       renderOption={(props, option) => (
         <ListItem {...props}>
           <Stack direction="row" spacing={1} alignItems="center">
-            {option.Image !== "" ? (
+            {option.Image !== '' ? (
               <Avatar sx={{ width: 40, height: 40 }} src={option.Image} />
             ) : (
               <Avatar sx={{ width: 40, height: 40 }}>
@@ -127,7 +127,7 @@ export const PeoplePicker: FC<IPeoplePickerProps> = ({
           variant={variant}
           color={color}
           error={error !== null ? true : false}
-          helperText={error ? "Something went wrong" : ""}
+          helperText={error ? 'Something went wrong' : ''}
           label={label}
         />
       )}

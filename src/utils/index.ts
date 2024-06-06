@@ -1,2 +1,2 @@
-export * from "./generateImageUrl";
-export * from "./handleDuplicates";
+export * from './generateImageUrl';
+export * from './handleDuplicates';
