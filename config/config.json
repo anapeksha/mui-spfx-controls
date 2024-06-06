@@ -10,19 +10,11 @@
         }
       ]
     },
-<<<<<<< Updated upstream
-    "calendar-web-part": {
-      "components": [
-        {
-          "entrypoint": "./lib/webparts/calendar/CalendarWebPart.js",
-          "manifest": "./src/webparts/calendar/CalendarWebPart.manifest.json"
-=======
     "dashboard-web-part": {
       "components": [
         {
           "entrypoint": "./lib/webparts/dashboard/DashboardWebPart.js",
           "manifest": "./src/webparts/dashboard/DashboardWebPart.manifest.json"
->>>>>>> Stashed changes
         }
       ]
     }
@@ -30,11 +22,6 @@
   "externals": {},
   "localizedResources": {
     "PeoplePickerWebPartStrings": "lib/webparts/peoplePicker/loc/{locale}.js",
-<<<<<<< Updated upstream
-    "PersonaWebPartStrings": "lib/webparts/persona/loc/{locale}.js",
-    "CalendarWebPartStrings": "lib/webparts/calendar/loc/{locale}.js"
-=======
     "DashboardWebPartStrings": "lib/webparts/dashboard/loc/{locale}.js"
->>>>>>> Stashed changes
   }
 }

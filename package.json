@@ -24,16 +24,10 @@
     "@microsoft/sp-webpart-base": "1.19.0",
     "@mui/icons-material": "^5.15.6",
     "@mui/material": "^5.15.6",
-<<<<<<< Updated upstream
-    "@mui/x-date-pickers": "^6.19.3",
-=======
     "@mui/x-data-grid": "^7.6.1",
->>>>>>> Stashed changes
     "@pnp/graph": "^3.22.0",
     "@pnp/sp": "^3.22.0",
-    "dayjs": "^1.11.10",
-    "react": "17.0.1",
-    "react-dom": "17.0.1"
+    "dayjs": "^1.11.10"
   },
   "devDependencies": {
     "@microsoft/eslint-config-spfx": "1.18.2",
@@ -50,11 +44,7 @@
     "eslint": "8.7.0",
     "eslint-plugin-react-hooks": "4.3.0",
     "gulp": "4.0.2",
-<<<<<<< Updated upstream
-    "tslib": "2.3.1",
-=======
     "spfx-fast-serve-helpers": "^1.18.13",
->>>>>>> Stashed changes
     "typescript": "4.7.4"
   },
   "peerDependencies": {
