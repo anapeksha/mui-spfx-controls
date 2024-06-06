@@ -38,11 +38,11 @@ class PeopleSearchService {
         .then((response) => {
           response.filter((value) => this.allowUnInvalidated(value));
           response.forEach((value) => {
-            if (value.Description && value.Description !== "") {
+            if (value.Description && value.Description !== '') {
               this.image = generateImageUrl(context, value.Description);
             } else if (
               value.EntityData.Email &&
-              value.EntityData.Email !== ""
+              value.EntityData.Email !== ''
             ) {
               this.image = generateImageUrl(context, value.EntityData.Email);
             }

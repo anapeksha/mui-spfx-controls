@@ -1,25 +1,14 @@
-<<<<<<< Updated upstream
-import { WebPartContext } from "@microsoft/sp-webpart-base";
-import { graphfi, GraphFI, SPFx as GraphSPFx } from "@pnp/graph";
-import "@pnp/graph/calendars";
-import "@pnp/graph/users";
-import { spfi, SPFI, SPFx as SpSPFx } from "@pnp/sp";
-import "@pnp/sp/batching";
-import "@pnp/sp/items";
-import "@pnp/sp/lists";
-import "@pnp/sp/profiles";
-import "@pnp/sp/site-users/web";
-import "@pnp/sp/webs";
-=======
 import { WebPartContext } from '@microsoft/sp-webpart-base';
-import { spfi, SPFI, SPFx } from '@pnp/sp';
+import { spfi, SPFI, SPFx as SpSPFx } from '@pnp/sp';
+import { graphfi, GraphFI, SPFx as GraphSPFx } from '@pnp/graph';
 import '@pnp/sp/batching';
 import '@pnp/sp/items';
 import '@pnp/sp/lists';
 import '@pnp/sp/profiles';
 import '@pnp/sp/site-users/web';
 import '@pnp/sp/webs';
->>>>>>> Stashed changes
+import '@pnp/sp/fields';
+import '@pnp/sp/items/get-all';
 
 let _sp: SPFI;
 let _graph: GraphFI;

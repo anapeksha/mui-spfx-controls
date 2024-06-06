@@ -22,6 +22,7 @@
   "externals": {},
   "localizedResources": {
     "PeoplePickerWebPartStrings": "lib/webparts/peoplePicker/loc/{locale}.js",
-    "DashboardWebPartStrings": "lib/webparts/dashboard/loc/{locale}.js"
+    "DashboardWebPartStrings": "lib/webparts/dashboard/loc/{locale}.js",
+    "PropertyControlStrings": "node_modules/@pnp/spfx-property-controls/lib/loc/{locale}.js"
   }
 }

@@ -34,6 +34,7 @@ export const PeoplePicker: FC<IPeoplePickerProps> = ({
   styles,
   sx,
 }) => {
+  const searchService = new PeopleSearchService(context);
   const [query, setQuery] = useState<string>('');
   const [searchResults, setSearchResults] = useState<
     IExtendedPeoplePickerEntity[]
@@ -41,7 +42,6 @@ export const PeoplePicker: FC<IPeoplePickerProps> = ({
   const [selectedUsers, setSelectedUsers] = useState<
     IExtendedPeoplePickerEntity[]
   >([]);
-  const [searchService] = useState(new PeopleSearchService(context));
   const [error, setError] = useState<Error | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -66,6 +66,7 @@ export const PeoplePicker: FC<IPeoplePickerProps> = ({
       options={searchResults}
       getOptionLabel={(option) => option.DisplayText}
       filterOptions={(options) => handleDuplicates(options, selectedUsers)}
+      popupIcon={null}
       size={size}
       loading={loading}
       disabled={disabled}
@@ -97,9 +98,9 @@ export const PeoplePicker: FC<IPeoplePickerProps> = ({
       onInputChange={(event, newValue) => setQuery(newValue)}
       renderTags={(users, getTagProps) => {
         return users.map((user, index) => (
-          // eslint-disable-next-line
           <Chip
             {...getTagProps({ index })}
+            key={index}
             color={tagColor}
             variant={tagVariant}
             avatar={<Avatar src={user.Image} />}
