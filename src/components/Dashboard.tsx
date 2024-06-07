@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { useState, useMemo } from 'react';
 import {
   DataGrid,
   GridRowProps,
@@ -10,6 +10,7 @@ import {
   GridToolbarFilterButton,
 } from '@mui/x-data-grid';
 import { Box } from '@mui/material';
+import { Logger } from '@pnp/logging';
 import { IDashboardProps } from '../types';
 import { ListService } from '../services';
 import { GridColDef } from '@mui/x-data-grid';
@@ -36,10 +37,10 @@ export const Dashboard: React.FC<IDashboardProps> = ({
   const [columns, setColumns] = useState<GridColDef[]>([]);
   const [rows, setRows] = useState<GridRowProps[]>([]);
   const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(25);
 
-  console.log(height);
-
-  useEffect(() => {
+  useMemo(() => {
     setLoading(true);
     listService
       .getListFields(fields)
@@ -50,18 +51,21 @@ export const Dashboard: React.FC<IDashboardProps> = ({
         listService
           .getListItems(fieldResponse)
           .then((itemResponse) => {
-            console.log(itemResponse);
             setRows(itemResponse);
             setLoading(false);
           })
           .catch((error) => {
-            console.log(error);
+            Logger.error(error.message);
           });
       })
       .catch((error) => {
-        console.log(error);
+        Logger.error(error.message);
       });
   }, [list, fields]);
+
+  useMemo(() => {
+    console.log(page, rowsPerPage);
+  }, [page, rowsPerPage]);
 
   return (
     <Box
@@ -74,6 +78,19 @@ export const Dashboard: React.FC<IDashboardProps> = ({
         columns={columns}
         rows={rows}
         slots={{ toolbar: CustomGridToolbar }}
+        slotProps={{
+          pagination: {
+            page,
+            rowsPerPage,
+            onPageChange(event, page) {
+              setPage(page);
+            },
+            onRowsPerPageChange(event) {
+              setRowsPerPage(Number(event.target.value));
+              setPage(0);
+            },
+          },
+        }}
       />
     </Box>
   );
