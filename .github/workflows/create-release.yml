@@ -1,0 +1,45 @@
+name: Create a release and publish to NPM registry
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18.x'
+      - name: Install dependencies
+        run: npm install
+      - name: Clean dependencies
+        run: npm run clean
+      - name: Bundle for production
+        run: npm run build:ship
+      - name: Package solution for production
+        run: npm run package-solution
+      - name: Extract version and set it to TAG
+        run: |
+          echo "TAG=$(jq -r '.version' package.json)" >> $GITHUB_ENV
+      - name: Create GitHub Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        with:
+          tag_name: v${{env.TAG}}
+          release_name: Release v${{env.TAG}}
+          draft: false
+          prerelease: false
+      - name: Upload release binary
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        with:
+          upload_url: ${{steps.create_release.outputs.upload_url}}
+          asset_path: ./sharepoint/solution/mui-spfx-controls.sppkg
+          asset_name: mui-spfx-controls.sppkg
+          asset_content_type: application/zip
