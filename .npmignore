@@ -1,17 +1,23 @@
+#directories
 !dist
 config
-
-gulpfile.js
-
+!lib/config
 release
 src
 temp
 sharepoint
-
-tsconfig.json
-tslint.json
-
-*.log
-
-.yo-rc.json
 .vscode
+.github
+
+#webparts and extensions
+lib/webparts
+lib/extensions
+
+#build required files
+tsconfig.json
+gulpfile.js
+.yo-rc.json
+.eslintrc.js
+
+#logs
+*.log

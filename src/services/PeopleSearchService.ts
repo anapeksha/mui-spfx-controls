@@ -1,13 +1,14 @@
-import { WebPartContext } from "@microsoft/sp-webpart-base";
-import { SPFI } from "@pnp/sp";
-import { IPeoplePickerEntity } from "@pnp/sp/profiles";
-import { getSP } from "../config";
-import { IExtendedPeoplePickerEntity } from "../types";
-import { generateImageUrl } from "../utils";
+import { WebPartContext } from '@microsoft/sp-webpart-base';
+import { SPFI } from '@pnp/sp';
+import { IPeoplePickerEntity } from '@pnp/sp/profiles';
+import { getSP } from '../config';
+import { IExtendedPeoplePickerEntity } from '../types';
+import { generateImageUrl } from '../utils';
 
 class PeopleSearchService {
   private extendedResults: IExtendedPeoplePickerEntity[] = [];
   private sp: SPFI;
+  private image: string;
   constructor(context: WebPartContext) {
     this.sp = getSP(context);
   }
@@ -15,7 +16,7 @@ class PeopleSearchService {
     return !(
       user.EntityData &&
       user.EntityData.PrincipalType &&
-      user.EntityData.PrincipalType === "UNVALIDATED_EMAIL_ADDRESS"
+      user.EntityData.PrincipalType === 'UNVALIDATED_EMAIL_ADDRESS'
     );
   }
   public async resolveUser(
@@ -37,9 +38,17 @@ class PeopleSearchService {
         .then((response) => {
           response.filter((value) => this.allowUnInvalidated(value));
           response.forEach((value) => {
+            if (value.Description && value.Description !== '') {
+              this.image = generateImageUrl(context, value.Description);
+            } else if (
+              value.EntityData.Email &&
+              value.EntityData.Email !== ''
+            ) {
+              this.image = generateImageUrl(context, value.EntityData.Email);
+            }
             this.extendedResults.push({
               ...value,
-              Image: generateImageUrl(context, value.Description),
+              Image: this.image,
             });
           });
           resolve(this.extendedResults);

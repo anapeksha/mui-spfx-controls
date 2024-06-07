@@ -1,21 +1,19 @@
-import { Version } from "@microsoft/sp-core-library";
+import { Version } from '@microsoft/sp-core-library';
 import {
   PropertyPaneChoiceGroup,
   PropertyPaneDropdown,
   PropertyPaneTextField,
   PropertyPaneToggle,
   type IPropertyPaneConfiguration,
-} from "@microsoft/sp-property-pane";
-import { BaseClientSideWebPart } from "@microsoft/sp-webpart-base";
-import * as strings from "PeoplePickerWebPartStrings";
-import * as React from "react";
-import * as ReactDom from "react-dom";
-import { IPeoplePickerProps } from "../../types";
-import PeoplePickerDisplay from "./PeoplePickerDisplay";
+} from '@microsoft/sp-property-pane';
+import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
+import * as strings from 'PeoplePickerWebPartStrings';
+import * as React from 'react';
+import * as ReactDom from 'react-dom';
+import { IPeoplePickerProps } from '../../types';
+import PeoplePickerDisplay from './PeoplePickerDisplay';
 
-export interface IPeoplePickerWebPartProps extends IPeoplePickerProps {
-  description: string;
-}
+export interface IPeoplePickerWebPartProps extends IPeoplePickerProps {}
 
 export default class PeoplePickerWebPart extends BaseClientSideWebPart<IPeoplePickerWebPartProps> {
   public render(): void {
@@ -45,7 +43,7 @@ export default class PeoplePickerWebPart extends BaseClientSideWebPart<IPeoplePi
   }
 
   protected get dataVersion(): Version {
-    return Version.parse("1.0");
+    return Version.parse('1.0');
   }
 
   protected getPropertyPaneConfiguration(): IPropertyPaneConfiguration {
@@ -59,118 +57,118 @@ export default class PeoplePickerWebPart extends BaseClientSideWebPart<IPeoplePi
             {
               groupName: strings.BasicGroupName,
               groupFields: [
-                PropertyPaneTextField("label", {
+                PropertyPaneTextField('label', {
                   label: strings.LabelFieldLabel,
                 }),
-                PropertyPaneChoiceGroup("size", {
+                PropertyPaneChoiceGroup('size', {
                   label: strings.SizeFieldLabel,
                   options: [
                     {
-                      key: "small",
-                      text: "small",
+                      key: 'small',
+                      text: 'small',
                     },
                     {
-                      key: "medium",
-                      text: "medium",
+                      key: 'medium',
+                      text: 'medium',
                     },
                   ],
                 }),
-                PropertyPaneToggle("disabled", {
+                PropertyPaneToggle('disabled', {
                   label: strings.DisabledFieldLabel,
                 }),
-                PropertyPaneDropdown("variant", {
+                PropertyPaneDropdown('variant', {
                   label: strings.VariantFieldLabel,
-                  selectedKey: "outlined",
+                  selectedKey: 'outlined',
                   options: [
                     {
-                      key: "outlined",
-                      text: "outlined",
+                      key: 'outlined',
+                      text: 'outlined',
                     },
                     {
-                      key: "standard",
-                      text: "standard",
+                      key: 'standard',
+                      text: 'standard',
                     },
                     {
-                      key: "filled",
-                      text: "filled",
+                      key: 'filled',
+                      text: 'filled',
                     },
                   ],
                 }),
-                PropertyPaneDropdown("tagVariant", {
+                PropertyPaneDropdown('tagVariant', {
                   label: strings.TagVariantFieldLabel,
-                  selectedKey: "filled",
+                  selectedKey: 'filled',
                   options: [
                     {
-                      key: "outlined",
-                      text: "outlined",
+                      key: 'outlined',
+                      text: 'outlined',
                     },
                     {
-                      key: "filled",
-                      text: "filled",
+                      key: 'filled',
+                      text: 'filled',
                     },
                   ],
                 }),
-                PropertyPaneDropdown("color", {
+                PropertyPaneDropdown('color', {
                   label: strings.ColorFieldLabel,
-                  selectedKey: "primary",
+                  selectedKey: 'primary',
                   options: [
                     {
-                      key: "primary",
-                      text: "primary",
+                      key: 'primary',
+                      text: 'primary',
                     },
                     {
-                      key: "secondary",
-                      text: "secondary",
+                      key: 'secondary',
+                      text: 'secondary',
                     },
                     {
-                      key: "info",
-                      text: "info",
+                      key: 'info',
+                      text: 'info',
                     },
                     {
-                      key: "success",
-                      text: "success",
+                      key: 'success',
+                      text: 'success',
                     },
                     {
-                      key: "warning",
-                      text: "warning",
+                      key: 'warning',
+                      text: 'warning',
                     },
                     {
-                      key: "error",
-                      text: "error",
+                      key: 'error',
+                      text: 'error',
                     },
                   ],
                 }),
-                PropertyPaneDropdown("tagColor", {
+                PropertyPaneDropdown('tagColor', {
                   label: strings.TagColorFieldLabel,
-                  selectedKey: "default",
+                  selectedKey: 'default',
                   options: [
                     {
-                      key: "default",
-                      text: "default",
+                      key: 'default',
+                      text: 'default',
                     },
                     {
-                      key: "primary",
-                      text: "primary",
+                      key: 'primary',
+                      text: 'primary',
                     },
                     {
-                      key: "secondary",
-                      text: "secondary",
+                      key: 'secondary',
+                      text: 'secondary',
                     },
                     {
-                      key: "info",
-                      text: "info",
+                      key: 'info',
+                      text: 'info',
                     },
                     {
-                      key: "success",
-                      text: "success",
+                      key: 'success',
+                      text: 'success',
                     },
                     {
-                      key: "warning",
-                      text: "warning",
+                      key: 'warning',
+                      text: 'warning',
                     },
                     {
-                      key: "error",
-                      text: "error",
+                      key: 'error',
+                      text: 'error',
                     },
                   ],
                 }),

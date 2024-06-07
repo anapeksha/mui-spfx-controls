@@ -1,4 +1,4 @@
-import { IPeoplePickerEntity } from "@pnp/sp/profiles";
+import { IPeoplePickerEntity } from '@pnp/sp/profiles';
 
 interface IExtendedPeoplePickerEntity extends IPeoplePickerEntity {
   Image: string;

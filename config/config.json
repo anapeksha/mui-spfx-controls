@@ -9,10 +9,20 @@
           "manifest": "./src/webparts/peoplePicker/PeoplePickerWebPart.manifest.json"
         }
       ]
+    },
+    "dashboard-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/dashboard/DashboardWebPart.js",
+          "manifest": "./src/webparts/dashboard/DashboardWebPart.manifest.json"
+        }
+      ]
     }
   },
   "externals": {},
   "localizedResources": {
-    "PeoplePickerWebPartStrings": "lib/webparts/peoplePicker/loc/{locale}.js"
+    "PeoplePickerWebPartStrings": "lib/webparts/peoplePicker/loc/{locale}.js",
+    "DashboardWebPartStrings": "lib/webparts/dashboard/loc/{locale}.js",
+    "PropertyControlStrings": "node_modules/@pnp/spfx-property-controls/lib/loc/{locale}.js"
   }
 }

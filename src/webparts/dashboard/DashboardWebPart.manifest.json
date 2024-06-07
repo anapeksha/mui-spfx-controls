@@ -1,33 +1,25 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/spfx/client-side-web-part-manifest.schema.json",
-  "id": "1c927782-1a6d-440c-bb97-5557d5698b1c",
-  "alias": "PeoplePickerWebPart",
+  "id": "44b9f2b7-aceb-4d2e-897b-9333ffe8c013",
+  "alias": "DashboardWebPart",
   "componentType": "WebPart",
   "version": "*",
   "manifestVersion": 2,
   "requiresCustomScript": false,
+  "supportsFullBleed": true,
   "supportedHosts": ["SharePointWebPart", "SharePointFullPage"],
   "supportsThemeVariants": true,
   "preconfiguredEntries": [
     {
       "groupId": "5c03119e-3074-46fd-976b-c60198311f70",
       "group": { "default": "Advanced" },
-      "title": {
-        "default": "MUI People Picker"
-      },
+      "title": { "default": "MUI Dashboard" },
       "description": {
-        "default": "People Picker component with Material UI"
+        "default": "Dynamic dashboard with MUI Data Grid for intuitive data visualization and management."
       },
-      "officeFabricIconFontName": "People",
+      "officeFabricIconFontName": "BIDashboard",
       "properties": {
-        "label": "People",
-        "size": "medium",
-        "disabled": false,
-        "variant": "outlined",
-        "tagVariant": "filled",
-        "color": "primary",
-        "tagColor": "default",
-        "searchSuggestionsLimit": 10
+        "height": 500
       }
     }
   ]

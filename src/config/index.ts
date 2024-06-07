@@ -1,2 +1,2 @@
-export * from "./pnpconfig";
-export * from "./theme";
+export * from './pnpconfig';
+export * from './theme';

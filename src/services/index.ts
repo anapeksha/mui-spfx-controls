@@ -1,1 +1,2 @@
-export * from "./PeopleSearchService";
+export * from './PeopleSearchService';
+export * from './ListService';
