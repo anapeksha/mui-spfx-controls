@@ -12,7 +12,9 @@
     "dev": "fast-serve",
     "build": "gulp bundle",
     "clean": "gulp clean",
-    "test": "gulp test"
+    "test": "gulp test",
+    "bundle:ship": "gulp bundle --ship",
+    "package-solution": "gulp package-solution --ship"
   },
   "dependencies": {
     "@emotion/react": "^11.11.3",
