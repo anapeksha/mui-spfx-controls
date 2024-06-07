@@ -32,9 +32,6 @@ class ListService {
       this.list
         .fields()
         .then((response) => {
-          console.log(
-            response.filter((value) => this.checkCustomFieldType(value))
-          );
           resolve(
             response.filter(
               (value) =>
@@ -71,7 +68,6 @@ class ListService {
         .expand(...expandFields)
         .orderBy('Title', false)()
         .then((response) => {
-          console.log(response);
           resolve(response);
         })
         .catch((error) => {
