@@ -13,7 +13,7 @@
       "groupId": "5c03119e-3074-46fd-976b-c60198311f70",
       "group": { "default": "Advanced" },
       "title": {
-        "default": "People Picker"
+        "default": "MUI People Picker"
       },
       "description": {
         "default": "People Picker component with Material UI"

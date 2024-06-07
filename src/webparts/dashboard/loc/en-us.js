@@ -2,7 +2,7 @@ define([], function () {
   return {
     PropertyPaneDescription:
       'Dynamic dashboard with MUI Data Grid for intuitive data visualization and management.',
-    BasicGroupName: 'Settings',
+    BasicGroupName: 'Properties',
     ListFieldLabel: 'Select a List',
     ColumnsFieldLabel: 'Select List Columns',
     HeightFieldLabel: 'Container Height',
