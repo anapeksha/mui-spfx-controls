@@ -6,7 +6,6 @@ import {
   GridToolbarColumnsButton,
   GridToolbarContainer,
   GridToolbarDensitySelector,
-  GridToolbarExport,
   GridToolbarFilterButton,
 } from '@mui/x-data-grid';
 import { Box } from '@mui/material';
@@ -21,7 +20,6 @@ const CustomGridToolbar = (): JSX.Element => {
     <GridToolbarContainer>
       <GridToolbarColumnsButton />
       <GridToolbarDensitySelector />
-      <GridToolbarExport />
       <GridToolbarFilterButton />
     </GridToolbarContainer>
   );
@@ -64,7 +62,7 @@ export const Dashboard: React.FC<IDashboardProps> = ({
   }, [list, fields]);
 
   useMemo(() => {
-    console.log(page, rowsPerPage);
+    // console.log(page, rowsPerPage);
   }, [page, rowsPerPage]);
 
   return (
