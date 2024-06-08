@@ -25,7 +25,7 @@ import { PeoplePicker, IPeoplePickerProps } from 'mui-spfx-controls';
 export default class PeoplePickerWebPart extends BaseClientWebPart {
   public render(): void {
     const element = React.ReactElement<IPeoplePickerProps> = React.createElement(
-      PeoplePickerDisplay,
+      PeoplePicker,
       {
         context: this.context,
         label: "People",
