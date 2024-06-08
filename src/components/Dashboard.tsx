@@ -1,18 +1,18 @@
-import * as React from 'react';
-import { useState, useMemo } from 'react';
+import { Box } from '@mui/material';
 import {
   DataGrid,
+  GridColDef,
   GridRowProps,
   GridToolbarColumnsButton,
   GridToolbarContainer,
   GridToolbarDensitySelector,
   GridToolbarFilterButton,
 } from '@mui/x-data-grid';
-import { Box } from '@mui/material';
 import { Logger } from '@pnp/logging';
-import { IDashboardProps } from '../types';
+import * as React from 'react';
+import { useMemo, useState } from 'react';
 import { ListService } from '../services';
-import { GridColDef } from '@mui/x-data-grid';
+import { IDashboardProps } from '../types';
 import { generateDashboardColumn } from '../utils';
 
 const CustomGridToolbar = (): JSX.Element => {
@@ -30,6 +30,7 @@ export const Dashboard: React.FC<IDashboardProps> = ({
   list,
   fields,
   height,
+  sx,
 }) => {
   const listService = new ListService(context, list);
   const [columns, setColumns] = useState<GridColDef[]>([]);
@@ -89,6 +90,7 @@ export const Dashboard: React.FC<IDashboardProps> = ({
             },
           },
         }}
+        sx={sx}
       />
     </Box>
   );
