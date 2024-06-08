@@ -50,7 +50,7 @@ import { Dashboard, IDashboardProps } from 'mui-spfx-controls';
 
 export default class PeoplePickerWebPart extends BaseClientWebPart {
   public render(): void {
-    const element = React.ReactElement<IPeoplePickerProps> = React.createElement(
+    const element = React.ReactElement<IDashboardProps> = React.createElement(
       Dashboard,
       {
         context: this.context,
