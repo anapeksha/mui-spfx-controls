@@ -1,7 +1,7 @@
 {
   "name": "mui-spfx-controls",
   "description": "SPFx component library with MUI",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "license": "MIT",
   "engines": {
     "node": ">=16.13.0 <17.0.0 || >=18.17.1 <19.0.0"
@@ -17,6 +17,15 @@
     "build:ship": "gulp bundle --ship",
     "package-solution": "gulp package-solution --ship"
   },
+  "author": {
+    "name": "Anapeksha Mukherjee",
+    "email": "anapeksha.mukherjee@gmail.com"
+  },
+  "keywords": [
+    "spfx",
+    "SharePoint Framework",
+    "MUI"
+  ],
   "dependencies": {
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",

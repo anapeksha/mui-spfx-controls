@@ -1,5 +1,5 @@
 #directories
-!dist
+dist
 config
 !lib/config
 release
@@ -15,9 +15,12 @@ lib/extensions
 
 #build required files
 tsconfig.json
-gulpfile.js
+gulpfile.mjs
 .yo-rc.json
 .eslintrc.js
 
 #logs
 *.log
+
+#Prettier
+.prettierrc
