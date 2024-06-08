@@ -9,11 +9,12 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "dev": "fast-serve",
+    "serve": "gulp serve",
+    "serve:fast": "fast-serve",
     "build": "gulp bundle",
     "clean": "gulp clean",
     "test": "gulp test",
-    "bundle:ship": "gulp bundle --ship",
+    "build:ship": "gulp bundle --ship",
     "package-solution": "gulp package-solution --ship"
   },
   "dependencies": {

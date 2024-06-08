@@ -28,13 +28,35 @@ export default class PeoplePickerWebPart extends BaseClientWebPart {
       PeoplePickerDisplay,
       {
         context: this.context,
-        label: this.properties.label,
-        size: this.properties.size,
-        disabled: this.properties.disabled,
-        variant: this.properties.variant,
-        tagVariant: this.properties.tagVariant,
-        color: this.properties.color,
-        tagColor: this.properties.color
+        label: "People",
+        size: "small",
+        disabled: false,
+        variant: "outlined",
+        tagVariant: "filled",
+        color: "primary",
+        tagColor: "secondary",
+      }
+    );
+    ReactDom.render(element, this.domElement);
+  }
+}
+```
+
+```JSX
+import * as React from 'react';
+import * as ReactDom from "react-dom";
+import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
+import { Dashboard, IDashboardProps } from 'mui-spfx-controls';
+
+export default class PeoplePickerWebPart extends BaseClientWebPart {
+  public render(): void {
+    const element = React.ReactElement<IPeoplePickerProps> = React.createElement(
+      Dashboard,
+      {
+        context: this.context,
+        list: "ListName",
+        fields: ["Field1", "Field2", "Field3", "Field4", ],
+        height: 750,
       }
     );
     ReactDom.render(element, this.domElement);
@@ -50,7 +72,7 @@ A SharePoint people picker component with MUI library integration
 
 #### Props
 
-- context (required): SP
+- context (required): SP context
 - label (required): Textfield label
 - onSelectionChange (optional): Get selection value updates
 - searchSuggestionLimit (optional): number of suggestions to provide
@@ -62,6 +84,18 @@ A SharePoint people picker component with MUI library integration
 - size (optional): Size of component
 - LoadingComponent (optional): A loading component
 - styles (optional): Styles to apply
+- sx (optional): MUI's sx prop
+
+### Dashboard
+
+A dashboard component with MUI Data Grid
+
+#### Props
+
+- context (required): SP context
+- list (required): SharePoint list to pull data from
+- fields (required): Internal Name of fields to display in dashboard
+- height (optional): Absolute or relative container height
 - sx (optional): MUI's sx prop
 
 ## Development
@@ -81,16 +115,10 @@ cd mui-spfx-controls
 npm install
 ```
 
-Install gulp cli:
-
-```bash
-npm install -g gulp-cli
-```
-
 Serve the solution
 
 ```bash
-gulp serve
+npm run serve:fast
 ```
 
 Test the components/webparts in a sample SPFx project
