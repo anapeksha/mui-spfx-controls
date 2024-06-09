@@ -8,6 +8,8 @@ interface IDashboardProps {
   fields: string[];
   height?: BoxProps['height'];
   sx?: DataGridProps['sx'];
+  editMode?: DataGridProps['editMode'];
+  editable?: boolean;
 }
 
 export type { IDashboardProps };

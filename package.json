@@ -22,9 +22,14 @@
     "email": "anapeksha.mukherjee@gmail.com"
   },
   "keywords": [
+    "sharepoint",
+    "microsoft365",
+    "m365",
+    "office365",
+    "tools",
     "spfx",
-    "SharePoint Framework",
-    "MUI"
+    "mui",
+    "sharepoint framework"
   ],
   "dependencies": {
     "@emotion/react": "^11.11.3",

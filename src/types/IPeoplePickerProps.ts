@@ -18,6 +18,7 @@ type AutocompleteBaseProps = AutocompleteProps<
 interface IPeoplePickerProps {
   context: WebPartContext;
   label: string;
+  defaultValue?: IExtendedPeoplePickerEntity[];
   onSelectionChange?: (value: IExtendedPeoplePickerEntity[]) => void;
   searchSuggestionLimit?: number;
   personSelectionLimit?: number;

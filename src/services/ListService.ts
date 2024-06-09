@@ -1,8 +1,9 @@
 import { WebPartContext } from '@microsoft/sp-webpart-base';
 import { SPFI } from '@pnp/sp';
-import { getSP } from '../config';
 import { FieldTypes, IFieldInfo } from '@pnp/sp/fields';
 import { IList } from '@pnp/sp/lists';
+import { PermissionKind } from '@pnp/sp/security';
+import { getSP } from '../config';
 
 class ListService {
   private sp: SPFI;
@@ -12,18 +13,7 @@ class ListService {
     this.list = this.sp.web.lists.getById(listId);
   }
   private checkCustomFieldType(field: IFieldInfo): boolean {
-    return (field.FieldTypeKind === FieldTypes.Boolean ||
-      field.FieldTypeKind === FieldTypes.Choice ||
-      field.FieldTypeKind === FieldTypes.Currency ||
-      field.FieldTypeKind === FieldTypes.DateTime ||
-      field.FieldTypeKind === FieldTypes.Integer ||
-      field.FieldTypeKind === FieldTypes.MultiChoice ||
-      field.FieldTypeKind === FieldTypes.Text ||
-      field.FieldTypeKind === FieldTypes.URL ||
-      field.FieldTypeKind === FieldTypes.User) &&
-      field.InternalName[0] !== '_'
-      ? true
-      : false;
+    return !field.Hidden;
   }
   public async getListFields(
     fieldInternalNames: string[]
@@ -66,7 +56,20 @@ class ListService {
       this.list.items
         .select(...selectFields)
         .expand(...expandFields)
-        .orderBy('Title', false)()
+        .orderBy('Created', false)
+        .top(10)()
+        .then((response) => {
+          resolve(response);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
+  }
+  public checkListPermission(): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      this.list
+        .currentUserHasPermissions(PermissionKind.EditListItems)
         .then((response) => {
           resolve(response);
         })

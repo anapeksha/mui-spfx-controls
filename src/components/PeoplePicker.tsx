@@ -22,6 +22,7 @@ import { handleDuplicates } from '../utils';
 export const PeoplePicker: FC<IPeoplePickerProps> = ({
   context,
   label,
+  defaultValue,
   onSelectionChange,
   searchSuggestionLimit,
   disabled,
@@ -46,7 +47,7 @@ export const PeoplePicker: FC<IPeoplePickerProps> = ({
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
-    if (query !== "") {
+    if (query !== '') {
       setLoading(true);
       searchService
         .resolveUser(context, query, searchSuggestionLimit)
@@ -64,6 +65,7 @@ export const PeoplePicker: FC<IPeoplePickerProps> = ({
     <Autocomplete
       multiple={true}
       options={searchResults}
+      defaultValue={defaultValue}
       getOptionLabel={(option) => option.DisplayText}
       filterOptions={(options) => handleDuplicates(options, selectedUsers)}
       popupIcon={null}
@@ -72,9 +74,10 @@ export const PeoplePicker: FC<IPeoplePickerProps> = ({
       disabled={disabled}
       style={styles}
       sx={sx}
+      fullWidth
       loadingText={
         LoadingComponent || (
-          <Stack direction="row" spacing={1}>
+          <Stack direction="row" spacing={1} width="100%">
             <Skeleton variant="circular" width={40} height={40} />
             <Skeleton width="100%" height={40} />
           </Stack>
@@ -118,7 +121,7 @@ export const PeoplePicker: FC<IPeoplePickerProps> = ({
                 <AccountCircle />
               </Avatar>
             )}
-            <Typography variant="body1">{option.DisplayText}</Typography>
+            <Typography variant="body2">{option.DisplayText}</Typography>
           </Stack>
         </ListItem>
       )}
