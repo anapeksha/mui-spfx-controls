@@ -43,9 +43,9 @@
     "@mui/icons-material": "^5.15.6",
     "@mui/material": "^5.15.6",
     "@mui/x-data-grid": "^6.20.0",
-    "@pnp/graph": "^3.22.0",
-    "@pnp/sp": "^3.22.0",
-    "@pnp/spfx-property-controls": "3.17.0",
+    "@pnp/graph": "^4.2.0",
+    "@pnp/sp": "^4.2.0",
+    "@pnp/spfx-property-controls": "^3.17.0",
     "dayjs": "^1.11.11"
   },
   "devDependencies": {
