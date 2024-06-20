@@ -35,10 +35,10 @@ class ListService {
         });
     });
   }
-  public getListItems(
+  public async getListItems(
     fields: IFieldInfo[],
-    page?: number,
-    pageSize?: number
+    page: number,
+    pageSize: number
   ): Promise<any[]> {
     const selectFields: string[] = ['Id'];
     const expandFields: string[] = [];
@@ -57,7 +57,7 @@ class ListService {
         .select(...selectFields)
         .expand(...expandFields)
         .orderBy('Created', false)
-        .top(10)()
+        .top(pageSize)()
         .then((response) => {
           resolve(response);
         })
