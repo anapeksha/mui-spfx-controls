@@ -17,7 +17,7 @@ export const generateDashboardColumn = (
       editable: value.ReadOnlyField ? false : editable,
       resizable: true,
       valueGetter: (params) => {
-        return params.value.Title || '';
+        return params.value ? params.value.Title : '';
       },
       renderEditCell: (params) => {
         return (
