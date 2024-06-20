@@ -77,7 +77,7 @@ export const PeoplePicker: FC<IPeoplePickerProps> = ({
       fullWidth
       loadingText={
         LoadingComponent || (
-          <Stack direction="row" spacing={1} width="100%">
+          <Stack direction="row" spacing={1}>
             <Skeleton variant="circular" width={40} height={40} />
             <Skeleton width="100%" height={40} />
           </Stack>
