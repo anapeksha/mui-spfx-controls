@@ -29,8 +29,6 @@ export default class DashboardWebPart extends BaseClientSideWebPart<IDashboardWe
       list: this.properties.list,
       fields: this.properties.fields,
       height: this.properties.height,
-      editMode: 'row',
-      editable: true,
     });
     ReactDom.render(element, this.domElement);
   }
