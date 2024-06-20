@@ -14,7 +14,7 @@ import {
 import { Logger } from '@pnp/logging';
 import { IFieldInfo } from '@pnp/sp/fields';
 import * as React from 'react';
-import { useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ListService } from '../services';
 import { IDashboardProps } from '../types';
 import { generateDashboardColumn } from '../utils';
@@ -37,7 +37,7 @@ export const Dashboard: React.FC<IDashboardProps> = ({
   const [editable, setEditable] = useState(false);
   const apiRef = useGridApiRef();
 
-  useMemo(() => {
+  useEffect(() => {
     setLoading(true);
     Promise.all([
       listService.checkListPermission(),
@@ -52,7 +52,7 @@ export const Dashboard: React.FC<IDashboardProps> = ({
           )
         );
         listService
-          .getListItems(response[1])
+          .getListItems(response[1], page, rowsPerPage)
           .then((itemResponse) => {
             setRows(itemResponse);
             setLoading(false);
@@ -66,11 +66,7 @@ export const Dashboard: React.FC<IDashboardProps> = ({
       });
   }, [list, fields]);
 
-  useMemo(() => {
-    // console.log(page, rowsPerPage);
-  }, [page, rowsPerPage]);
-
-  useMemo(() => {
+  useEffect(() => {
     setColumns(
       fieldInfo.map((value) =>
         generateDashboardColumn(value, context, editable)
@@ -85,7 +81,7 @@ export const Dashboard: React.FC<IDashboardProps> = ({
         <GridToolbarDensitySelector />
         <GridToolbarFilterButton />
         <GridToolbarExport />
-        {hasEditPermission && false ? (
+        {hasEditPermission ? (
           editable ? (
             <>
               <Button
