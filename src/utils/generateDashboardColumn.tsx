@@ -92,6 +92,7 @@ export const generateDashboardColumn = (
       headerName: value.Title,
       editable: value.ReadOnlyField ? false : editable,
       resizable: true,
+      type: 'string',
     };
   }
 };
