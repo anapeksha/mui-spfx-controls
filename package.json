@@ -8,18 +8,16 @@
   },
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
-  "scripts": {
-    "serve": "gulp serve",
-    "serve:fast": "fast-serve",
-    "build": "gulp bundle",
-    "clean": "gulp clean",
-    "test": "gulp test",
-    "build:ship": "gulp bundle --ship",
-    "package-solution": "gulp package-solution --ship"
-  },
   "author": {
     "name": "Anapeksha Mukherjee",
     "email": "anapeksha.mukherjee@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/anapeksha/mui-spfx-controls"
+  },
+  "bugs": {
+    "url": "https://github.com/anapeksha/mui-spfx-controls/issues"
   },
   "keywords": [
     "sharepoint",
@@ -31,6 +29,15 @@
     "mui",
     "sharepoint framework"
   ],
+  "scripts": {
+    "serve": "gulp serve",
+    "serve:fast": "fast-serve",
+    "build": "gulp bundle",
+    "clean": "gulp clean",
+    "test": "gulp test",
+    "build:ship": "gulp bundle --ship",
+    "package-solution": "gulp package-solution --ship"
+  },
   "dependencies": {
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
