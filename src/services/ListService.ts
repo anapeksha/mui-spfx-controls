@@ -15,6 +15,18 @@ class ListService {
   private checkCustomFieldType(field: IFieldInfo): boolean {
     return !field.Hidden;
   }
+  private getListSize(): Promise<number> {
+    return new Promise((resolve, reject) => {
+      this.list
+        .select('ItemCount')()
+        .then((response) => {
+          resolve(response.ItemCount);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
+  }
   public async getListFields(
     fieldInternalNames: string[]
   ): Promise<IFieldInfo[]> {
@@ -35,13 +47,10 @@ class ListService {
         });
     });
   }
-  public async getListItems(
-    fields: IFieldInfo[],
-    page: number,
-    pageSize: number
-  ): Promise<any[]> {
+  public async getListItems(fields: IFieldInfo[]): Promise<any[]> {
     const selectFields: string[] = ['Id'];
     const expandFields: string[] = [];
+    const totalItems: any[] = [];
     fields.forEach((value) => {
       if (value.FieldTypeKind === FieldTypes.User) {
         selectFields.push(`${value.InternalName}/Id`);
@@ -52,19 +61,18 @@ class ListService {
         selectFields.push(value.InternalName);
       }
     });
-    return new Promise((resolve, reject) => {
-      this.list.items
-        .select(...selectFields)
-        .expand(...expandFields)
-        .orderBy('Created', false)
-        .top(pageSize)()
-        .then((response) => {
-          resolve(response);
-        })
-        .catch((error) => {
-          reject(error);
-        });
-    });
+    const totalCount = await this.getListSize();
+    for await (const items of this.list.items
+      .select(...selectFields)
+      .expand(...expandFields)
+      .orderBy('Created', false) as any) {
+      if (totalItems.length >= totalCount) {
+        break;
+      } else {
+        totalItems.push(...items);
+      }
+    }
+    return totalItems;
   }
   public checkListPermission(): Promise<boolean> {
     return new Promise((resolve, reject) => {

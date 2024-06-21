@@ -31,8 +31,6 @@ export const Dashboard: React.FC<IDashboardProps> = ({
   const [columns, setColumns] = useState<GridColDef[]>([]);
   const [rows, setRows] = useState<GridRowProps[]>([]);
   const [loading, setLoading] = useState(false);
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(25);
   const [hasEditPermission, setHasEditPermission] = useState(false);
   const [editable, setEditable] = useState(false);
   const apiRef = useGridApiRef();
@@ -52,7 +50,7 @@ export const Dashboard: React.FC<IDashboardProps> = ({
           )
         );
         listService
-          .getListItems(response[1], page, rowsPerPage)
+          .getListItems(response[1])
           .then((itemResponse) => {
             setRows(itemResponse);
             setLoading(false);
@@ -133,19 +131,6 @@ export const Dashboard: React.FC<IDashboardProps> = ({
         columns={columns}
         rows={rows}
         slots={{ toolbar: CustomGridToolbar }}
-        slotProps={{
-          pagination: {
-            page,
-            rowsPerPage,
-            onPageChange(event, page) {
-              setPage(page);
-            },
-            onRowsPerPageChange(event) {
-              setRowsPerPage(Number(event.target.value));
-              setPage(0);
-            },
-          },
-        }}
         sx={sx}
       />
     </Box>
