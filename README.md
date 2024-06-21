@@ -1,6 +1,7 @@
 # SPFx Material-UI Component Library
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![NPM publish](https://github.com/anapeksha/mui-spfx-controls/actions/workflows/npm-publish.yml/badge.svg?branch=main&event=release)](https://github.com/anapeksha/mui-spfx-controls/actions/workflows/npm-publish.yml)
 
 This is a SharePoint Framework (SPFx) component library built using Material-UI (MUI). It provides reusable React components for building modern and visually appealing user interfaces in SharePoint.
 
