@@ -1,7 +1,7 @@
 {
   "name": "mui-spfx-controls",
   "description": "SPFx component library with MUI",
-  "version": "0.5.3",
+  "version": "0.5.4",
   "license": "MIT",
   "engines": {
     "node": ">=16.13.0 <17.0.0 || >=18.17.1 <19.0.0"
@@ -22,9 +22,14 @@
     "email": "anapeksha.mukherjee@gmail.com"
   },
   "keywords": [
+    "sharepoint",
+    "microsoft365",
+    "m365",
+    "office365",
+    "tools",
     "spfx",
-    "SharePoint Framework",
-    "MUI"
+    "mui",
+    "sharepoint framework"
   ],
   "dependencies": {
     "@emotion/react": "^11.11.3",
@@ -38,9 +43,9 @@
     "@mui/icons-material": "^5.15.6",
     "@mui/material": "^5.15.6",
     "@mui/x-data-grid": "^6.20.0",
-    "@pnp/graph": "^3.22.0",
-    "@pnp/sp": "^3.22.0",
-    "@pnp/spfx-property-controls": "3.17.0",
+    "@pnp/graph": "^4.2.0",
+    "@pnp/sp": "^4.2.0",
+    "@pnp/spfx-property-controls": "^3.17.0",
     "dayjs": "^1.11.11"
   },
   "devDependencies": {

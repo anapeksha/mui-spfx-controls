@@ -1,8 +1,9 @@
 import { WebPartContext } from '@microsoft/sp-webpart-base';
 import { SPFI } from '@pnp/sp';
-import { getSP } from '../config';
 import { FieldTypes, IFieldInfo } from '@pnp/sp/fields';
 import { IList } from '@pnp/sp/lists';
+import { PermissionKind } from '@pnp/sp/security';
+import { getSP } from '../config';
 
 class ListService {
   private sp: SPFI;
@@ -12,18 +13,19 @@ class ListService {
     this.list = this.sp.web.lists.getById(listId);
   }
   private checkCustomFieldType(field: IFieldInfo): boolean {
-    return (field.FieldTypeKind === FieldTypes.Boolean ||
-      field.FieldTypeKind === FieldTypes.Choice ||
-      field.FieldTypeKind === FieldTypes.Currency ||
-      field.FieldTypeKind === FieldTypes.DateTime ||
-      field.FieldTypeKind === FieldTypes.Integer ||
-      field.FieldTypeKind === FieldTypes.MultiChoice ||
-      field.FieldTypeKind === FieldTypes.Text ||
-      field.FieldTypeKind === FieldTypes.URL ||
-      field.FieldTypeKind === FieldTypes.User) &&
-      field.InternalName[0] !== '_'
-      ? true
-      : false;
+    return !field.Hidden;
+  }
+  private getListSize(): Promise<number> {
+    return new Promise((resolve, reject) => {
+      this.list
+        .select('ItemCount')()
+        .then((response) => {
+          resolve(response.ItemCount);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
   }
   public async getListFields(
     fieldInternalNames: string[]
@@ -45,13 +47,10 @@ class ListService {
         });
     });
   }
-  public getListItems(
-    fields: IFieldInfo[],
-    page?: number,
-    pageSize?: number
-  ): Promise<any[]> {
+  public async getListItems(fields: IFieldInfo[]): Promise<any[]> {
     const selectFields: string[] = ['Id'];
     const expandFields: string[] = [];
+    const totalItems: any[] = [];
     fields.forEach((value) => {
       if (value.FieldTypeKind === FieldTypes.User) {
         selectFields.push(`${value.InternalName}/Id`);
@@ -62,11 +61,23 @@ class ListService {
         selectFields.push(value.InternalName);
       }
     });
+    const totalCount = await this.getListSize();
+    for await (const items of this.list.items
+      .select(...selectFields)
+      .expand(...expandFields)
+      .orderBy('Created', false) as any) {
+      if (totalItems.length >= totalCount) {
+        break;
+      } else {
+        totalItems.push(...items);
+      }
+    }
+    return totalItems;
+  }
+  public checkListPermission(): Promise<boolean> {
     return new Promise((resolve, reject) => {
-      this.list.items
-        .select(...selectFields)
-        .expand(...expandFields)
-        .orderBy('Title', false)()
+      this.list
+        .currentUserHasPermissions(PermissionKind.EditListItems)
         .then((response) => {
           resolve(response);
         })

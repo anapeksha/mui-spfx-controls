@@ -1,82 +1,97 @@
-import * as React from 'react';
-import {
-  Box,
-  Tooltip,
-  Typography,
-  Avatar,
-  Chip,
-  Checkbox,
-} from '@mui/material';
-import { IFieldInfo, FieldTypes } from '@pnp/sp/fields';
-import { generateImageUrl } from './generateImageUrl';
 import { WebPartContext } from '@microsoft/sp-webpart-base';
 import { GridColDef } from '@mui/x-data-grid';
+import { FieldTypes, IFieldInfo } from '@pnp/sp/fields';
+import * as React from 'react';
+import { PeoplePicker } from '../components';
 
 export const generateDashboardColumn = (
   value: IFieldInfo,
-  context: WebPartContext
+  context: WebPartContext,
+  editable?: boolean
 ): GridColDef => {
   if (value.FieldTypeKind === FieldTypes.User) {
     return {
-      width: 250,
+      minWidth: 200,
       field: value.InternalName,
-      headerName: value.StaticName,
-      renderCell: (params) => {
-        return params.row[value.InternalName] &&
-          params.row[value.InternalName].Title ? (
-          <Tooltip
-            title={
-              <Box>
-                <Typography variant="subtitle2">
-                  Title: {params.row[value.InternalName].Title}
-                </Typography>
-                <Typography variant="subtitle2">
-                  Email: {params.row[value.InternalName].EMail}
-                </Typography>
-                <Typography variant="caption">
-                  User ID: {params.row[value.InternalName].Id}
-                </Typography>
-              </Box>
-            }
-            enterDelay={1000}
-            enterNextDelay={1000}
-          >
-            <Chip
-              avatar={
-                <Avatar
-                  src={generateImageUrl(
-                    context,
-                    params.row[value.InternalName].EMail
-                  )}
-                />
-              }
-              label={params.row[value.InternalName].Title}
-            />
-          </Tooltip>
-        ) : (
-          ''
+      headerName: value.Title,
+      editable: value.ReadOnlyField ? false : editable,
+      resizable: true,
+      valueGetter: (params) => {
+        return params.value ? params.value.Title : '';
+      },
+      renderEditCell: (params) => {
+        return (
+          <PeoplePicker
+            context={context}
+            label=""
+            onSelectionChange={async (value) => {
+              await params.api.setEditCellValue({
+                ...params,
+                value: {
+                  Id: value[0].EntityData.SPUserID,
+                  Title: value[0].DisplayText,
+                  EMail: value[0].EntityData.Email,
+                },
+              });
+            }}
+            sx={{ border: 'none' }}
+          />
         );
       },
     };
   } else if (value.FieldTypeKind === FieldTypes.Boolean) {
     return {
-      flex: 1,
+      minWidth: 100,
       field: value.InternalName,
-      headerName: value.StaticName,
-      renderCell: (params) => {
-        return params.row[value.InternalName] &&
-          params.row[value.InternalName] ? (
-          <Checkbox checked={Boolean(params.row[value.InternalName])} />
-        ) : (
-          ''
-        );
+      headerName: value.Title,
+      editable: value.ReadOnlyField ? false : editable,
+      resizable: true,
+      type: 'boolean',
+    };
+  } else if (value.FieldTypeKind === FieldTypes.DateTime) {
+    return {
+      minWidth: 200,
+      field: value.InternalName,
+      headerName: value.Title,
+      editable: value.ReadOnlyField ? false : editable,
+      resizable: true,
+      valueGetter: (params) => {
+        return new Date(params.value);
       },
+      type: 'dateTime',
+    };
+  } else if (
+    value.FieldTypeKind === FieldTypes.Choice ||
+    value.FieldTypeKind === FieldTypes.MultiChoice
+  ) {
+    return {
+      minWidth: 200,
+      field: value.InternalName,
+      headerName: value.Title,
+      editable: value.ReadOnlyField ? false : editable,
+      type: 'singleSelect',
+      resizable: true,
+      valueOptions: value.Choices ? value.Choices : [],
+    };
+  } else if (
+    value.FieldTypeKind === FieldTypes.Number ||
+    value.FieldTypeKind === FieldTypes.Integer
+  ) {
+    return {
+      minWidth: 200,
+      field: value.InternalName,
+      headerName: value.Title,
+      editable: value.ReadOnlyField ? false : editable,
+      type: 'number',
+      resizable: true,
     };
   } else {
     return {
-      flex: 1,
+      minWidth: 200,
       field: value.InternalName,
-      headerName: value.StaticName,
+      headerName: value.Title,
+      editable: value.ReadOnlyField ? false : editable,
+      resizable: true,
     };
   }
 };

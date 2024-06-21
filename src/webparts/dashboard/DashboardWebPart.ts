@@ -1,19 +1,19 @@
-import * as React from 'react';
-import * as ReactDom from 'react-dom';
 import { Version } from '@microsoft/sp-core-library';
 import {
-  type IPropertyPaneConfiguration,
   PropertyPaneTextField,
+  type IPropertyPaneConfiguration,
 } from '@microsoft/sp-property-pane';
 import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 import {
-  PropertyFieldListPicker,
-  PropertyFieldListPickerOrderBy,
+  IColumnReturnProperty,
   PropertyFieldColumnPicker,
   PropertyFieldColumnPickerOrderBy,
-  IColumnReturnProperty,
+  PropertyFieldListPicker,
+  PropertyFieldListPickerOrderBy,
 } from '@pnp/spfx-property-controls';
 import * as strings from 'DashboardWebPartStrings';
+import * as React from 'react';
+import * as ReactDom from 'react-dom';
 import DashboardDisplay from './DashboardDisplay';
 
 export interface IDashboardWebPartProps {

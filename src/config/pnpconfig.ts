@@ -1,14 +1,14 @@
 import { WebPartContext } from '@microsoft/sp-webpart-base';
-import { spfi, SPFI, SPFx as SpSPFx } from '@pnp/sp';
 import { graphfi, GraphFI, SPFx as GraphSPFx } from '@pnp/graph';
+import { spfi, SPFI, SPFx as SpSPFx } from '@pnp/sp';
 import '@pnp/sp/batching';
+import '@pnp/sp/fields';
 import '@pnp/sp/items';
 import '@pnp/sp/lists';
 import '@pnp/sp/profiles';
+import '@pnp/sp/security';
 import '@pnp/sp/site-users/web';
 import '@pnp/sp/webs';
-import '@pnp/sp/fields';
-import '@pnp/sp/items/get-all';
 
 let _sp: SPFI;
 let _graph: GraphFI;
