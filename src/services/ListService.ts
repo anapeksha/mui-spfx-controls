@@ -8,9 +8,14 @@ import { getSP } from '../config';
 class ListService {
   private sp: SPFI;
   private list: IList;
+  private batchedList: IList;
+  private batchedSp: [SPFI, () => Promise<void>];
   constructor(context: WebPartContext, listId: string) {
     this.sp = getSP(context);
     this.list = this.sp.web.lists.getById(listId);
+    this.batchedSp = this.sp.batched();
+    const [batched] = this.sp.batched();
+    this.batchedList = batched.web.lists.getById(listId);
   }
   private checkCustomFieldType(field: IFieldInfo): boolean {
     return !field.Hidden;
@@ -85,6 +90,24 @@ class ListService {
           reject(error);
         });
     });
+  }
+  public async batchedUpdateListItems(
+    items: Record<any, any>[]
+  ): Promise<string> {
+    if (items.length !== 0) {
+      const execute = this.batchedSp[1];
+      const batchedRes: any[] = [];
+      items.forEach(async (value) => {
+        const response = await this.batchedList.items
+          .getById(value.Id)
+          .update(value);
+        batchedRes.push(response);
+      });
+      await execute();
+      return 'Done';
+    } else {
+      return 'Empty';
+    }
   }
 }
 

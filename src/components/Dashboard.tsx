@@ -3,6 +3,7 @@ import { Box, Button } from '@mui/material';
 import {
   DataGrid,
   GridColDef,
+  GridRowId,
   GridRowProps,
   GridToolbarColumnsButton,
   GridToolbarContainer,
@@ -29,10 +30,12 @@ export const Dashboard: React.FC<IDashboardProps> = ({
   const listService = new ListService(context, list);
   const [fieldInfo, setFieldInfo] = useState<IFieldInfo[]>([]);
   const [columns, setColumns] = useState<GridColDef[]>([]);
-  const [rows, setRows] = useState<GridRowProps[]>([]);
+  const [initialRows, setInitialRows] = useState<any[]>([]);
+  const [cachedRows, setCachedRows] = useState<GridRowProps[]>([]);
   const [loading, setLoading] = useState(false);
   const [hasEditPermission, setHasEditPermission] = useState(false);
   const [editable, setEditable] = useState(false);
+  const [editedRowIds, setEditedRowIds] = useState<GridRowId[]>([]);
   const apiRef = useGridApiRef();
 
   useEffect(() => {
@@ -52,7 +55,8 @@ export const Dashboard: React.FC<IDashboardProps> = ({
         listService
           .getListItems(response[1])
           .then((itemResponse) => {
-            setRows(itemResponse);
+            setInitialRows(itemResponse);
+            setCachedRows(itemResponse);
             setLoading(false);
           })
           .catch((error) => {
@@ -85,7 +89,27 @@ export const Dashboard: React.FC<IDashboardProps> = ({
               <Button
                 size="small"
                 onClick={() => {
+                  setLoading(true);
                   setEditable(false);
+                  const editedRows = editedRowIds.map((id) =>
+                    apiRef.current.getRowWithUpdatedValues(id, '')
+                  );
+                  listService
+                    .batchedUpdateListItems(editedRows)
+                    .then(() => {
+                      listService
+                        .getListItems(fieldInfo)
+                        .then((itemResponse) => {
+                          apiRef.current.setRows(itemResponse);
+                          setLoading(false);
+                        })
+                        .catch((error) => {
+                          Logger.error(error);
+                        });
+                    })
+                    .catch((error) => {
+                      Logger.error(error);
+                    });
                 }}
                 startIcon={<Save />}
               >
@@ -94,6 +118,7 @@ export const Dashboard: React.FC<IDashboardProps> = ({
               <Button
                 size="small"
                 onClick={() => {
+                  apiRef.current.setRows(cachedRows);
                   setEditable(false);
                 }}
                 startIcon={<Cancel />}
@@ -106,7 +131,10 @@ export const Dashboard: React.FC<IDashboardProps> = ({
               size="small"
               onClick={() => {
                 setEditable(() => true);
-                apiRef.current.setCellFocus(rows[0].Id, columns[0].field);
+                apiRef.current.setCellFocus(
+                  initialRows[0].Id,
+                  columns[0].field
+                );
               }}
               startIcon={<Edit />}
             >
@@ -129,7 +157,10 @@ export const Dashboard: React.FC<IDashboardProps> = ({
         getRowId={(row) => row.Id}
         apiRef={apiRef}
         columns={columns}
-        rows={rows}
+        rows={initialRows}
+        onRowEditStart={(params) => {
+          setEditedRowIds([...editedRowIds, params.id]);
+        }}
         slots={{ toolbar: CustomGridToolbar }}
         sx={sx}
       />
