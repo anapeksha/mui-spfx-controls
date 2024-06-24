@@ -7,9 +7,7 @@ import { IPeoplePickerProps } from '../../types';
 const PeoplePickerDisplay: React.FC<IPeoplePickerProps> = (props) => {
   return (
     <ThemeProvider theme={theme}>
-      <PeoplePicker
-        {...props}
-      />
+      <PeoplePicker {...props} />
     </ThemeProvider>
   );
 };
