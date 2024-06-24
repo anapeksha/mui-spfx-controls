@@ -41,6 +41,12 @@ const theme = createTheme({
       dark: spTheme.redDark,
     },
   },
+  transitions: {
+    duration: {
+      enteringScreen: 250,
+      leavingScreen: 250,
+    },
+  },
   components: {
     MuiFormLabel: {
       styleOverrides: {
