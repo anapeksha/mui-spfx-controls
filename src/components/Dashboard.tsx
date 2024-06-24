@@ -1,5 +1,5 @@
 import { Cancel, Edit, Save } from '@mui/icons-material';
-import { Box, Button } from '@mui/material';
+import { Box, Button, Fade } from '@mui/material';
 import {
   DataGrid,
   GridColDef,
@@ -85,61 +85,66 @@ export const Dashboard: React.FC<IDashboardProps> = ({
         <GridToolbarExport />
         {hasEditPermission ? (
           editable ? (
-            <>
-              <Button
-                size="small"
-                onClick={() => {
-                  setLoading(true);
-                  setEditable(false);
-                  const editedRows = editedRowIds.map((id) =>
-                    apiRef.current.getRowWithUpdatedValues(id, '')
-                  );
-                  listService
-                    .batchedUpdateListItems(editedRows)
-                    .then(() => {
-                      listService
-                        .getListItems(fieldInfo)
-                        .then((itemResponse) => {
-                          apiRef.current.setRows(itemResponse);
-                          setLoading(false);
-                        })
-                        .catch((error) => {
-                          Logger.error(error);
-                        });
-                    })
-                    .catch((error) => {
-                      Logger.error(error);
-                    });
-                }}
-                startIcon={<Save />}
-              >
-                Save
-              </Button>
-              <Button
-                size="small"
-                onClick={() => {
-                  apiRef.current.setRows(cachedRows);
-                  setEditable(false);
-                }}
-                startIcon={<Cancel />}
-              >
-                Cancel
-              </Button>
-            </>
+            <Fade in={editable}>
+              <Box>
+                <Button
+                  size="small"
+                  onClick={() => {
+                    setLoading(true);
+                    const editedRows = editedRowIds.map((id) =>
+                      apiRef.current.getRowWithUpdatedValues(id, '')
+                    );
+                    listService
+                      .batchedUpdateListItems(editedRows)
+                      .then(() => {
+                        listService
+                          .getListItems(fieldInfo)
+                          .then((itemResponse) => {
+                            apiRef.current.setRows(itemResponse);
+                            setCachedRows(itemResponse);
+                            setLoading(false);
+                            setEditable(false);
+                          })
+                          .catch((error) => {
+                            Logger.error(error);
+                          });
+                      })
+                      .catch((error) => {
+                        Logger.error(error);
+                      });
+                  }}
+                  startIcon={<Save />}
+                >
+                  Save
+                </Button>
+                <Button
+                  size="small"
+                  onClick={() => {
+                    apiRef.current.setRows(cachedRows);
+                    setEditable(false);
+                  }}
+                  startIcon={<Cancel />}
+                >
+                  Cancel
+                </Button>
+              </Box>
+            </Fade>
           ) : (
-            <Button
-              size="small"
-              onClick={() => {
-                setEditable(() => true);
-                apiRef.current.setCellFocus(
-                  initialRows[0].Id,
-                  columns[0].field
-                );
-              }}
-              startIcon={<Edit />}
-            >
-              Edit
-            </Button>
+            <Fade in={!editable}>
+              <Button
+                size="small"
+                onClick={() => {
+                  setEditable(() => true);
+                  apiRef.current.setCellFocus(
+                    initialRows[0].Id,
+                    columns[0].field
+                  );
+                }}
+                startIcon={<Edit />}
+              >
+                Edit
+              </Button>
+            </Fade>
           )
         ) : null}
       </GridToolbarContainer>
