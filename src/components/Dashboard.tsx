@@ -60,7 +60,7 @@ export const Dashboard: React.FC<IDashboardProps> = ({
             setLoading(false);
           })
           .catch((error) => {
-            Logger.error(error.message);
+            Logger.error(error);
           });
       })
       .catch((error) => {

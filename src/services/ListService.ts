@@ -14,8 +14,7 @@ class ListService {
     this.sp = getSP(context);
     this.list = this.sp.web.lists.getById(listId);
     this.batchedSp = this.sp.batched();
-    const [batched] = this.sp.batched();
-    this.batchedList = batched.web.lists.getById(listId);
+    this.batchedList = this.batchedSp[0].web.lists.getById(listId);
   }
   private checkCustomFieldType(field: IFieldInfo): boolean {
     return !field.Hidden;
@@ -97,6 +96,15 @@ class ListService {
     if (items.length !== 0) {
       const execute = this.batchedSp[1];
       const batchedRes: any[] = [];
+      const cleanedItems: any[] = items.map((value) => {
+        return Object.keys(value)
+          .filter((key) => !key.indexOf('odata'))
+          .reduce((obj: any, key) => {
+            obj[key] = value[key];
+            return obj;
+          });
+      });
+      console.log(cleanedItems);
       items.forEach(async (value) => {
         const response = await this.batchedList.items
           .getById(value.Id)
