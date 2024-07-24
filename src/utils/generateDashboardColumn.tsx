@@ -1,59 +1,32 @@
-import { WebPartContext } from '@microsoft/sp-webpart-base';
 import { GridColDef } from '@mui/x-data-grid';
 import { FieldTypes, IFieldInfo } from '@pnp/sp/fields';
-import * as React from 'react';
-import { PeoplePicker } from '../components';
 
 export const generateDashboardColumn = (
-  value: IFieldInfo,
-  context: WebPartContext,
-  editable?: boolean
+  currentField: IFieldInfo
 ): GridColDef => {
-  if (value.FieldTypeKind === FieldTypes.User) {
+  if (currentField.FieldTypeKind === FieldTypes.User) {
     return {
       minWidth: 200,
-      field: value.InternalName,
-      headerName: value.Title,
-      editable: value.ReadOnlyField ? false : editable,
+      field: currentField.InternalName,
+      headerName: currentField.Title,
       resizable: true,
       valueGetter: (params) => {
         return params.value ? params.value.Title : '';
       },
-      renderEditCell: (params) => {
-        return (
-          <PeoplePicker
-            context={context}
-            label=""
-            onSelectionChange={async (value) => {
-              await params.api.setEditCellValue({
-                ...params,
-                value: {
-                  Id: value[0].EntityData.SPUserID,
-                  Title: value[0].DisplayText,
-                  EMail: value[0].EntityData.Email,
-                },
-              });
-            }}
-            sx={{ border: 'none' }}
-          />
-        );
-      },
     };
-  } else if (value.FieldTypeKind === FieldTypes.Boolean) {
+  } else if (currentField.FieldTypeKind === FieldTypes.Boolean) {
     return {
       minWidth: 100,
-      field: value.InternalName,
-      headerName: value.Title,
-      editable: value.ReadOnlyField ? false : editable,
+      field: currentField.InternalName,
+      headerName: currentField.Title,
       resizable: true,
       type: 'boolean',
     };
-  } else if (value.FieldTypeKind === FieldTypes.DateTime) {
+  } else if (currentField.FieldTypeKind === FieldTypes.DateTime) {
     return {
       minWidth: 200,
-      field: value.InternalName,
-      headerName: value.Title,
-      editable: value.ReadOnlyField ? false : editable,
+      field: currentField.InternalName,
+      headerName: currentField.Title,
       resizable: true,
       valueGetter: (params) => {
         return new Date(params.value);
@@ -61,36 +34,33 @@ export const generateDashboardColumn = (
       type: 'dateTime',
     };
   } else if (
-    value.FieldTypeKind === FieldTypes.Choice ||
-    value.FieldTypeKind === FieldTypes.MultiChoice
+    currentField.FieldTypeKind === FieldTypes.Choice ||
+    currentField.FieldTypeKind === FieldTypes.MultiChoice
   ) {
     return {
       minWidth: 200,
-      field: value.InternalName,
-      headerName: value.Title,
-      editable: value.ReadOnlyField ? false : editable,
+      field: currentField.InternalName,
+      headerName: currentField.Title,
       type: 'singleSelect',
       resizable: true,
-      valueOptions: value.Choices ? value.Choices : [],
+      valueOptions: currentField.Choices ? currentField.Choices : [],
     };
   } else if (
-    value.FieldTypeKind === FieldTypes.Number ||
-    value.FieldTypeKind === FieldTypes.Integer
+    currentField.FieldTypeKind === FieldTypes.Number ||
+    currentField.FieldTypeKind === FieldTypes.Integer
   ) {
     return {
       minWidth: 200,
-      field: value.InternalName,
-      headerName: value.Title,
-      editable: value.ReadOnlyField ? false : editable,
+      field: currentField.InternalName,
+      headerName: currentField.Title,
       type: 'number',
       resizable: true,
     };
   } else {
     return {
       minWidth: 200,
-      field: value.InternalName,
-      headerName: value.Title,
-      editable: value.ReadOnlyField ? false : editable,
+      field: currentField.InternalName,
+      headerName: currentField.Title,
       resizable: true,
       type: 'string',
     };
