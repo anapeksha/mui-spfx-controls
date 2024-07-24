@@ -5,7 +5,6 @@ import { theme } from '../../config';
 import { IDashboardProps } from '../../types';
 
 const DashboardDisplay: React.FC<IDashboardProps> = (props) => {
-  console.log(props);
   return (
     <ThemeProvider theme={theme}>
       <Dashboard {...props} />
