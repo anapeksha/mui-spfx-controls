@@ -17,12 +17,21 @@
           "manifest": "./src/webparts/dashboard/DashboardWebPart.manifest.json"
         }
       ]
+    },
+    "list-form-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/listForm/ListFormWebPart.js",
+          "manifest": "./src/webparts/listForm/ListFormWebPart.manifest.json"
+        }
+      ]
     }
   },
   "externals": {},
   "localizedResources": {
     "PeoplePickerWebPartStrings": "lib/webparts/peoplePicker/loc/{locale}.js",
     "DashboardWebPartStrings": "lib/webparts/dashboard/loc/{locale}.js",
-    "PropertyControlStrings": "node_modules/@pnp/spfx-property-controls/lib/loc/{locale}.js"
+    "PropertyControlStrings": "node_modules/@pnp/spfx-property-controls/lib/loc/{locale}.js",
+    "ListFormWebPartStrings": "lib/webparts/listForm/loc/{locale}.js"
   }
 }
