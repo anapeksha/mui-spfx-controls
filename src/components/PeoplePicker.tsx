@@ -10,13 +10,11 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-
-import { FC, useEffect, useState } from 'react';
-
-import { IExtendedPeoplePickerEntity, IPeoplePickerProps } from '../types';
-
 import { AccountCircle } from '@mui/icons-material';
-import { PeopleSearchService } from '../services/PeopleSearchService';
+import { FC, useEffect, useState } from 'react';
+import { Logger } from '@pnp/logging';
+import { IExtendedPeoplePickerEntity, IPeoplePickerProps } from '../types';
+import { PeopleSearchService } from '../services';
 import { handleDuplicates } from '../utils';
 
 export const PeoplePicker: FC<IPeoplePickerProps> = ({
@@ -33,6 +31,8 @@ export const PeoplePicker: FC<IPeoplePickerProps> = ({
   size,
   LoadingComponent,
   styles,
+  name,
+  fullWidth,
   sx,
 }) => {
   const searchService = new PeopleSearchService(context);
@@ -55,7 +55,10 @@ export const PeoplePicker: FC<IPeoplePickerProps> = ({
           setSearchResults(response);
           setLoading(false);
         })
-        .catch((error) => setError(error));
+        .catch((error) => {
+          Logger.error(error);
+          setError(error);
+        });
     } else {
       setSearchResults([]);
     }
@@ -128,11 +131,13 @@ export const PeoplePicker: FC<IPeoplePickerProps> = ({
       renderInput={(params) => (
         <TextField
           {...params}
+          name={name}
           variant={variant}
           color={color}
           error={error !== null ? true : false}
           helperText={error ? 'Something went wrong' : ''}
           label={label}
+          fullWidth={fullWidth}
         />
       )}
     />
