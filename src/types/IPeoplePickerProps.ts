@@ -30,6 +30,8 @@ interface IPeoplePickerProps {
   size?: AutocompleteBaseProps['size'];
   styles?: CSSProperties;
   sx?: AutocompleteBaseProps['sx'];
+  name?: TextFieldProps['name'];
+  fullWidth?: TextFieldProps['fullWidth'];
   LoadingComponent?: ReactNode;
 }
 
