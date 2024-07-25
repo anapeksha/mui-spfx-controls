@@ -5,5 +5,10 @@ define([], function () {
     BasicGroupName: 'Properties',
     ListFieldLabel: 'Select a List',
     ColumnsFieldLabel: 'Select List Columns',
+    PaperVariantFieldLabel: 'Select Form Paper background variant',
+    PaperElevationFieldLabel: 'Select Paper elevation',
+    InputVariantFieldLabel: 'Select Input variants',
+    InputSizeFieldLabel: 'Select Input Size',
+    FieldSpacingFieldLabel: 'Select Field Spacing',
   };
 });

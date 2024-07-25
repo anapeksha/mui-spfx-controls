@@ -9,16 +9,23 @@
   "supportsFullBleed": true,
   "supportedHosts": ["SharePointWebPart", "SharePointFullPage"],
   "supportsThemeVariants": true,
-
   "preconfiguredEntries": [
     {
       "groupId": "5c03119e-3074-46fd-976b-c60198311f70",
       "group": { "default": "Advanced" },
-      "title": { "default": "ListForm" },
-      "description": { "default": "ListForm description" },
-      "officeFabricIconFontName": "Page",
+      "title": {
+        "default": "MUI List Form"
+      },
+      "description": {
+        "default": "Dynamic list form with simple form creation and management"
+      },
+      "officeFabricIconFontName": "ClipboardList",
       "properties": {
-        "description": "ListForm"
+        "paperVariant": "elevation",
+        "paperElevation": 2,
+        "inputVariant": "outlined",
+        "inputSize": "medium",
+        "fieldSpacing": 2
       }
     }
   ]

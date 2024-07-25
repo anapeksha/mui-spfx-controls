@@ -3,6 +3,11 @@ declare interface IListFormWebPartStrings {
   BasicGroupName: string;
   ListFieldLabel: string;
   ColumnsFieldLabel: string;
+  PaperVariantFieldLabel: string;
+  PaperElevationFieldLabel: string;
+  InputVariantFieldLabel: string;
+  InputSizeFieldLabel: string;
+  FieldSpacingFieldLabel: string;
 }
 
 declare module 'ListFormWebPartStrings' {
