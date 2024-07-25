@@ -14,7 +14,7 @@ class ListService {
   private checkCustomFieldType(field: IFieldInfo): boolean {
     return !field.Hidden;
   }
-  private getListSize(): Promise<number> {
+  private async getListSize(): Promise<number> {
     return new Promise((resolve, reject) => {
       this.list
         .select('ItemCount')()
@@ -72,6 +72,18 @@ class ListService {
       }
     }
     return totalItems;
+  }
+  public async createListItem(value: any): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.list.items
+        .add(value)
+        .then((response) => {
+          resolve(response);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
   }
 }
 
