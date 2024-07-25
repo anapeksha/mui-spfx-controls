@@ -56,8 +56,7 @@
     "@pnp/spfx-property-controls": "^3.17.0",
     "dayjs": "^1.11.11",
     "react": "17.0.1",
-    "react-dom": "17.0.1",
-    "@fluentui/react": "^8.106.4"
+    "react-dom": "17.0.1"
   },
   "devDependencies": {
     "@microsoft/eslint-config-spfx": "1.18.2",
