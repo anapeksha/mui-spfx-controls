@@ -20,6 +20,7 @@ import { handleDuplicates } from '../utils';
 export const PeoplePicker: FC<IPeoplePickerProps> = ({
   context,
   label,
+  required,
   defaultValue,
   onSelectionChange,
   searchSuggestionLimit,
@@ -133,11 +134,12 @@ export const PeoplePicker: FC<IPeoplePickerProps> = ({
           {...params}
           name={name}
           variant={variant}
+          required={required}
           color={color}
           error={error !== null ? true : false}
           helperText={error ? 'Something went wrong' : ''}
           label={label}
-          fullWidth={fullWidth}
+          fullWidth={fullWidth || true}
         />
       )}
     />
