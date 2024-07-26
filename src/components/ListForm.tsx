@@ -89,6 +89,7 @@ export const ListForm: React.FC<IListFormProps> = ({
                       context={context}
                       label={field.Title}
                       name={field.InternalName}
+                      required={field.Required}
                       variant={inputVariant}
                       size={inputSize}
                       fullWidth
