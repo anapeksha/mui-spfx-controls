@@ -5,6 +5,8 @@ interface IListFormProps {
   context: WebPartContext;
   list: string;
   fields: string[];
+  onSave?: (formData: Record<string, any>) => void;
+  onCancel?: () => void;
   paperVariant?: PaperProps['variant'];
   paperElevation?: PaperProps['elevation'];
   inputVariant?: TextFieldProps['variant'];
