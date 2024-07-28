@@ -1,18 +1,14 @@
-import { Cancel, Edit, Save } from '@mui/icons-material';
-import { Box, Button } from '@mui/material';
+import { Box } from '@mui/material';
 import {
   DataGrid,
   GridColDef,
-  GridRowProps,
   GridToolbarColumnsButton,
   GridToolbarContainer,
   GridToolbarDensitySelector,
   GridToolbarExport,
   GridToolbarFilterButton,
-  useGridApiRef,
 } from '@mui/x-data-grid';
 import { Logger } from '@pnp/logging';
-import { IFieldInfo } from '@pnp/sp/fields';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { ListService } from '../services';
@@ -27,50 +23,30 @@ export const Dashboard: React.FC<IDashboardProps> = ({
   sx,
 }) => {
   const listService = new ListService(context, list);
-  const [fieldInfo, setFieldInfo] = useState<IFieldInfo[]>([]);
   const [columns, setColumns] = useState<GridColDef[]>([]);
-  const [rows, setRows] = useState<GridRowProps[]>([]);
+  const [initialRows, setInitialRows] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
-  const [hasEditPermission, setHasEditPermission] = useState(false);
-  const [editable, setEditable] = useState(false);
-  const apiRef = useGridApiRef();
 
   useEffect(() => {
     setLoading(true);
-    Promise.all([
-      listService.checkListPermission(),
-      listService.getListFields(fields),
-    ])
+    listService
+      .getListFields(fields)
       .then((response) => {
-        setHasEditPermission(response[0]);
-        setFieldInfo(response[1]);
-        setColumns(
-          response[1].map((value) =>
-            generateDashboardColumn(value, context, editable)
-          )
-        );
+        setColumns(response.map((value) => generateDashboardColumn(value)));
         listService
-          .getListItems(response[1])
+          .getListItems(response)
           .then((itemResponse) => {
-            setRows(itemResponse);
+            setInitialRows(itemResponse);
             setLoading(false);
           })
           .catch((error) => {
-            Logger.error(error.message);
+            Logger.error(error);
           });
       })
       .catch((error) => {
         Logger.error(error);
       });
   }, [list, fields]);
-
-  useEffect(() => {
-    setColumns(
-      fieldInfo.map((value) =>
-        generateDashboardColumn(value, context, editable)
-      )
-    );
-  }, [editable]);
 
   const CustomGridToolbar = (): JSX.Element => {
     return (
@@ -79,41 +55,6 @@ export const Dashboard: React.FC<IDashboardProps> = ({
         <GridToolbarDensitySelector />
         <GridToolbarFilterButton />
         <GridToolbarExport />
-        {hasEditPermission ? (
-          editable ? (
-            <>
-              <Button
-                size="small"
-                onClick={() => {
-                  setEditable(false);
-                }}
-                startIcon={<Save />}
-              >
-                Save
-              </Button>
-              <Button
-                size="small"
-                onClick={() => {
-                  setEditable(false);
-                }}
-                startIcon={<Cancel />}
-              >
-                Cancel
-              </Button>
-            </>
-          ) : (
-            <Button
-              size="small"
-              onClick={() => {
-                setEditable(() => true);
-                apiRef.current.setCellFocus(rows[0].Id, columns[0].field);
-              }}
-              startIcon={<Edit />}
-            >
-              Edit
-            </Button>
-          )
-        ) : null}
       </GridToolbarContainer>
     );
   };
@@ -125,11 +66,9 @@ export const Dashboard: React.FC<IDashboardProps> = ({
     >
       <DataGrid
         loading={loading}
-        editMode="row"
         getRowId={(row) => row.Id}
-        apiRef={apiRef}
         columns={columns}
-        rows={rows}
+        rows={initialRows}
         slots={{ toolbar: CustomGridToolbar }}
         sx={sx}
       />

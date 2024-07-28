@@ -1,25 +1,23 @@
 {
   "name": "mui-spfx-controls",
   "description": "SPFx component library with MUI",
-  "version": "0.5.4",
+  "version": "0.5.5",
   "license": "MIT",
   "engines": {
     "node": ">=16.13.0 <17.0.0 || >=18.17.1 <19.0.0"
   },
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
-  "scripts": {
-    "serve": "gulp serve",
-    "serve:fast": "fast-serve",
-    "build": "gulp bundle",
-    "clean": "gulp clean",
-    "test": "gulp test",
-    "build:ship": "gulp bundle --ship",
-    "package-solution": "gulp package-solution --ship"
-  },
   "author": {
     "name": "Anapeksha Mukherjee",
     "email": "anapeksha.mukherjee@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/anapeksha/mui-spfx-controls"
+  },
+  "bugs": {
+    "url": "https://github.com/anapeksha/mui-spfx-controls/issues"
   },
   "keywords": [
     "sharepoint",
@@ -29,8 +27,18 @@
     "tools",
     "spfx",
     "mui",
+    "material ui",
     "sharepoint framework"
   ],
+  "scripts": {
+    "serve": "gulp serve",
+    "serve:fast": "fast-serve",
+    "build": "gulp bundle",
+    "clean": "gulp clean",
+    "test": "gulp test",
+    "build:ship": "gulp bundle --ship",
+    "package-solution": "gulp package-solution --ship"
+  },
   "dependencies": {
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
@@ -43,10 +51,13 @@
     "@mui/icons-material": "^5.15.6",
     "@mui/material": "^5.15.6",
     "@mui/x-data-grid": "^6.20.0",
+    "@mui/x-date-pickers": "^6.19.4",
     "@pnp/graph": "^4.2.0",
     "@pnp/sp": "^4.2.0",
     "@pnp/spfx-property-controls": "^3.17.0",
-    "dayjs": "^1.11.11"
+    "dayjs": "^1.11.11",
+    "react": "17.0.1",
+    "react-dom": "17.0.1"
   },
   "devDependencies": {
     "@microsoft/eslint-config-spfx": "1.18.2",

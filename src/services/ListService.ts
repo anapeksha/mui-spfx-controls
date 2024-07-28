@@ -1,8 +1,7 @@
 import { WebPartContext } from '@microsoft/sp-webpart-base';
 import { SPFI } from '@pnp/sp';
 import { FieldTypes, IFieldInfo } from '@pnp/sp/fields';
-import { IList } from '@pnp/sp/lists';
-import { PermissionKind } from '@pnp/sp/security';
+import { IList, IListInfo } from '@pnp/sp/lists';
 import { getSP } from '../config';
 
 class ListService {
@@ -15,7 +14,7 @@ class ListService {
   private checkCustomFieldType(field: IFieldInfo): boolean {
     return !field.Hidden;
   }
-  private getListSize(): Promise<number> {
+  private async getListSize(): Promise<number> {
     return new Promise((resolve, reject) => {
       this.list
         .select('ItemCount')()
@@ -27,18 +26,31 @@ class ListService {
         });
     });
   }
+  public async getLists(): Promise<IListInfo[]> {
+    return new Promise((resolve, reject) => {
+      this.sp.web
+        .lists()
+        .then((response) => {
+          resolve(response);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
+  }
   public async getListFields(
-    fieldInternalNames: string[]
+    fieldInternalNames?: string[]
   ): Promise<IFieldInfo[]> {
     return new Promise((resolve, reject) => {
       this.list
         .fields()
         .then((response) => {
           resolve(
-            response.filter(
-              (value) =>
-                this.checkCustomFieldType(value) &&
-                fieldInternalNames.indexOf(value.InternalName) !== -1
+            response.filter((value) =>
+              fieldInternalNames
+                ? this.checkCustomFieldType(value) &&
+                  fieldInternalNames.indexOf(value.InternalName) !== -1
+                : this.checkCustomFieldType(value)
             )
           );
         })
@@ -74,10 +86,10 @@ class ListService {
     }
     return totalItems;
   }
-  public checkListPermission(): Promise<boolean> {
+  public async createListItem(value: any): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.list
-        .currentUserHasPermissions(PermissionKind.EditListItems)
+      this.list.items
+        .add(value)
         .then((response) => {
           resolve(response);
         })

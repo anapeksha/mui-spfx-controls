@@ -1,7 +1,7 @@
 # SPFx Material-UI Component Library
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![NPM publish](https://github.com/anapeksha/mui-spfx-controls/actions/workflows/npm-publish.yml/badge.svg?branch=main&event=release)](https://github.com/anapeksha/mui-spfx-controls/actions/workflows/npm-publish.yml)
+[![NPM publish](https://github.com/anapeksha/mui-spfx-controls/actions/workflows/npm-publish.yml/badge.svg)](https://github.com/anapeksha/mui-spfx-controls/actions/workflows/npm-publish.yml)
 
 This is a SharePoint Framework (SPFx) component library built using Material-UI (MUI). It provides reusable React components for building modern and visually appealing user interfaces in SharePoint.
 
@@ -25,7 +25,7 @@ import { PeoplePicker, IPeoplePickerProps } from 'mui-spfx-controls';
 
 export default class PeoplePickerWebPart extends BaseClientWebPart {
   public render(): void {
-    const element = React.ReactElement<IPeoplePickerProps> = React.createElement(
+    const element: React.ReactElement<IPeoplePickerProps> = React.createElement(
       PeoplePicker,
       {
         context: this.context,
@@ -49,15 +49,41 @@ import * as ReactDom from "react-dom";
 import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 import { Dashboard, IDashboardProps } from 'mui-spfx-controls';
 
-export default class PeoplePickerWebPart extends BaseClientWebPart {
+export default class DashboardWebPart extends BaseClientWebPart {
   public render(): void {
-    const element = React.ReactElement<IDashboardProps> = React.createElement(
+    const element: React.ReactElement<IDashboardProps> = React.createElement(
       Dashboard,
       {
         context: this.context,
         list: "ListName",
-        fields: ["Field1", "Field2", "Field3", "Field4", ],
+        fields: ["Field1", "Field2", "Field3", "Field4"],
         height: 750,
+      }
+    );
+    ReactDom.render(element, this.domElement);
+  }
+}
+```
+
+```JSX
+import * as React from 'react';
+import * as ReactDom from "react-dom";
+import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
+import { ListForm, IListFormProps } from 'mui-spfx-controls';
+
+export default class ListFormWebPart extends BaseClientWebPart {
+  public render(): void {
+    const element: React.ReactElement<IListFormProps> = React.createElement(
+      ListForm,
+      {
+        context: this.context,
+        list: "ListName",
+        fields: ["Field1", "Field2", "Field3", "Field4"],
+        paperVariant: "elevation",
+        paperElevation: 2,
+        inputVariant: "outlined",
+        inputSize: "medium",
+        fieldSpacing: 2,
       }
     );
     ReactDom.render(element, this.domElement);
@@ -98,6 +124,21 @@ A dashboard component with MUI Data Grid
 - fields (required): Internal Name of fields to display in dashboard
 - height (optional): Absolute or relative container height
 - sx (optional): MUI's sx prop
+
+### List Form
+
+A List Form component with MUI TextFields and Pickers to create form from lists
+
+#### Props
+
+- context (required): SP context
+- list (required): SharePoint list to pull data from
+- fields (required): Internal Name of fields to display in dashboard
+- paperVariant (optional): Variant of the paper component ('outlined', 'elevation'),
+- paperElevation: Elevation of the paper component,
+- inputVariant: Textfield variant ('standard', 'outlined', 'filled'),
+- inputSize (optional): Textfield size ('small', 'medium'),
+- fieldSpacing (optional): Spacing between fields,
 
 ## Development
 

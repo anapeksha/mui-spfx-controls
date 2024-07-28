@@ -1,0 +1,28 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx/client-side-web-part-manifest.schema.json",
+  "id": "31647ef6-133b-4d8a-906b-bd666a022239",
+  "alias": "ListItemPickerWebPart",
+  "componentType": "WebPart",
+  "version": "*",
+  "manifestVersion": 2,
+  "requiresCustomScript": false,
+  "supportedHosts": [
+    "SharePointWebPart",
+    "TeamsPersonalApp",
+    "TeamsTab",
+    "SharePointFullPage"
+  ],
+  "supportsThemeVariants": true,
+  "preconfiguredEntries": [
+    {
+      "groupId": "5c03119e-3074-46fd-976b-c60198311f70",
+      "group": { "default": "Advanced" },
+      "title": { "default": "ListItemPicker" },
+      "description": { "default": "ListItemPicker description" },
+      "officeFabricIconFontName": "Page",
+      "properties": {
+        "description": "ListItemPicker"
+      }
+    }
+  ]
+}

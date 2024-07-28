@@ -9,17 +9,17 @@ import { CSSProperties, ReactNode } from 'react';
 import { IExtendedPeoplePickerEntity } from './IExtendedPeoplePicker';
 
 type AutocompleteBaseProps = AutocompleteProps<
-  IExtendedPeoplePickerEntity,
+  IExtendedPeoplePickerEntity | IExtendedPeoplePickerEntity[],
   boolean,
   boolean,
   true
 >;
 
-interface IPeoplePickerProps {
+interface IPeoplePickerBaseProps {
   context: WebPartContext;
   label: string;
-  defaultValue?: IExtendedPeoplePickerEntity[];
-  onSelectionChange?: (value: IExtendedPeoplePickerEntity[]) => void;
+  multiple?: boolean;
+  required?: boolean;
   searchSuggestionLimit?: number;
   personSelectionLimit?: number;
   disabled?: boolean;
@@ -30,7 +30,21 @@ interface IPeoplePickerProps {
   size?: AutocompleteBaseProps['size'];
   styles?: CSSProperties;
   sx?: AutocompleteBaseProps['sx'];
+  name?: TextFieldProps['name'];
+  fullWidth?: TextFieldProps['fullWidth'];
   LoadingComponent?: ReactNode;
 }
 
-export type { IPeoplePickerProps };
+interface ISingleValueProps extends IPeoplePickerBaseProps {
+  multiple: true;
+  defaultValue?: IExtendedPeoplePickerEntity[];
+  onSelectionChange?: (value: IExtendedPeoplePickerEntity[]) => void;
+}
+
+interface IMultiValueProps extends IPeoplePickerBaseProps {
+  multiple?: false;
+  defaultValue?: IExtendedPeoplePickerEntity;
+  onSelectionChange?: (value: IExtendedPeoplePickerEntity) => void;
+}
+
+export type IPeoplePickerProps = ISingleValueProps | IMultiValueProps;

@@ -4,7 +4,13 @@ const spTheme = (window as any).__themeState__.theme;
 
 const theme = createTheme({
   palette: {
-    mode: 'light',
+    background: {
+      default: spTheme.bodyBackground,
+    },
+    common: {
+      white: spTheme.white,
+      black: spTheme.black,
+    },
     primary: {
       light: spTheme.themeLight,
       main: spTheme.themePrimary,
@@ -14,6 +20,31 @@ const theme = createTheme({
       light: spTheme.themeLighterAlt,
       main: spTheme.themeSecondary,
       dark: spTheme.themeDarkerAlt,
+    },
+    success: {
+      light: spTheme.greenLight,
+      main: spTheme.green,
+      dark: spTheme.greenDark,
+    },
+    info: {
+      light: spTheme.yellowLight,
+      main: spTheme.yellow,
+      dark: spTheme.yellowDark,
+    },
+    warning: {
+      light: spTheme.orangeLighter,
+      main: spTheme.orangeLight,
+      dark: spTheme.orange,
+    },
+    error: {
+      main: spTheme.red,
+      dark: spTheme.redDark,
+    },
+  },
+  transitions: {
+    duration: {
+      enteringScreen: 250,
+      leavingScreen: 250,
     },
   },
   components: {
