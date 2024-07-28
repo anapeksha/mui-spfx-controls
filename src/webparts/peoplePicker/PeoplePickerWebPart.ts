@@ -13,7 +13,15 @@ import * as ReactDom from 'react-dom';
 import { IPeoplePickerProps } from '../../types';
 import PeoplePickerDisplay from './PeoplePickerDisplay';
 
-export interface IPeoplePickerWebPartProps extends IPeoplePickerProps {}
+export interface IPeoplePickerWebPartProps {
+  label: string;
+  size: 'small' | 'medium';
+  disabled: boolean;
+  variant: 'outlined' | 'filled' | 'standard';
+  tagVariant: 'outlined' | 'filled';
+  color: 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning';
+  tagColor: 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning';
+}
 
 export default class PeoplePickerWebPart extends BaseClientSideWebPart<IPeoplePickerWebPartProps> {
   public render(): void {

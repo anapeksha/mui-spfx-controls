@@ -21,6 +21,7 @@ export const PeoplePicker: FC<IPeoplePickerProps> = ({
   context,
   label,
   required,
+  multiple,
   defaultValue,
   onSelectionChange,
   searchSuggestionLimit,
@@ -42,7 +43,7 @@ export const PeoplePicker: FC<IPeoplePickerProps> = ({
     IExtendedPeoplePickerEntity[]
   >([]);
   const [selectedUsers, setSelectedUsers] = useState<
-    IExtendedPeoplePickerEntity[]
+    IExtendedPeoplePickerEntity[] | IExtendedPeoplePickerEntity | null
   >([]);
   const [error, setError] = useState<Error | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -67,11 +68,18 @@ export const PeoplePicker: FC<IPeoplePickerProps> = ({
 
   return (
     <Autocomplete
-      multiple={true}
+      multiple={multiple}
       options={searchResults}
       defaultValue={defaultValue}
-      getOptionLabel={(option) => option.DisplayText}
-      filterOptions={(options) => handleDuplicates(options, selectedUsers)}
+      getOptionLabel={(option: IExtendedPeoplePickerEntity) =>
+        option.DisplayText
+      }
+      filterOptions={(options) =>
+        handleDuplicates(
+          options as IExtendedPeoplePickerEntity[],
+          selectedUsers as IExtendedPeoplePickerEntity[]
+        )
+      }
       popupIcon={null}
       size={size}
       loading={loading}
@@ -87,24 +95,28 @@ export const PeoplePicker: FC<IPeoplePickerProps> = ({
           </Stack>
         )
       }
-      onChange={(event, value, reason) => {
+      onChange={(
+        event,
+        value: IExtendedPeoplePickerEntity | IExtendedPeoplePickerEntity[],
+        reason
+      ) => {
         if (reason === 'selectOption' || reason === 'removeOption') {
           setSelectedUsers(value);
           setQuery('');
           if (onSelectionChange) {
-            onSelectionChange(value);
+            onSelectionChange(value as any);
           }
         } else if (reason === 'clear') {
           setSelectedUsers([]);
           setQuery('');
           if (onSelectionChange) {
-            onSelectionChange([]);
+            onSelectionChange([] as any);
           }
         }
       }}
       onInputChange={(event, newValue) => setQuery(newValue)}
       renderTags={(users, getTagProps) => {
-        return users.map((user, index) => (
+        return users.map((user: IExtendedPeoplePickerEntity, index) => (
           <Chip
             {...getTagProps({ index })}
             key={index}
@@ -115,7 +127,7 @@ export const PeoplePicker: FC<IPeoplePickerProps> = ({
           />
         ));
       }}
-      renderOption={(props, option) => (
+      renderOption={(props, option: IExtendedPeoplePickerEntity) => (
         <ListItem {...props}>
           <Stack direction="row" spacing={1} alignItems="center">
             {option.Image !== '' ? (
