@@ -34,7 +34,7 @@ export const Dashboard: React.FC<IDashboardProps> = ({
       .then((response) => {
         setColumns(response.map((value) => generateDashboardColumn(value)));
         listService
-          .getListItems(response)
+          .getListItems(response, '', 'Created')
           .then((itemResponse) => {
             setInitialRows(itemResponse);
             setLoading(false);

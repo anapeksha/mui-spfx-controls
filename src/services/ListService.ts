@@ -59,7 +59,12 @@ class ListService {
         });
     });
   }
-  public async getListItems(fields: IFieldInfo[]): Promise<any[]> {
+  public async getListItems(
+    fields: IFieldInfo[],
+    filter?: string,
+    orderBy?: string,
+    top?: number
+  ): Promise<any[]> {
     const selectFields: string[] = ['Id'];
     const expandFields: string[] = [];
     const totalItems: any[] = [];
@@ -74,14 +79,25 @@ class ListService {
       }
     });
     const totalCount = await this.getListSize();
-    for await (const items of this.list.items
-      .select(...selectFields)
-      .expand(...expandFields)
-      .orderBy('Created', false) as any) {
-      if (totalItems.length >= totalCount) {
-        break;
-      } else {
-        totalItems.push(...items);
+    if (top) {
+      const tempTotalItems = await this.list.items
+        .select(...selectFields)
+        .expand(...expandFields)
+        .filter(filter ? filter : '')
+        .orderBy(orderBy ? orderBy : '', false)
+        .top(top)();
+      totalItems.push(...tempTotalItems);
+    } else {
+      for await (const items of this.list.items
+        .select(...selectFields)
+        .expand(...expandFields)
+        .filter(filter ? filter : '')
+        .orderBy(orderBy ? orderBy : '', false) as any) {
+        if (totalItems.length >= totalCount) {
+          break;
+        } else {
+          totalItems.push(...items);
+        }
       }
     }
     return totalItems;

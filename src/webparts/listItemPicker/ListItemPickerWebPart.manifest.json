@@ -17,11 +17,18 @@
     {
       "groupId": "5c03119e-3074-46fd-976b-c60198311f70",
       "group": { "default": "Advanced" },
-      "title": { "default": "ListItemPicker" },
-      "description": { "default": "ListItemPicker description" },
-      "officeFabricIconFontName": "Page",
+      "title": { "default": "MUI List Item Picker" },
+      "description": {
+        "default": "A List Item Picker component with MUI integration"
+      },
+      "officeFabricIconFontName": "ClipboardListAdd",
       "properties": {
-        "description": "ListItemPicker"
+        "label": "List Item",
+        "size": "medium",
+        "disabled": false,
+        "variant": "outlined",
+        "color": "primary",
+        "searchSuggestionLimit": 10
       }
     }
   ]
