@@ -103,6 +103,7 @@ A SharePoint people picker component with MUI library integration
 - label (required): Textfield label
 - onSelectionChange (optional): Get selection value updates
 - searchSuggestionLimit (optional): number of suggestions to provide
+- multiple (optional): single/multi select
 - disabled (optional): Is component disabled
 - variant (optional): Textfield variant ('standard', 'outlined', 'filled')
 - tagVariant (optional): Chip variant ('filled', 'outlined')
@@ -139,6 +140,27 @@ A List Form component with MUI TextFields and Pickers to create form from lists
 - inputVariant: Textfield variant ('standard', 'outlined', 'filled'),
 - inputSize (optional): Textfield size ('small', 'medium'),
 - fieldSpacing (optional): Spacing between fields,
+
+### List Item Picker
+
+A List Item Picker component with MUI integration
+
+#### Props
+
+- context (required): SP context
+- list (required): SharePoint list to pull data from
+- fields (required): Internal Name of fields to include in the results
+- displayField (required): Internal Name of the field to display in dropdown
+- label (required): Textfield label
+- onSelectionChange (optional): Get selection value updates
+- multiple (optional): single/multi select
+- searchSuggestionLimit (optional): number of suggestions to provide
+- disabled (optional): Is component disabled
+- variant (optional): Textfield variant ('standard', 'outlined', 'filled')
+- size (optional): Size of component
+- LoadingComponent (optional): A loading component
+- color (optional): Button color, e.g., "primary" or "secondary"
+- sx (optional): MUI's sx prop
 
 ## Development
 

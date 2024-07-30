@@ -1,16 +1,15 @@
 declare interface IListItemPickerWebPartStrings {
   PropertyPaneDescription: string;
   BasicGroupName: string;
-  DescriptionFieldLabel: string;
-  AppLocalEnvironmentSharePoint: string;
-  AppLocalEnvironmentTeams: string;
-  AppLocalEnvironmentOffice: string;
-  AppLocalEnvironmentOutlook: string;
-  AppSharePointEnvironment: string;
-  AppTeamsTabEnvironment: string;
-  AppOfficeEnvironment: string;
-  AppOutlookEnvironment: string;
-  UnknownEnvironment: string;
+  ListFieldLabel: string;
+  ColumnsFieldLabel: string;
+  SearchSuggestionLimitFieldLabel: string;
+  OptionDisplayFieldLabel: string;
+  LabelFieldLabel: string;
+  SizeFieldLabel: string;
+  DisabledFieldLabel: string;
+  VariantFieldLabel: string;
+  ColorFieldLabel: string;
 }
 
 declare module 'ListItemPickerWebPartStrings' {
