@@ -91,6 +91,33 @@ export default class ListFormWebPart extends BaseClientWebPart {
 }
 ```
 
+```JSX
+import * as React from 'react';
+import * as ReactDom from "react-dom";
+import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
+import { ListItemPicker, IListItemPickerProps } from 'mui-spfx-controls';
+
+export default class ListFormWebPart extends BaseClientWebPart {
+  public render(): void {
+    const element: React.ReactElement<IListFormProps> = React.createElement(
+      ListItemPicker,
+      {
+        context: this.context,
+        list: "ListName",
+        fields: ["Field1", "Field2", "Field3", "Field4"],
+        displayField: "Title",
+        label: "List Items",
+        searchSuggestionLimit: 10,
+        multiple: true,
+        variant: "outlined",
+        size: "medium",
+      }
+    );
+    ReactDom.render(element, this.domElement);
+  }
+}
+```
+
 ## Components
 
 ### PeoplePicker
