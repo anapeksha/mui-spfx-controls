@@ -1,4 +1,4 @@
-name: Create a release and publish to NPM registry
+name: Build and Publish
 on:
   release:
     types: [created]
