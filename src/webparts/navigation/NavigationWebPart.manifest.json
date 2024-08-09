@@ -1,0 +1,65 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx/client-side-web-part-manifest.schema.json",
+  "id": "c9b8422b-9a38-458d-a1b0-1bf54b4d5e23",
+  "alias": "NavigationWebPart",
+  "componentType": "WebPart",
+  "version": "*",
+  "manifestVersion": 2,
+  "requiresCustomScript": false,
+  "supportedHosts": [
+    "SharePointWebPart",
+    "TeamsPersonalApp",
+    "TeamsTab",
+    "SharePointFullPage"
+  ],
+  "supportsThemeVariants": true,
+  "preconfiguredEntries": [
+    {
+      "groupId": "5c03119e-3074-46fd-976b-c60198311f70",
+      "group": {
+        "default": "Advanced"
+      },
+      "title": {
+        "default": "Navigation"
+      },
+      "description": {
+        "default": "Navigation description"
+      },
+      "officeFabricIconFontName": "Website",
+      "properties": {
+        "items": [
+          {
+            "id": "item1",
+            "label": "Item 1",
+            "children": [
+              {
+                "id": "item1-1",
+                "label": "Item 1.1"
+              },
+              {
+                "id": "item1-2",
+                "label": "Item 1.2"
+              }
+            ]
+          },
+          {
+            "id": "item2",
+            "label": "Item 2",
+            "children": [
+              {
+                "id": "item2-1",
+                "label": "Item 2.1",
+                "children": [
+                  {
+                    "id": "item2-1-1",
+                    "label": "Item 2.1.1"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
