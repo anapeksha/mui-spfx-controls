@@ -157,3 +157,5 @@ export const PeoplePicker: FC<IPeoplePickerProps> = ({
     />
   );
 };
+
+export default PeoplePicker;

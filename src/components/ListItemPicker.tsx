@@ -86,3 +86,5 @@ export const ListItemPicker: React.FC<IListItemPickerProps> = ({
     />
   );
 };
+
+export default ListItemPicker;
