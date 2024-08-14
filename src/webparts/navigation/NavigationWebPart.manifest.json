@@ -20,46 +20,12 @@
         "default": "Advanced"
       },
       "title": {
-        "default": "Navigation"
+        "default": "MUI Navigation"
       },
       "description": {
         "default": "Navigation description"
       },
-      "officeFabricIconFontName": "Website",
-      "properties": {
-        "items": [
-          {
-            "id": "item1",
-            "label": "Item 1",
-            "children": [
-              {
-                "id": "item1-1",
-                "label": "Item 1.1"
-              },
-              {
-                "id": "item1-2",
-                "label": "Item 1.2"
-              }
-            ]
-          },
-          {
-            "id": "item2",
-            "label": "Item 2",
-            "children": [
-              {
-                "id": "item2-1",
-                "label": "Item 2.1",
-                "children": [
-                  {
-                    "id": "item2-1-1",
-                    "label": "Item 2.1.1"
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
+      "officeFabricIconFontName": "Nav2DMapView"
     }
   ]
 }

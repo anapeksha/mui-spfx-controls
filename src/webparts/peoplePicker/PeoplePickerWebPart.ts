@@ -10,7 +10,6 @@ import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 import * as strings from 'PeoplePickerWebPartStrings';
 import * as React from 'react';
 import * as ReactDom from 'react-dom';
-import { IPeoplePickerProps } from '../../types';
 import PeoplePickerDisplay from './PeoplePickerDisplay';
 
 export interface IPeoplePickerWebPartProps {
@@ -25,7 +24,7 @@ export interface IPeoplePickerWebPartProps {
 
 export default class PeoplePickerWebPart extends BaseClientSideWebPart<IPeoplePickerWebPartProps> {
   public render(): void {
-    const element: React.ReactElement<IPeoplePickerProps> = React.createElement(
+    const element: React.ReactElement = React.createElement(
       PeoplePickerDisplay,
       {
         context: this.context,

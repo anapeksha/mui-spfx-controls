@@ -2,8 +2,8 @@ import * as React from 'react';
 import * as dayjs from 'dayjs';
 import { useState, useEffect } from 'react';
 import { Logger } from '@pnp/logging';
-import { IListFormProps } from '../types';
-import { ListService } from '../services';
+import { IListFormProps } from './IListFormProps';
+import { ListService } from '../../services';
 import { IFieldInfo } from '@pnp/sp/fields';
 import {
   Unstable_Grid2 as Grid,
@@ -21,7 +21,7 @@ import {
 } from '@mui/material';
 import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { PeoplePicker } from './PeoplePicker';
+import { PeoplePicker } from '../PeoplePicker/PeoplePicker';
 import { Close, Save } from '@mui/icons-material';
 
 export const ListForm: React.FC<IListFormProps> = ({

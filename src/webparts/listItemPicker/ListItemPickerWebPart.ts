@@ -19,7 +19,6 @@ import {
 } from '@pnp/spfx-property-controls';
 import * as strings from 'ListItemPickerWebPartStrings';
 import ListItemPicker from './ListItemPickerDisplay';
-import { IListItemPickerProps } from '../../types';
 
 export interface IListItemPickerWebPartProps {
   list: string;
@@ -35,19 +34,18 @@ export interface IListItemPickerWebPartProps {
 
 export default class ListItemPickerWebPart extends BaseClientSideWebPart<IListItemPickerWebPartProps> {
   public render(): void {
-    const element: React.ReactElement<IListItemPickerProps> =
-      React.createElement(ListItemPicker, {
-        context: this.context,
-        list: this.properties.list,
-        fields: this.properties.fields,
-        displayField: this.properties.displayField,
-        searchSuggestionLimit: this.properties.searchSuggestionLimit,
-        label: this.properties.label,
-        disabled: this.properties.disabled,
-        size: this.properties.size,
-        color: this.properties.color,
-        variant: this.properties.variant,
-      });
+    const element: React.ReactElement = React.createElement(ListItemPicker, {
+      context: this.context,
+      list: this.properties.list,
+      fields: this.properties.fields,
+      displayField: this.properties.displayField,
+      searchSuggestionLimit: this.properties.searchSuggestionLimit,
+      label: this.properties.label,
+      disabled: this.properties.disabled,
+      size: this.properties.size,
+      color: this.properties.color,
+      variant: this.properties.variant,
+    });
 
     ReactDom.render(element, this.domElement);
   }

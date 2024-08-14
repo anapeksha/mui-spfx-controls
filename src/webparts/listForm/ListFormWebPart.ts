@@ -5,7 +5,10 @@ import {
   PropertyPaneTextField,
   type IPropertyPaneConfiguration,
 } from '@microsoft/sp-property-pane';
-import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
+import {
+  BaseClientSideWebPart,
+  WebPartContext,
+} from '@microsoft/sp-webpart-base';
 import {
   IColumnReturnProperty,
   PropertyFieldColumnPicker,
@@ -16,25 +19,33 @@ import {
 import { PropertyPaneDropdown } from '@microsoft/sp-property-pane';
 import * as strings from 'ListFormWebPartStrings';
 import ListFormDisplay from './ListFormDisplay';
-import { IListFormProps } from '../../types';
+import { GridProps, PaperProps, TextFieldProps } from '@mui/material';
 
-export interface IListFormWebPartProps extends IListFormProps {}
+export interface IListFormWebPartProps {
+  context: WebPartContext;
+  list: string;
+  fields: string[];
+  onSave?: (formData: Record<string, any>) => void;
+  onCancel?: () => void;
+  paperVariant?: PaperProps['variant'];
+  paperElevation?: PaperProps['elevation'];
+  inputVariant?: TextFieldProps['variant'];
+  inputSize?: TextFieldProps['size'];
+  fieldSpacing?: GridProps['spacing'];
+}
 
 export default class ListFormWebPart extends BaseClientSideWebPart<IListFormWebPartProps> {
   public render(): void {
-    const element: React.ReactElement<IListFormProps> = React.createElement(
-      ListFormDisplay,
-      {
-        context: this.context,
-        list: this.properties.list,
-        fields: this.properties.fields,
-        paperVariant: this.properties.paperVariant,
-        paperElevation: this.properties.paperElevation,
-        inputVariant: this.properties.inputVariant,
-        inputSize: this.properties.inputSize,
-        fieldSpacing: this.properties.fieldSpacing,
-      }
-    );
+    const element: React.ReactElement = React.createElement(ListFormDisplay, {
+      context: this.context,
+      list: this.properties.list,
+      fields: this.properties.fields,
+      paperVariant: this.properties.paperVariant,
+      paperElevation: this.properties.paperElevation,
+      inputVariant: this.properties.inputVariant,
+      inputSize: this.properties.inputSize,
+      fieldSpacing: this.properties.fieldSpacing,
+    });
     ReactDom.render(element, this.domElement);
   }
 

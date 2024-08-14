@@ -6,7 +6,7 @@ import {
   TextFieldVariants,
 } from '@mui/material';
 import { CSSProperties, ReactNode } from 'react';
-import { IExtendedPeoplePickerEntity } from '../IExtendedPeoplePicker';
+import { IExtendedPeoplePickerEntity } from './IExtendedPeoplePicker';
 
 type AutocompleteBaseProps = AutocompleteProps<
   IExtendedPeoplePickerEntity | IExtendedPeoplePickerEntity[],

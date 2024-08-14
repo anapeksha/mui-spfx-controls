@@ -1,8 +1,7 @@
 import { ThemeProvider } from '@mui/material';
 import * as React from 'react';
-import { Dashboard } from '../../components';
+import { Dashboard, type IDashboardProps } from '../../components';
 import { theme } from '../../config';
-import { IDashboardProps } from '../../types';
 
 const DashboardDisplay: React.FC<IDashboardProps> = (props) => {
   return (

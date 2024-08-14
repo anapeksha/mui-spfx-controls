@@ -11,9 +11,9 @@ import {
 import { Logger } from '@pnp/logging';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import { ListService } from '../services';
-import { IDashboardProps } from '../types';
-import { generateDashboardColumn } from '../utils';
+import { ListService } from '../../services';
+import { IDashboardProps } from './IDashboardProps';
+import { generateDashboardColumn } from '../../utils';
 
 export const Dashboard: React.FC<IDashboardProps> = ({
   context,

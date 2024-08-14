@@ -1,5 +1,4 @@
 import * as React from 'react';
-
 import {
   Autocomplete,
   Avatar,
@@ -13,9 +12,10 @@ import {
 import { AccountCircle } from '@mui/icons-material';
 import { FC, useEffect, useState } from 'react';
 import { Logger } from '@pnp/logging';
-import { IExtendedPeoplePickerEntity, IPeoplePickerProps } from '../types';
-import { PeopleSearchService } from '../services';
-import { handleDuplicates } from '../utils';
+import type { IPeoplePickerProps } from './IPeoplePickerProps';
+import type { IExtendedPeoplePickerEntity } from './IExtendedPeoplePicker';
+import { PeopleSearchService } from '../../services';
+import { handleDuplicates } from '../../utils';
 
 export const PeoplePicker: FC<IPeoplePickerProps> = ({
   context,

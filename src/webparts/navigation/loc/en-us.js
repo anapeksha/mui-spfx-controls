@@ -1,6 +1,6 @@
 define([], function () {
   return {
-    PropertyPaneDescription: 'Description',
-    BasicGroupName: 'Group Name',
+    PropertyPaneDescription: 'Webpart to render multi level navigation',
+    BasicGroupName: 'Properties',
   };
 });
