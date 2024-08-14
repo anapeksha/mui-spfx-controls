@@ -3,6 +3,12 @@ declare interface IDashboardWebPartStrings {
   BasicGroupName: string;
   ListFieldLabel: string;
   ColumnsFieldLabel: string;
+  ColumnActionFieldLabel: string;
+  DensityActionFieldLabel: string;
+  ExportActionFieldLabel: string;
+  TabActionFieldLabel: string;
+  TabValueFieldLabel: string;
+  SearchActionFieldLabel: string;
   HeightFieldLabel: string;
   HeightFieldDescription: string;
 }

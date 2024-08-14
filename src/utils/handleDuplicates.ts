@@ -1,4 +1,4 @@
-import { IExtendedPeoplePickerEntity } from '../types';
+import { IExtendedPeoplePickerEntity } from '../components/PeoplePicker/IExtendedPeoplePicker';
 
 const listContainsPeople = (
   user: IExtendedPeoplePickerEntity,

@@ -2,8 +2,8 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { Autocomplete, TextField, Skeleton } from '@mui/material';
 import { Logger } from '@pnp/logging';
-import { IListItemPickerProps } from '../types';
-import { ListService } from '../services';
+import { IListItemPickerProps } from './IListItemPickerProps';
+import { ListService } from '../../services';
 
 export const ListItemPicker: React.FC<IListItemPickerProps> = ({
   context,

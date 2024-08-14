@@ -1,6 +1,6 @@
 import { BoxProps } from '@mui/material';
 import { TreeItemProps, TreeViewProps } from '@mui/x-tree-view';
-import { INavigationModel } from '../INavigationModel';
+import { INavigationModel } from './INavigationModel';
 
 type TreeViewBaseProps = TreeViewProps<false>;
 
