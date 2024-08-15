@@ -43,15 +43,17 @@ const CustomGridToolbar = ({
   onSearch: () => void;
 }): JSX.Element => {
   return (
-    <Box rowGap={1.5}>
-      <GridToolbarContainer>
-        {columnAction ? <GridToolbarColumnsButton /> : null}
-        {densityAction ? <GridToolbarDensitySelector /> : null}
-        {filterAction ? <GridToolbarFilterButton /> : null}
-        {exportAction ? <GridToolbarExport /> : null}
-      </GridToolbarContainer>
-      <GridToolbarContainer>
-        {searchAction ? (
+    <Box display="flex" flexDirection="column" rowGap={1}>
+      {columnAction || densityAction || filterAction || exportAction ? (
+        <GridToolbarContainer>
+          {columnAction ? <GridToolbarColumnsButton /> : null}
+          {densityAction ? <GridToolbarDensitySelector /> : null}
+          {filterAction ? <GridToolbarFilterButton /> : null}
+          {exportAction ? <GridToolbarExport /> : null}
+        </GridToolbarContainer>
+      ) : null}
+      {searchAction ? (
+        <GridToolbarContainer>
           <Paper
             component="form"
             sx={{
@@ -77,10 +79,10 @@ const CustomGridToolbar = ({
               <Search />
             </IconButton>
           </Paper>
-        ) : null}
-      </GridToolbarContainer>
-      <GridToolbarContainer sx={{ mb: -1.5 }}>
-        {tabAction ? (
+        </GridToolbarContainer>
+      ) : null}
+      {tabAction ? (
+        <GridToolbarContainer>
           <Tabs
             value={currentTabValue}
             onChange={(event, value) => onTabChange(value)}
@@ -92,13 +94,15 @@ const CustomGridToolbar = ({
                   key={index}
                   label={value.label}
                   value={value}
-                  color={value.color}
                   disabled={value.disabled}
+                  wrapped={value.wrapped}
+                  icon={value.icon}
+                  iconPosition={value.iconPosition}
                 />
               ))}
           </Tabs>
-        ) : null}
-      </GridToolbarContainer>
+        </GridToolbarContainer>
+      ) : null}
     </Box>
   );
 };
@@ -134,7 +138,6 @@ export const Dashboard: React.FC<IDashboardProps> = ({
       .getListFields(fields)
       .then((response) => {
         const tempColumns: GridColDef[] = [];
-        console.log(response);
         [...response].forEach((value) => {
           const index = currentTabValue
             ? currentTabValue.displayFields.indexOf(value.InternalName)
@@ -253,9 +256,10 @@ export const Dashboard: React.FC<IDashboardProps> = ({
             tabAction: tabAction,
             searchAction: searchAction,
             tabValue: tabValue,
+            currentTabValue: currentTabValue,
             onTabChange: handleTabChange,
-            onSearch: handleSearch,
             onQueryChange: handleSearchQueryChange,
+            onSearch: handleSearch,
           },
         }}
         sx={sx}
