@@ -33,6 +33,14 @@
           "manifest": "./src/webparts/listItemPicker/ListItemPickerWebPart.manifest.json"
         }
       ]
+    },
+    "navigation-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/navigation/NavigationWebPart.js",
+          "manifest": "./src/webparts/navigation/NavigationWebPart.manifest.json"
+        }
+      ]
     }
   },
   "externals": {},
@@ -41,6 +49,7 @@
     "DashboardWebPartStrings": "lib/webparts/dashboard/loc/{locale}.js",
     "PropertyControlStrings": "node_modules/@pnp/spfx-property-controls/lib/loc/{locale}.js",
     "ListFormWebPartStrings": "lib/webparts/listForm/loc/{locale}.js",
-    "ListItemPickerWebPartStrings": "lib/webparts/listItemPicker/loc/{locale}.js"
+    "ListItemPickerWebPartStrings": "lib/webparts/listItemPicker/loc/{locale}.js",
+    "SitePickerWebPartStrings": "lib/webparts/navigation/loc/{locale}.js"
   }
 }

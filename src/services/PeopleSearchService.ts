@@ -2,7 +2,7 @@ import { WebPartContext } from '@microsoft/sp-webpart-base';
 import { SPFI } from '@pnp/sp';
 import { IPeoplePickerEntity } from '@pnp/sp/profiles';
 import { getSP } from '../config';
-import { IExtendedPeoplePickerEntity } from '../types';
+import { IExtendedPeoplePickerEntity } from '../components/PeoplePicker/IExtendedPeoplePicker';
 import { generateImageUrl } from '../utils';
 
 class PeopleSearchService {

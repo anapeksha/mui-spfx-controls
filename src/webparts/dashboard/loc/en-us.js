@@ -5,6 +5,11 @@ define([], function () {
     BasicGroupName: 'Properties',
     ListFieldLabel: 'Select a List',
     ColumnsFieldLabel: 'Select List Columns',
+    ExportActionFieldLabel: 'Enable Export',
+    TabActionFieldLabel: 'Enable Tabs',
+    SearchActionFieldLabel: 'Enable Search',
+    DensityActionFieldLabel: 'Enable Density',
+    ColumnActionFieldLabel: 'Enable Columns',
     HeightFieldLabel: 'Container Height',
     HeightFieldDescription:
       'Height of the container in absolute or relative terms',

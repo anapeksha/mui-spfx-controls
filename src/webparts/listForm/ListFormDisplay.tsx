@@ -1,8 +1,7 @@
 import { ThemeProvider } from '@mui/material';
 import * as React from 'react';
-import { ListForm } from '../../components';
+import { ListForm, type IListFormProps } from '../../components';
 import { theme } from '../../config';
-import { IListFormProps } from '../../types';
 
 const ListFormDisplay: React.FC<IListFormProps> = (props) => {
   return (
