@@ -57,6 +57,12 @@ export default class DashboardWebPart extends BaseClientWebPart {
         context: this.context,
         list: "ListName",
         fields: ["Field1", "Field2", "Field3", "Field4"],
+        columnAction: false,
+        exportAction: true,
+        tabAction: true,
+        densityAction: false,
+        searchAction: true,
+        tabValue: [{fieldToMatch: "Field1", stringToMatch: "Test", label: "Tab1"}],
         height: 750,
       }
     );
@@ -118,6 +124,25 @@ export default class ListFormWebPart extends BaseClientWebPart {
 }
 ```
 
+```JSX
+import * as React from 'react';
+import * as ReactDom from "react-dom";
+import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
+import { Navigation, INavigationProps } from 'mui-spfx-controls';
+
+export default class PeoplePickerWebPart extends BaseClientWebPart {
+  public render(): void {
+    const element: React.ReactElement<INavigationProps> = React.createElement(
+      Navigation,
+      {
+        items: [{id: 'iron_man', label: 'Iron Man', children: [{ id: 'iron_man_1', label: 'Iron Man (2008)', link: 'https://www.imdb.com/title/tt0371746/' }]}],
+      }
+    );
+    ReactDom.render(element, this.domElement);
+  }
+}
+```
+
 ## Components
 
 ### PeoplePicker
@@ -150,6 +175,13 @@ A dashboard component with MUI Data Grid
 - context (required): SP context
 - list (required): SharePoint list to pull data from
 - fields (required): Internal Name of fields to display in dashboard
+- columnAction (optional): Enable/Disable column on/off feature
+- densityAction (optional): Enable/Disable column density
+- filterAction (optional): Enable/Disable filtering
+- exportAction (optional): Enable/Disable export functionality
+- searchAction (optional): Enable/Disable search functionality
+- tabAction (optional): Enable/Disable tab feature
+- tabValue (required if tabAction is true): Array object for Tabs
 - height (optional): Absolute or relative container height
 - sx (optional): MUI's sx prop
 
@@ -187,6 +219,18 @@ A List Item Picker component with MUI integration
 - size (optional): Size of component
 - LoadingComponent (optional): A loading component
 - color (optional): Button color, e.g., "primary" or "secondary"
+- sx (optional): MUI's sx prop
+
+### Navigation
+
+A Navigation component with MUI integration using MUI TreeView
+
+#### Props
+
+- context (required): SP context
+- items (required): Array object to dynamically create the navigation tree
+- itemProps (optional): Props for Tree Item
+- viewProps (optional): Props for Tree View
 - sx (optional): MUI's sx prop
 
 ## Development
