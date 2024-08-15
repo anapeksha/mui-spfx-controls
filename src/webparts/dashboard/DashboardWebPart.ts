@@ -121,7 +121,7 @@ export default class DashboardWebPart extends BaseClientSideWebPart<IDashboardWe
                   label: strings.DensityActionFieldLabel,
                 }),
                 PropertyFieldMonacoEditor('tabValue', {
-                  key: 'tabString-editor',
+                  key: 'tabValue-editor',
                   language: Elanguages.json,
                   value: this.properties.tabValue,
                   showLineNumbers: true,
