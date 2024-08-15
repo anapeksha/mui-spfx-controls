@@ -11,7 +11,7 @@ import {
 } from '@mui/x-data-grid';
 import { Logger } from '@pnp/logging';
 import * as React from 'react';
-import { useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ListService } from '../../services';
 import { generateDashboardColumn } from '../../utils';
 import { IDashboardProps } from './IDashboardProps';
@@ -75,7 +75,12 @@ const CustomGridToolbar = ({
               onChange={(event) => onQueryChange(event.target.value)}
               fullWidth
             />
-            <IconButton type="submit" sx={{ p: '10px' }} aria-label="search">
+            <IconButton
+              type="submit"
+              sx={{ p: '10px' }}
+              aria-label="search"
+              color="primary"
+            >
               <Search />
             </IconButton>
           </Paper>
@@ -132,7 +137,7 @@ export const Dashboard: React.FC<IDashboardProps> = ({
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(false);
 
-  useMemo(() => {
+  useEffect(() => {
     setLoading(true);
     listService
       .getListFields(fields)
@@ -162,8 +167,9 @@ export const Dashboard: React.FC<IDashboardProps> = ({
               currentTabValue
                 ? [...itemResponse].filter(
                     (value) =>
-                      value[currentTabValue.fieldToMatch] ===
-                      currentTabValue.stringToMatch
+                      String(value[currentTabValue.fieldToMatch]).indexOf(
+                        currentTabValue.stringToMatch
+                      ) !== -1
                   )
                 : [...itemResponse]
             );
@@ -183,8 +189,9 @@ export const Dashboard: React.FC<IDashboardProps> = ({
     const filteredRows = currentTabValue
       ? [...cachedRows].filter(
           (value) =>
-            value[currentTabValue.fieldToMatch] ===
-            currentTabValue.stringToMatch
+            String(value[currentTabValue.fieldToMatch]).indexOf(
+              currentTabValue.stringToMatch
+            ) !== -1
         )
       : [...cachedRows];
     [...cachedColumns].forEach((value) => {
@@ -195,7 +202,6 @@ export const Dashboard: React.FC<IDashboardProps> = ({
         tempColumns[index] = value;
       }
     });
-    console.log(filteredRows);
     setColumns(tempColumns);
     setRows(filteredRows);
     setCurrentTabValue(currentTabValue);
