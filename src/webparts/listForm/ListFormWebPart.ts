@@ -1,7 +1,6 @@
-import * as React from 'react';
-import * as ReactDom from 'react-dom';
 import { Version } from '@microsoft/sp-core-library';
 import {
+  PropertyPaneDropdown,
   PropertyPaneTextField,
   type IPropertyPaneConfiguration,
 } from '@microsoft/sp-property-pane';
@@ -9,6 +8,7 @@ import {
   BaseClientSideWebPart,
   WebPartContext,
 } from '@microsoft/sp-webpart-base';
+import { GridProps, PaperProps, TextFieldProps } from '@mui/material';
 import {
   IColumnReturnProperty,
   PropertyFieldColumnPicker,
@@ -16,17 +16,17 @@ import {
   PropertyFieldListPicker,
   PropertyFieldListPickerOrderBy,
 } from '@pnp/spfx-property-controls';
-import { PropertyPaneDropdown } from '@microsoft/sp-property-pane';
 import * as strings from 'ListFormWebPartStrings';
+import * as React from 'react';
+import * as ReactDom from 'react-dom';
 import ListFormDisplay from './ListFormDisplay';
-import { GridProps, PaperProps, TextFieldProps } from '@mui/material';
 
 export interface IListFormWebPartProps {
   context: WebPartContext;
   list: string;
   fields: string[];
-  onSave?: (formData: Record<string, any>) => void;
-  onCancel?: () => void;
+  onSave: (formData: Record<string, any>) => void;
+  onCancel: () => void;
   paperVariant?: PaperProps['variant'];
   paperElevation?: PaperProps['elevation'];
   inputVariant?: TextFieldProps['variant'];
@@ -35,6 +35,12 @@ export interface IListFormWebPartProps {
 }
 
 export default class ListFormWebPart extends BaseClientSideWebPart<IListFormWebPartProps> {
+  private handleSave(formData: Record<string, any>): void {
+    console.log(formData);
+  }
+  private handleCancel(): void {
+    return;
+  }
   public render(): void {
     const element: React.ReactElement = React.createElement(ListFormDisplay, {
       context: this.context,
@@ -45,6 +51,8 @@ export default class ListFormWebPart extends BaseClientSideWebPart<IListFormWebP
       inputVariant: this.properties.inputVariant,
       inputSize: this.properties.inputSize,
       fieldSpacing: this.properties.fieldSpacing,
+      onSave: this.handleSave,
+      onCancel: this.handleCancel,
     });
     ReactDom.render(element, this.domElement);
   }
