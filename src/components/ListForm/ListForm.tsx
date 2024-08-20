@@ -46,7 +46,6 @@ export const ListForm: React.FC<IListFormProps> = ({
     listService
       .getListFields(fields)
       .then((response) => {
-        console.log(response);
         setFilteredFields(response);
         setLoading(false);
       })
@@ -65,9 +64,29 @@ export const ListForm: React.FC<IListFormProps> = ({
     } else {
       return filteredFields.map((field, index) => {
         switch (field.TypeAsString) {
+          case 'Text':
+            return (
+              <Grid key={`grid-${field.Id}-${index}`} width="100%">
+                <TextField
+                  label={field.Title}
+                  name={field.InternalName}
+                  required={field.Required}
+                  variant={inputVariant}
+                  size={inputSize}
+                  fullWidth
+                  disabled={field.ReadOnlyField}
+                  onChange={(event) =>
+                    setFormData({
+                      ...formData,
+                      [field.InternalName]: event.target.value,
+                    })
+                  }
+                />
+              </Grid>
+            );
           case 'User':
             return (
-              <Grid key={`grid-${field.Id}-index`} width="100%">
+              <Grid key={`grid-${field.Id}-${index}`} width="100%">
                 <PeoplePicker
                   context={context}
                   label={field.Title}
@@ -89,7 +108,7 @@ export const ListForm: React.FC<IListFormProps> = ({
             );
           case 'UserMulti':
             return (
-              <Grid key={`grid-${field.Id}-index`} width="100%">
+              <Grid key={`grid-${field.Id}-${index}`} width="100%">
                 <PeoplePicker
                   context={context}
                   label={field.Title}
@@ -111,7 +130,7 @@ export const ListForm: React.FC<IListFormProps> = ({
             );
           case 'Choice':
             return (
-              <Grid key={`grid-${field.Id}-index`} width="100%">
+              <Grid key={`grid-${field.Id}-${index}`} width="100%">
                 <TextField
                   label={field.Title}
                   name={field.InternalName}
@@ -138,7 +157,7 @@ export const ListForm: React.FC<IListFormProps> = ({
             );
           case 'MultiChoice':
             return (
-              <Grid key={`grid-${field.Id}-index`} width="100%">
+              <Grid key={`grid-${field.Id}-${index}`} width="100%">
                 <TextField
                   label={field.Title}
                   name={field.InternalName}
@@ -170,7 +189,7 @@ export const ListForm: React.FC<IListFormProps> = ({
             );
           case 'DateTime':
             return (
-              <Grid key={`grid-${field.Id}-index`} width="100%">
+              <Grid key={`grid-${field.Id}-${index}`} width="100%">
                 <DateTimePicker
                   label={field.Title}
                   name={field.InternalName}
@@ -194,7 +213,7 @@ export const ListForm: React.FC<IListFormProps> = ({
             );
           case 'Boolean':
             return (
-              <Grid key={`grid-${field.Id}-index`} width="100%">
+              <Grid key={`grid-${field.Id}-${index}`} width="100%">
                 <FormControlLabel
                   required={field.Required}
                   name={field.InternalName}
@@ -212,19 +231,37 @@ export const ListForm: React.FC<IListFormProps> = ({
             );
           case 'Lookup':
             return (
-              <Grid key={`grid-${field.Id}-index`} width="100%">
+              <Grid key={`grid-${field.Id}-${index}`} width="100%">
                 <p>{(field as any).LookupList}</p>
+              </Grid>
+            );
+          case 'Counter':
+            return (
+              <Grid key={`grid-${field.Id}-${index}`} width="100%">
+                <Card
+                  sx={{
+                    backgroundColor: (theme) => theme.palette.primary.main,
+                    color: (theme) => theme.palette.common.white,
+                  }}
+                >
+                  <CardHeader
+                    title={`Counter Type, Title - ${field.Title}`}
+                    titleTypographyProps={{ variant: 'h6' }}
+                  />
+                </Card>
               </Grid>
             );
           default:
             return (
-              <Grid key={`grid-not-implemented-${field.Id}-index`} width="100%">
+              <Grid
+                key={`grid-not-implemented-${field.Id}-${index}`}
+                width="100%"
+              >
                 <Card
                   sx={{
                     backgroundColor: (theme) => theme.palette.error.main,
                     color: (theme) => theme.palette.common.white,
                   }}
-                  // variant="outlined"
                 >
                   <CardHeader title="Yet to be implemented!" />
                 </Card>
@@ -238,21 +275,12 @@ export const ListForm: React.FC<IListFormProps> = ({
   const handleSave = (): void => {
     if (onSave) {
       onSave(formData);
-    } else {
-      console.log(formData);
-      // listService.createListItem(formData).then((response)=>{
-      //   Logger.log(response);
-      // }).catch((error)=>{
-      //   Logger.error(error)
-      // })
     }
   };
 
   const handleClose = (): void => {
     if (onCancel) {
       onCancel();
-    } else {
-      window.open(new URL(context.pageContext.site.absoluteUrl));
     }
   };
 
