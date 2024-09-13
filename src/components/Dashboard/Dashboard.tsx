@@ -243,6 +243,7 @@ export const Dashboard: React.FC<IDashboardProps> = ({
       <DataGrid
         loading={loading}
         getRowId={(row) => row.Id}
+        getRowHeight={() => 'auto'}
         columns={columns}
         rows={rows}
         initialState={{
