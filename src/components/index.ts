@@ -8,6 +8,8 @@ import type { INavigationProps } from './Navigation/INavigationProps';
 import Navigation from './Navigation/Navigation';
 import type { IPeoplePickerProps } from './PeoplePicker/IPeoplePickerProps';
 import PeoplePicker from './PeoplePicker/PeoplePicker';
+import SearchBar from './SearchBar/SearchBar';
+import type { ISearchBarProps } from './SearchBar/ISearchBarProps';
 
 export {
   Dashboard,
@@ -15,9 +17,11 @@ export {
   ListItemPicker,
   Navigation,
   PeoplePicker,
+  SearchBar,
   type IDashboardProps,
   type IListFormProps,
   type IListItemPickerProps,
   type INavigationProps,
   type IPeoplePickerProps,
+  type ISearchBarProps,
 };
