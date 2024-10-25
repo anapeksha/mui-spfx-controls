@@ -2,12 +2,13 @@ import {
   Autocomplete,
   CircularProgress,
   ListItem,
+  ListItemText,
   TextField,
 } from '@mui/material';
+import { ISearchResult } from '@pnp/sp/search';
 import debounce from 'lodash/debounce';
 import React, { Fragment, useEffect, useState } from 'react';
 import { SearchService } from '../../services';
-import { ISearchResult } from '@pnp/sp/search';
 import { ISearchBarProps } from './ISearchBarProps';
 
 const SearchBar: React.FC<ISearchBarProps> = ({
@@ -54,6 +55,7 @@ const SearchBar: React.FC<ISearchBarProps> = ({
       onOpen={() => setOpen(true)}
       onClose={() => setOpen(false)}
       onInputChange={handleInputChange}
+      getOptionLabel={(option) => option.Title as string}
       options={options}
       loading={loading}
       onChange={(_, selectedResult) =>
@@ -83,7 +85,9 @@ const SearchBar: React.FC<ISearchBarProps> = ({
         />
       )}
       renderOption={(props, option) => (
-        <ListItem {...props}>{option.Title}</ListItem>
+        <ListItem {...props}>
+          <ListItemText primary={option.Title} secondary={option.Author} />
+        </ListItem>
       )}
       ListboxProps={{ sx: { maxHeight: 500 } }}
     />
