@@ -1,20 +1,24 @@
+import { Description, Folder } from '@mui/icons-material';
 import {
   Autocomplete,
   CircularProgress,
   ListItem,
+  ListItemIcon,
   ListItemText,
   TextField,
 } from '@mui/material';
 import { ISearchResult } from '@pnp/sp/search';
 import debounce from 'lodash/debounce';
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { FC, Fragment, useEffect, useState } from 'react';
 import { SearchService } from '../../services';
 import { ISearchBarProps } from './ISearchBarProps';
 
-const SearchBar: React.FC<ISearchBarProps> = ({
+const SearchBar: FC<ISearchBarProps> = ({
+  label,
+  fullWidth,
+  required,
   context,
   onSearchResultSelect,
-  required,
 }) => {
   const [options, setOptions] = useState<ISearchResult[]>([]);
   const [loading, setLoading] = useState(false);
@@ -52,24 +56,26 @@ const SearchBar: React.FC<ISearchBarProps> = ({
   return (
     <Autocomplete
       open={open}
+      fullWidth={fullWidth}
       onOpen={() => setOpen(true)}
       onClose={() => setOpen(false)}
       onInputChange={handleInputChange}
       getOptionLabel={(option) => option.Title as string}
       options={options}
       loading={loading}
-      onChange={(_, selectedResult) =>
-        onSearchResultSelect ? onSearchResultSelect(selectedResult) : null
+      onChange={(_, selectedResult, reason) =>
+        onSearchResultSelect
+          ? onSearchResultSelect(selectedResult, reason)
+          : null
       }
       popupIcon={null}
       renderInput={(params) => (
         <TextField
           {...params}
-          label="Search"
+          label={label ? label : 'Search'}
           variant="outlined"
           required={required}
           error={error !== null}
-          fullWidth
           helperText={error !== null ? 'Error searching' : ''}
           InputProps={{
             ...params.InputProps,
@@ -85,7 +91,11 @@ const SearchBar: React.FC<ISearchBarProps> = ({
         />
       )}
       renderOption={(props, option) => (
-        <ListItem {...props}>
+        <ListItem {...props} key={option.UniqueId}>
+          <ListItemIcon>
+            {(option.IsDocument as any) === 'true' && <Description />}
+            {(option.IsContainer as any) === 'true' && <Folder />}
+          </ListItemIcon>
           <ListItemText primary={option.Title} secondary={option.Author} />
         </ListItem>
       )}
