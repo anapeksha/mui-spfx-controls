@@ -1,7 +1,7 @@
 import { WebPartContext } from '@microsoft/sp-webpart-base';
 import { SPFI } from '@pnp/sp';
+import { SearchResults } from '@pnp/sp/search';
 import { getSP } from '../config';
-import { ISearchResult, SearchResults } from '@pnp/sp/search';
 
 class SearchService {
   private sp: SPFI;
@@ -20,26 +20,6 @@ class SearchService {
           RowLimit: searchLimit,
           EnableInterleaving: true,
           TrimDuplicates: true,
-        })
-        .then((response) => {
-          resolve(response);
-        })
-        .catch((error) => {
-          reject(error);
-        });
-    });
-  }
-
-  public async searchSuggest(
-    query: string,
-    page: number,
-    pageSize: number
-  ): Promise<ISearchResult> {
-    return new Promise<any>((resolve, reject) => {
-      this.sp
-        .searchSuggest({
-          querytext: query,
-          count: 5,
         })
         .then((response) => {
           resolve(response);
