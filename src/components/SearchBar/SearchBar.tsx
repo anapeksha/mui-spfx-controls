@@ -7,6 +7,7 @@ import {
   ListItemText,
   TextField,
 } from '@mui/material';
+import { Logger } from '@pnp/logging';
 import { ISearchResult } from '@pnp/sp/search';
 import debounce from 'lodash/debounce';
 import React, { FC, Fragment, useEffect, useState } from 'react';
@@ -38,6 +39,7 @@ const SearchBar: FC<ISearchBarProps> = ({
           setOpen(true);
         })
         .catch((error) => {
+          Logger.error(error);
           setError(error);
           setLoading(false);
         });
