@@ -130,12 +130,35 @@ import * as ReactDom from "react-dom";
 import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 import { Navigation, INavigationProps } from 'mui-spfx-controls';
 
-export default class PeoplePickerWebPart extends BaseClientWebPart {
+export default class NavigationWebPart extends BaseClientWebPart {
   public render(): void {
     const element: React.ReactElement<INavigationProps> = React.createElement(
       Navigation,
       {
         items: [{id: 'iron_man', label: 'Iron Man', children: [{ id: 'iron_man_1', label: 'Iron Man (2008)', link: 'https://www.imdb.com/title/tt0371746/' }]}],
+      }
+    );
+    ReactDom.render(element, this.domElement);
+  }
+}
+```
+
+```JSX
+import * as React from 'react';
+import * as ReactDom from "react-dom";
+import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
+import { SearchBar, ISearchBarProps } from 'mui-spfx-controls';
+
+export default class SearchBarWebPart extends BaseClientWebPart {
+  public render(): void {
+    const element: React.ReactElement<ISearchBarProps> = React.createElement(
+      SearchBar,
+      {
+        context: this.context,
+        label: "Search",
+        size: "small",
+        scope: "https://acme.sharepoint.com/sites/include",
+        excludedScope: "https://acme.sharepoint.com/sites/exclude",
       }
     );
     ReactDom.render(element, this.domElement);
@@ -163,7 +186,6 @@ A SharePoint people picker component with MUI library integration
 - tagColor (optional): Chip color, e.g., "default" or "secondary"
 - size (optional): Size of component
 - LoadingComponent (optional): A loading component
-- styles (optional): Styles to apply
 - sx (optional): MUI's sx prop
 
 ### Dashboard
@@ -231,6 +253,22 @@ A Navigation component with MUI integration using MUI TreeView
 - items (required): Array object to dynamically create the navigation tree
 - itemProps (optional): Props for Tree Item
 - viewProps (optional): Props for Tree View
+- sx (optional): MUI's sx prop
+
+### SearchBar
+
+A search bar component with MUI library integration
+
+#### Props
+
+- context (required): SP context
+- label (optional): Textfield label
+- onSearchResultSelect (optional): Get selection value updates
+- variant (optional): Textfield variant ('standard', 'outlined', 'filled')
+- size (optional): Size of component
+- color (optional): Button color, e.g., "primary" or "secondary"
+- scope (optional): Search scope (URL)
+- excludedScope (optional): Search scope to exclude (URL)
 - sx (optional): MUI's sx prop
 
 ## Development

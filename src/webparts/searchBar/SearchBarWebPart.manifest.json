@@ -1,0 +1,37 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx/client-side-web-part-manifest.schema.json",
+  "id": "7530dbd7-0aeb-49f6-b198-79745da01b40",
+  "alias": "SearchBarWebPart",
+  "componentType": "WebPart",
+  "version": "*",
+  "manifestVersion": 2,
+  "requiresCustomScript": false,
+  "supportsFullBleed": true,
+  "supportedHosts": [
+    "SharePointWebPart",
+    "TeamsPersonalApp",
+    "TeamsTab",
+    "SharePointFullPage"
+  ],
+  "supportsThemeVariants": true,
+  "preconfiguredEntries": [
+    {
+      "groupId": "5c03119e-3074-46fd-976b-c60198311f70",
+      "group": {
+        "default": "Advanced"
+      },
+      "title": {
+        "default": "MUI SearchBar"
+      },
+      "description": {
+        "default": "Scoped Search Bar component with Material UI"
+      },
+      "officeFabricIconFontName": "Search",
+      "properties": {
+        "label": "Search",
+        "size": "medium",
+        "variant": "outlined"
+      }
+    }
+  ]
+}

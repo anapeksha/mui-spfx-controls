@@ -1,11 +1,10 @@
-import * as React from 'react';
-import { useState, useEffect } from 'react';
-import { Autocomplete, TextField, Skeleton } from '@mui/material';
+import { Autocomplete, Skeleton, TextField } from '@mui/material';
 import { Logger } from '@pnp/logging';
-import { IListItemPickerProps } from './IListItemPickerProps';
+import React, { FC, useEffect, useState } from 'react';
 import { ListService } from '../../services';
+import { IListItemPickerProps } from './IListItemPickerProps';
 
-export const ListItemPicker: React.FC<IListItemPickerProps> = ({
+export const ListItemPicker: FC<IListItemPickerProps> = ({
   context,
   label,
   list,

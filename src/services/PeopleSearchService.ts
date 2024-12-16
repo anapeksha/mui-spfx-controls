@@ -1,5 +1,5 @@
 import { WebPartContext } from '@microsoft/sp-webpart-base';
-import { SPFI } from '@pnp/sp';
+import { PrincipalSource, PrincipalType, SPFI } from '@pnp/sp';
 import { IPeoplePickerEntity } from '@pnp/sp/profiles';
 import { getSP } from '../config';
 import { IExtendedPeoplePickerEntity } from '../components/PeoplePicker/IExtendedPeoplePicker';
@@ -31,8 +31,8 @@ class PeopleSearchService {
           AllowMultipleEntities: false,
           AllUrlZones: false,
           MaximumEntitySuggestions: maximumSuggestions || 25,
-          PrincipalSource: 15,
-          PrincipalType: 1,
+          PrincipalSource: PrincipalSource.All,
+          PrincipalType: PrincipalType.All,
           QueryString: query,
         })
         .then((response) => {

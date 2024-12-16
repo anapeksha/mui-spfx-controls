@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { AccountCircle } from '@mui/icons-material';
 import {
   Autocomplete,
   Avatar,
@@ -9,13 +9,13 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { AccountCircle } from '@mui/icons-material';
-import { FC, useEffect, useState } from 'react';
 import { Logger } from '@pnp/logging';
-import type { IPeoplePickerProps } from './IPeoplePickerProps';
-import type { IExtendedPeoplePickerEntity } from './IExtendedPeoplePicker';
+import * as React from 'react';
+import { FC, useEffect, useState } from 'react';
 import { PeopleSearchService } from '../../services';
 import { handleDuplicates } from '../../utils';
+import type { IExtendedPeoplePickerEntity } from './IExtendedPeoplePicker';
+import type { IPeoplePickerProps } from './IPeoplePickerProps';
 
 export const PeoplePicker: FC<IPeoplePickerProps> = ({
   context,
@@ -32,7 +32,6 @@ export const PeoplePicker: FC<IPeoplePickerProps> = ({
   tagColor,
   size,
   LoadingComponent,
-  styles,
   name,
   fullWidth,
   sx,
@@ -84,7 +83,6 @@ export const PeoplePicker: FC<IPeoplePickerProps> = ({
       size={size}
       loading={loading}
       disabled={disabled}
-      style={styles}
       sx={sx}
       fullWidth
       loadingText={

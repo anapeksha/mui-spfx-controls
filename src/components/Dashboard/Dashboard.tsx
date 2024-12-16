@@ -18,6 +18,7 @@ import { IDashboardProps } from './IDashboardProps';
 import { ITabSchema } from './ITabSchema';
 
 const CustomGridToolbar = ({
+  loading,
   columnAction,
   densityAction,
   filterAction,
@@ -30,6 +31,7 @@ const CustomGridToolbar = ({
   onQueryChange,
   onSearch,
 }: {
+  loading: boolean;
   columnAction: boolean;
   densityAction: boolean;
   filterAction: boolean;
@@ -99,7 +101,7 @@ const CustomGridToolbar = ({
                   key={index}
                   label={value.label}
                   value={value}
-                  disabled={value.disabled}
+                  disabled={value.disabled || loading}
                   wrapped={value.wrapped}
                   icon={value.icon}
                   iconPosition={value.iconPosition}
@@ -243,6 +245,7 @@ export const Dashboard: React.FC<IDashboardProps> = ({
       <DataGrid
         loading={loading}
         getRowId={(row) => row.Id}
+        getRowHeight={() => 'auto'}
         columns={columns}
         rows={rows}
         initialState={{
@@ -255,6 +258,7 @@ export const Dashboard: React.FC<IDashboardProps> = ({
         slots={{ toolbar: CustomGridToolbar }}
         slotProps={{
           toolbar: {
+            loading: loading,
             columnAction: columnAction,
             densityAction: densityAction,
             filterAction: filterAction,

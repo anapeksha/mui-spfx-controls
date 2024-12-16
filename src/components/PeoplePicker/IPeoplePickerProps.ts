@@ -5,7 +5,7 @@ import {
   TextFieldProps,
   TextFieldVariants,
 } from '@mui/material';
-import { CSSProperties, ReactNode } from 'react';
+import { ReactNode } from 'react';
 import { IExtendedPeoplePickerEntity } from './IExtendedPeoplePicker';
 
 type AutocompleteBaseProps = AutocompleteProps<
@@ -28,7 +28,6 @@ interface IPeoplePickerBaseProps {
   color?: TextFieldProps['color'];
   tagColor?: ChipOwnProps['color'];
   size?: AutocompleteBaseProps['size'];
-  styles?: CSSProperties;
   sx?: AutocompleteBaseProps['sx'];
   name?: TextFieldProps['name'];
   fullWidth?: TextFieldProps['fullWidth'];

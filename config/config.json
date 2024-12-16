@@ -41,6 +41,14 @@
           "manifest": "./src/webparts/navigation/NavigationWebPart.manifest.json"
         }
       ]
+    },
+    "search-bar-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/searchBar/SearchBarWebPart.js",
+          "manifest": "./src/webparts/searchBar/SearchBarWebPart.manifest.json"
+        }
+      ]
     }
   },
   "externals": {},
@@ -50,6 +58,7 @@
     "PropertyControlStrings": "node_modules/@pnp/spfx-property-controls/lib/loc/{locale}.js",
     "ListFormWebPartStrings": "lib/webparts/listForm/loc/{locale}.js",
     "ListItemPickerWebPartStrings": "lib/webparts/listItemPicker/loc/{locale}.js",
-    "SitePickerWebPartStrings": "lib/webparts/navigation/loc/{locale}.js"
+    "SitePickerWebPartStrings": "lib/webparts/navigation/loc/{locale}.js",
+    "SearchBarWebPartStrings": "lib/webparts/searchBar/loc/{locale}.js"
   }
 }
