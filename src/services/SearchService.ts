@@ -16,7 +16,7 @@ class SearchService {
     return new Promise<SearchResults>((resolve, reject) => {
       this.sp
         .search({
-          Querytext: query,
+          QueryTemplate: query,
           RowLimit: searchLimit,
           EnableInterleaving: true,
           TrimDuplicates: true,
