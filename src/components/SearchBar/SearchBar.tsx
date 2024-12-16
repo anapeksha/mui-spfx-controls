@@ -10,14 +10,18 @@ import {
 import { Logger } from '@pnp/logging';
 import { ISearchResult } from '@pnp/sp/search';
 import debounce from 'lodash/debounce';
-import React, { FC, Fragment, useEffect, useState } from 'react';
+import React, { FC, Fragment, useCallback, useEffect, useState } from 'react';
 import { SearchService } from '../../services';
 import { ISearchBarProps } from './ISearchBarProps';
 
 const SearchBar: FC<ISearchBarProps> = ({
   label,
+  variant,
+  color,
+  size,
   fullWidth,
-  required,
+  scope,
+  excludedScope,
   context,
   onSearchResultSelect,
 }) => {
@@ -28,11 +32,24 @@ const SearchBar: FC<ISearchBarProps> = ({
   const [error, setError] = useState<Error | null>(null);
   const searchService = new SearchService(context);
 
+  const createQuery = useCallback(() => {
+    if (scope && excludedScope) {
+      return `FileName:${query} AND Path:${scope} AND -Path:${excludedScope}`;
+    } else if (scope) {
+      return `FileName:${query} AND Path:${scope}`;
+    } else if (excludedScope) {
+      return `FileName:${query} AND -Path:${excludedScope}`;
+    } else {
+      return `FileName:${query}`;
+    }
+  }, [query, scope, excludedScope]);
+
   useEffect(() => {
     if (open) {
       setLoading(true);
+      const builtQuery = createQuery();
       searchService
-        .search(query, 5)
+        .search(builtQuery, 5)
         .then((response) => {
           setOptions(response.PrimarySearchResults);
           setLoading(false);
@@ -63,6 +80,7 @@ const SearchBar: FC<ISearchBarProps> = ({
       onClose={() => setOpen(false)}
       onInputChange={handleInputChange}
       getOptionLabel={(option) => option.Title as string}
+      size={size}
       options={options}
       loading={loading}
       onChange={(_, selectedResult, reason) =>
@@ -75,8 +93,8 @@ const SearchBar: FC<ISearchBarProps> = ({
         <TextField
           {...params}
           label={label ? label : 'Search'}
-          variant="outlined"
-          required={required}
+          color={color}
+          variant={variant}
           error={error !== null}
           helperText={error !== null ? 'Error searching' : ''}
           InputProps={{
