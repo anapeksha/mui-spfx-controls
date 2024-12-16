@@ -8,8 +8,8 @@ import type { INavigationProps } from './Navigation/INavigationProps';
 import Navigation from './Navigation/Navigation';
 import type { IPeoplePickerProps } from './PeoplePicker/IPeoplePickerProps';
 import PeoplePicker from './PeoplePicker/PeoplePicker';
-import SearchBar from './SearchBar/SearchBar';
 import type { ISearchBarProps } from './SearchBar/ISearchBarProps';
+import SearchBar from './SearchBar/SearchBar';
 
 export {
   Dashboard,
