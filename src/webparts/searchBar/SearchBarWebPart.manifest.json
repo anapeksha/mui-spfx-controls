@@ -21,14 +21,16 @@
         "default": "Advanced"
       },
       "title": {
-        "default": "SearchBar"
+        "default": "MUI SearchBar"
       },
       "description": {
-        "default": "SearchBar description"
+        "default": "Scoped Search Bar component with Material UI"
       },
       "officeFabricIconFontName": "Search",
       "properties": {
-        "description": "SearchBar"
+        "label": "Search",
+        "size": "medium",
+        "variant": "outlined"
       }
     }
   ]
