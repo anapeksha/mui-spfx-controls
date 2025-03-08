@@ -49,6 +49,14 @@
           "manifest": "./src/webparts/searchBar/SearchBarWebPart.manifest.json"
         }
       ]
+    },
+    "site-breadcrumb-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/siteBreadcrumb/SiteBreadcrumbWebPart.js",
+          "manifest": "./src/webparts/siteBreadcrumb/SiteBreadcrumbWebPart.manifest.json"
+        }
+      ]
     }
   },
   "externals": {},
@@ -59,6 +67,7 @@
     "ListFormWebPartStrings": "lib/webparts/listForm/loc/{locale}.js",
     "ListItemPickerWebPartStrings": "lib/webparts/listItemPicker/loc/{locale}.js",
     "SitePickerWebPartStrings": "lib/webparts/navigation/loc/{locale}.js",
-    "SearchBarWebPartStrings": "lib/webparts/searchBar/loc/{locale}.js"
+    "SearchBarWebPartStrings": "lib/webparts/searchBar/loc/{locale}.js",
+    "SiteBreadcrumbWebPartStrings": "lib/webparts/siteBreadcrumb/loc/{locale}.js"
   }
 }

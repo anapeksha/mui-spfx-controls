@@ -14,8 +14,22 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { ListService } from '../../services';
 import { generateDashboardColumn } from '../../utils';
-import { IDashboardProps } from './IDashboardProps';
-import { ITabSchema } from './ITabSchema';
+import { IDashboardProps, ITabSchema } from './IDashboardProps';
+
+interface ICustomGridToolbarProps {
+  loading: boolean;
+  columnAction: boolean;
+  densityAction: boolean;
+  filterAction: boolean;
+  exportAction: boolean;
+  tabAction: boolean;
+  searchAction: boolean;
+  tabValue?: ITabSchema[];
+  currentTabValue: ITabSchema;
+  onTabChange: (tabValue: ITabSchema | undefined) => void;
+  onQueryChange: (newQuery: string) => void;
+  onSearch: () => void;
+}
 
 const CustomGridToolbar = ({
   loading,
@@ -30,20 +44,7 @@ const CustomGridToolbar = ({
   onTabChange,
   onQueryChange,
   onSearch,
-}: {
-  loading: boolean;
-  columnAction: boolean;
-  densityAction: boolean;
-  filterAction: boolean;
-  exportAction: boolean;
-  tabAction: boolean;
-  searchAction: boolean;
-  tabValue?: ITabSchema[];
-  currentTabValue: ITabSchema;
-  onTabChange: (tabValue: ITabSchema | undefined) => void;
-  onQueryChange: (newQuery: string) => void;
-  onSearch: () => void;
-}): JSX.Element => {
+}: ICustomGridToolbarProps): JSX.Element => {
   return (
     <Box display="flex" flexDirection="column" rowGap={1}>
       {columnAction || densityAction || filterAction || exportAction ? (

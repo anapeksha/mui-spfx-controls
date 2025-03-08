@@ -1,6 +1,6 @@
 import { WebPartContext } from '@microsoft/sp-webpart-base';
 
-const generateImageUrl = (
+export const generateImageUrl = (
   context: WebPartContext,
   email: string | undefined
 ): string => {
@@ -14,5 +14,3 @@ const generateImageUrl = (
     return '';
   }
 };
-
-export { generateImageUrl };

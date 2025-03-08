@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 import build from '@microsoft/sp-build-web';
 import gulp from 'gulp';

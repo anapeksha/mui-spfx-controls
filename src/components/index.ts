@@ -10,6 +10,8 @@ import type { IPeoplePickerProps } from './PeoplePicker/IPeoplePickerProps';
 import PeoplePicker from './PeoplePicker/PeoplePicker';
 import type { ISearchBarProps } from './SearchBar/ISearchBarProps';
 import SearchBar from './SearchBar/SearchBar';
+import type { ISiteBreadcrumbProps } from './SiteBreadcrumb/ISiteBreadcrumbProps';
+import SiteBreadcrumb from './SiteBreadcrumb/SiteBreadcrumb';
 
 export {
   Dashboard,
@@ -18,10 +20,12 @@ export {
   Navigation,
   PeoplePicker,
   SearchBar,
+  SiteBreadcrumb,
   type IDashboardProps,
   type IListFormProps,
   type IListItemPickerProps,
   type INavigationProps,
   type IPeoplePickerProps,
   type ISearchBarProps,
+  type ISiteBreadcrumbProps,
 };

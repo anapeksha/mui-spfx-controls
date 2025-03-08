@@ -1,10 +1,28 @@
 import { BoxProps } from '@mui/material';
 import { TreeItemProps, TreeViewProps } from '@mui/x-tree-view';
-import { INavigationModel } from './INavigationModel';
 
 type TreeViewBaseProps = TreeViewProps<false>;
 
 type TreeItemBaseProps = Omit<TreeItemProps, 'onClick' | 'nodeId' | 'label'>;
+
+interface IBaseNavigationModel {
+  id: string;
+  label: string;
+}
+
+interface INavigationModelWithoutChildren extends IBaseNavigationModel {
+  children?: never;
+  link?: string;
+}
+
+interface INavigationModelWithChildren extends IBaseNavigationModel {
+  children: [INavigationModel, ...INavigationModel[]];
+  link?: never;
+}
+
+type INavigationModel =
+  | INavigationModelWithChildren
+  | INavigationModelWithoutChildren;
 
 interface INavigationProps {
   items: INavigationModel[];
@@ -13,4 +31,4 @@ interface INavigationProps {
   sx?: BoxProps['sx'];
 }
 
-export type { INavigationProps };
+export type { INavigationModel, INavigationProps };

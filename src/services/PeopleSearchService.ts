@@ -1,18 +1,18 @@
 import { WebPartContext } from '@microsoft/sp-webpart-base';
 import { PrincipalSource, PrincipalType, SPFI } from '@pnp/sp';
 import { IPeoplePickerEntity } from '@pnp/sp/profiles';
-import { getSP } from '../config';
 import { IExtendedPeoplePickerEntity } from '../components/PeoplePicker/IExtendedPeoplePicker';
+import { getSP } from '../config';
 import { generateImageUrl } from '../utils';
 
 class PeopleSearchService {
   private extendedResults: IExtendedPeoplePickerEntity[] = [];
   private sp: SPFI;
-  private image: string;
+  private image?: string;
   constructor(context: WebPartContext) {
     this.sp = getSP(context);
   }
-  private allowUnInvalidated(user: IPeoplePickerEntity): boolean {
+  private restrictUnInvalidated(user: IPeoplePickerEntity): boolean {
     return !(
       user.EntityData &&
       user.EntityData.PrincipalType &&
@@ -36,7 +36,7 @@ class PeopleSearchService {
           QueryString: query,
         })
         .then((response) => {
-          response.filter((value) => this.allowUnInvalidated(value));
+          response.filter((value) => this.restrictUnInvalidated(value));
           response.forEach((value) => {
             if (value.Description && value.Description !== '') {
               this.image = generateImageUrl(context, value.Description);
@@ -48,7 +48,7 @@ class PeopleSearchService {
             }
             this.extendedResults.push({
               ...value,
-              Image: this.image,
+              Image: this.image as string,
             });
           });
           resolve(this.extendedResults);

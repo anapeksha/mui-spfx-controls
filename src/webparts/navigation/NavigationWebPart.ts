@@ -1,16 +1,16 @@
-import * as React from 'react';
-import * as ReactDom from 'react-dom';
 import { Version } from '@microsoft/sp-core-library';
 import type { IPropertyPaneConfiguration } from '@microsoft/sp-property-pane';
-import {
-  PropertyFieldMonacoEditor,
-  Elanguages,
-} from '@pnp/spfx-property-controls';
 import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 import { Logger } from '@pnp/logging';
+import {
+  Elanguages,
+  PropertyFieldMonacoEditor,
+} from '@pnp/spfx-property-controls';
+import * as React from 'react';
+import * as ReactDom from 'react-dom';
 import * as strings from 'SitePickerWebPartStrings';
+import type { INavigationModel } from '../../components/Navigation/INavigationProps';
 import NavigationDisplay from './NavigationDisplay';
-import type { INavigationModel } from '../../components/Navigation/INavigationModel';
 
 export interface ISitePickerWebPartProps {
   items: string;
@@ -299,7 +299,7 @@ export default class SitePickerWebPart extends BaseClientSideWebPart<ISitePicker
     try {
       tempItems = JSON.parse(this.properties.items);
     } catch (error) {
-      Logger.error(error);
+      Logger.error(error as Error);
     }
     const element: React.ReactElement = React.createElement(NavigationDisplay, {
       items: tempItems,

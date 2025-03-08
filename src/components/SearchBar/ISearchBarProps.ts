@@ -30,4 +30,4 @@ interface ISearchBarProps {
   ) => void;
 }
 
-export type { ISearchBarProps };
+export type { AutocompleteBaseProps, ISearchBarProps };

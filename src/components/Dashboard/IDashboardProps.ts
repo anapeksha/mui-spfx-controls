@@ -1,7 +1,16 @@
 import { WebPartContext } from '@microsoft/sp-webpart-base';
 import { BoxProps } from '@mui/material';
 import { DataGridProps } from '@mui/x-data-grid';
-import { ITabSchema } from './ITabSchema';
+
+import { TabOwnProps } from '@mui/material';
+
+interface ITabSchema
+  extends Pick<TabOwnProps, 'disabled' | 'wrapped' | 'icon' | 'iconPosition'> {
+  fieldToMatch: string;
+  label: string;
+  stringToMatch: string;
+  displayFields: string[];
+}
 
 interface IDashboardBaseProps {
   context: WebPartContext;
@@ -28,4 +37,4 @@ interface IDashboardNotTabbedProps extends IDashboardBaseProps {
 
 type IDashboardProps = IDashboardTabbedProps | IDashboardNotTabbedProps;
 
-export type { IDashboardProps };
+export type { IDashboardProps, ITabSchema };
