@@ -1,0 +1,23 @@
+name: Test Components
+on:
+  release:
+    types: [created]
+
+jobs:
+  test:
+    name: Run Component Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18.x'
+          cache: 'npm'
+      - name: Set Environment to Development
+        run: echo "NODE_ENV=development" >> $GITHUB_ENV
+      - name: Install dependencies
+        run: npm ci
+      - name: Run Tests
+        run: npm test -- --coverage --watchAll=false
