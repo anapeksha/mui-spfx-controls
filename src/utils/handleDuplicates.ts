@@ -11,7 +11,7 @@ const listContainsPeople = (
   }
 };
 
-const handleDuplicates = (
+export const handleDuplicates = (
   searchResults: IExtendedPeoplePickerEntity[],
   currentValue: IExtendedPeoplePickerEntity[]
 ): IExtendedPeoplePickerEntity[] => {
@@ -19,5 +19,3 @@ const handleDuplicates = (
     (result) => !listContainsPeople(result, currentValue)
   );
 };
-
-export { handleDuplicates };

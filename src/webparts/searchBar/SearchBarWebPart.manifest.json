@@ -21,7 +21,7 @@
         "default": "Advanced"
       },
       "title": {
-        "default": "MUI SearchBar"
+        "default": "MUI Search Bar"
       },
       "description": {
         "default": "Scoped Search Bar component with Material UI"

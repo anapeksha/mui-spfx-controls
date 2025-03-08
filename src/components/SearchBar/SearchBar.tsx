@@ -1,6 +1,7 @@
 import { Description, Folder } from '@mui/icons-material';
 import {
   Autocomplete,
+  AutocompleteInputChangeReason,
   CircularProgress,
   ListItem,
   ListItemIcon,
@@ -45,29 +46,42 @@ const SearchBar: FC<ISearchBarProps> = ({
   }, [query, scope, excludedScope]);
 
   useEffect(() => {
-    if (open) {
-      setLoading(true);
-      const builtQuery = createQuery();
-      searchService
-        .search(builtQuery, 5)
-        .then((response) => {
-          setOptions(response.PrimarySearchResults);
-          setLoading(false);
-          setOpen(true);
-        })
-        .catch((error) => {
-          Logger.error(error);
-          setError(error);
-          setLoading(false);
-        });
+    if (!open || query === '') {
+      return;
     }
+    setLoading(true);
+    const builtQuery = createQuery();
+    searchService
+      .search(builtQuery, 5)
+      .then((response) => {
+        setOptions(response.PrimarySearchResults);
+        setLoading(false);
+        setOpen(true);
+      })
+      .catch((error) => {
+        Logger.error(error);
+        setError(error);
+        setLoading(false);
+      });
   }, [open, query]);
 
   const handleInputChange = debounce(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      const inputValue = event.target.value;
+    (
+      _event: React.SyntheticEvent,
+      value: string,
+      reason: AutocompleteInputChangeReason
+    ) => {
       setOptions([]);
-      setQuery(inputValue);
+      switch (reason) {
+        case 'input':
+          setQuery(value);
+          break;
+        case 'clear':
+          setQuery('');
+          break;
+        case 'reset':
+          setQuery('');
+      }
     },
     300
   );

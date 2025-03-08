@@ -18,7 +18,7 @@ import {
 import * as strings from 'DashboardWebPartStrings';
 import * as React from 'react';
 import * as ReactDom from 'react-dom';
-import { ITabSchema } from '../../components/Dashboard/ITabSchema';
+import { ITabSchema } from '../../components/Dashboard/IDashboardProps';
 import DashboardDisplay from './DashboardDisplay';
 
 export interface IDashboardWebPartProps {
@@ -39,7 +39,7 @@ export default class DashboardWebPart extends BaseClientSideWebPart<IDashboardWe
     try {
       parsedTabValue = JSON.parse(this.properties.tabValue);
     } catch (error) {
-      Logger.error(error);
+      Logger.error(error as Error);
     }
     const element = React.createElement(DashboardDisplay, {
       context: this.context,

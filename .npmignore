@@ -13,7 +13,7 @@ sharepoint
 lib/webparts
 lib/extensions
 
-#build required files
+#build files
 tsconfig.json
 gulpfile.mjs
 .yo-rc.json
@@ -24,3 +24,7 @@ gulpfile.mjs
 
 #Prettier
 .prettierrc
+
+#Test files
+jest.config.mjs
+jest.setup.mjs

@@ -5,15 +5,19 @@ import {
   TextFieldProps,
   TextFieldVariants,
 } from '@mui/material';
+import { IPeoplePickerEntity as IBasePeoplePickerEntity } from '@pnp/sp/profiles';
 import { ReactNode } from 'react';
-import { IExtendedPeoplePickerEntity } from './IExtendedPeoplePicker';
 
 type AutocompleteBaseProps = AutocompleteProps<
-  IExtendedPeoplePickerEntity | IExtendedPeoplePickerEntity[],
+  IPeoplePickerEntity | IPeoplePickerEntity[],
   boolean,
   boolean,
   true
 >;
+
+interface IPeoplePickerEntity extends IBasePeoplePickerEntity {
+  Image: string;
+}
 
 interface IPeoplePickerBaseProps {
   context: WebPartContext;
@@ -36,14 +40,14 @@ interface IPeoplePickerBaseProps {
 
 interface ISingleValueProps extends IPeoplePickerBaseProps {
   multiple: true;
-  defaultValue?: IExtendedPeoplePickerEntity[];
-  onSelectionChange?: (value: IExtendedPeoplePickerEntity[]) => void;
+  defaultValue?: IPeoplePickerEntity[];
+  onSelectionChange?: (value: IPeoplePickerEntity[]) => void;
 }
 
 interface IMultiValueProps extends IPeoplePickerBaseProps {
   multiple?: false;
-  defaultValue?: IExtendedPeoplePickerEntity;
-  onSelectionChange?: (value: IExtendedPeoplePickerEntity) => void;
+  defaultValue?: IPeoplePickerEntity;
+  onSelectionChange?: (value: IPeoplePickerEntity) => void;
 }
 
 export type IPeoplePickerProps = ISingleValueProps | IMultiValueProps;

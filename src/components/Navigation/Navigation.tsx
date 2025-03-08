@@ -8,8 +8,7 @@ import {
 import { Box } from '@mui/material';
 import { TreeItem, TreeView, type TreeItemProps } from '@mui/x-tree-view';
 import { FC, ReactNode } from 'react';
-import type { INavigationModel } from './INavigationModel';
-import type { INavigationProps } from './INavigationProps';
+import type { INavigationModel, INavigationProps } from './INavigationProps';
 
 const renderTree = (
   item: INavigationModel,
@@ -58,7 +57,9 @@ export const Navigation: FC<INavigationProps> = ({
           viewProps?.defaultExpandIcon || <KeyboardArrowRight color="primary" />
         }
         {...viewProps}
-        defaultEndIcon={viewProps?.defaultEndIcon || <Link color="primary" />}
+        defaultEndIcon={
+          viewProps?.defaultEndIcon || <Link color="primary" href="#" />
+        }
       >
         {items.map((item) => renderTree(item, itemProps))}
       </TreeView>
