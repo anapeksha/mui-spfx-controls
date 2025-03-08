@@ -17,8 +17,6 @@ jobs:
           node-version: '18.x'
           registry-url: 'https://registry.npmjs.org'
           cache: npm
-      - name: Set Environment to Production
-        run: echo "NODE_ENV=production" >> $GITHUB_ENV
       - name: Install dependencies
         run: npm install
       - name: Clean dependencies
