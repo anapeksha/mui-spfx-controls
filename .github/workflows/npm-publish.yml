@@ -19,7 +19,7 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
           cache: npm
       - name: Install dependencies
-        run: npm install
+        run: npm ci
       - name: Clean dependencies
         run: npm run clean
       - name: Build for production
