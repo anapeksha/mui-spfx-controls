@@ -16,6 +16,7 @@ interface IDashboardBaseProps {
   context: WebPartContext;
   list: string;
   fields: string[];
+  editable?: boolean;
   columnAction?: boolean;
   densityAction?: boolean;
   filterAction?: boolean;

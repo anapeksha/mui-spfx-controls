@@ -5,6 +5,7 @@ define([], function () {
     BasicGroupName: 'Properties',
     ListFieldLabel: 'Select a List',
     ColumnsFieldLabel: 'Select List Columns',
+    EditableActionFieldLabel: 'Editable',
     ExportActionFieldLabel: 'Enable Export',
     TabActionFieldLabel: 'Enable Tabs',
     SearchActionFieldLabel: 'Enable Search',

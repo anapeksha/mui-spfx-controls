@@ -1,5 +1,14 @@
 import { Search } from '@mui/icons-material';
-import { Box, IconButton, InputBase, Paper, Tab, Tabs } from '@mui/material';
+import {
+  Box,
+  Fade,
+  IconButton,
+  InputBase,
+  Paper,
+  Tab,
+  Tabs,
+  Typography,
+} from '@mui/material';
 import {
   DataGrid,
   GridColDef,
@@ -26,6 +35,7 @@ interface ICustomGridToolbarProps {
   searchAction: boolean;
   tabValue?: ITabSchema[];
   currentTabValue: ITabSchema;
+  updateMessage?: { text: string; type: 'success' | 'error' };
   onTabChange: (tabValue: ITabSchema | undefined) => void;
   onQueryChange: (newQuery: string) => void;
   onSearch: () => void;
@@ -41,20 +51,13 @@ const CustomGridToolbar = ({
   tabValue,
   currentTabValue,
   searchAction,
+  updateMessage,
   onTabChange,
   onQueryChange,
   onSearch,
 }: ICustomGridToolbarProps): JSX.Element => {
   return (
     <Box display="flex" flexDirection="column" rowGap={1}>
-      {columnAction || densityAction || filterAction || exportAction ? (
-        <GridToolbarContainer>
-          {columnAction ? <GridToolbarColumnsButton /> : null}
-          {densityAction ? <GridToolbarDensitySelector /> : null}
-          {filterAction ? <GridToolbarFilterButton /> : null}
-          {exportAction ? <GridToolbarExport /> : null}
-        </GridToolbarContainer>
-      ) : null}
       {searchAction ? (
         <GridToolbarContainer>
           <Paper
@@ -89,6 +92,29 @@ const CustomGridToolbar = ({
           </Paper>
         </GridToolbarContainer>
       ) : null}
+      {columnAction || densityAction || filterAction || exportAction ? (
+        <GridToolbarContainer
+        // sx={{ display: 'flex', gap: 1, alignItems: 'center' }}
+        >
+          {columnAction ? <GridToolbarColumnsButton /> : null}
+          {densityAction ? <GridToolbarDensitySelector /> : null}
+          {filterAction ? <GridToolbarFilterButton /> : null}
+          {exportAction ? <GridToolbarExport /> : null}
+          {updateMessage ? (
+            <Fade in timeout={500}>
+              <Typography
+                fontWeight="bold"
+                sx={{
+                  textAlign: 'center',
+                  color: `${updateMessage.type}.main`,
+                }}
+              >
+                {updateMessage.text}
+              </Typography>
+            </Fade>
+          ) : null}
+        </GridToolbarContainer>
+      ) : null}
       {tabAction ? (
         <GridToolbarContainer>
           <Tabs
@@ -121,6 +147,7 @@ export const Dashboard: React.FC<IDashboardProps> = ({
   fields,
   tabAction,
   tabValue,
+  editable,
   columnAction,
   densityAction,
   filterAction,
@@ -132,13 +159,17 @@ export const Dashboard: React.FC<IDashboardProps> = ({
   const listService = new ListService(context, list);
   const [columns, setColumns] = useState<GridColDef[]>([]);
   const [cachedColumns, setCachedColumns] = useState<GridColDef[]>([]);
-  const [rows, setRows] = useState<any[]>([]);
+  const [rows, setRows] = useState<Record<string, any>[]>([]);
   const [cachedRows, setCachedRows] = useState<any[]>([]);
   const [currentTabValue, setCurrentTabValue] = useState<
     ITabSchema | undefined
   >(tabValue ? tabValue[0] : undefined);
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(false);
+  const [updateMessage, setUpdateMessage] = useState<{
+    text: string;
+    type: 'success' | 'error';
+  } | null>(null);
 
   useEffect(() => {
     setLoading(true);
@@ -151,16 +182,29 @@ export const Dashboard: React.FC<IDashboardProps> = ({
             ? currentTabValue.displayFields.indexOf(value.InternalName)
             : -1;
           if (index !== -1) {
-            tempColumns[index] = generateDashboardColumn(value);
+            tempColumns[index] = generateDashboardColumn(
+              value,
+              !value.ReadOnlyField && editable ? true : false
+            );
           }
         });
         setColumns(() =>
           currentTabValue
             ? tempColumns
-            : [...response].map((value) => generateDashboardColumn(value))
+            : [...response].map((value) =>
+                generateDashboardColumn(
+                  value,
+                  !value.ReadOnlyField && editable ? true : false
+                )
+              )
         );
         setCachedColumns(
-          [...response].map((value) => generateDashboardColumn(value))
+          [...response].map((value) =>
+            generateDashboardColumn(
+              value,
+              !value.ReadOnlyField && editable ? true : false
+            )
+          )
         );
         listService
           .getListItems(response, '', 'Created')
@@ -238,17 +282,38 @@ export const Dashboard: React.FC<IDashboardProps> = ({
     }
   };
 
+  const processRowUpdate = async (
+    newRow: Record<string, any>,
+    oldRow: Record<string, any>
+  ): Promise<Record<string, any>> => {
+    const rowId = Number(oldRow.Id);
+    setLoading(true);
+    try {
+      await listService.updateListItem(rowId, newRow);
+      setUpdateMessage({ text: 'Saved!', type: 'success' });
+      return newRow;
+    } catch (error) {
+      Logger.error(error);
+      setUpdateMessage({ text: 'Error!', type: 'error' });
+      return oldRow;
+    } finally {
+      setLoading(false);
+      setTimeout(() => setUpdateMessage(null), 3000);
+    }
+  };
+
   return (
-    <Box
-      height={!isNaN(Number(height)) ? Number(height) : height || 500}
-      padding={3}
-    >
+    <Box height={!isNaN(Number(height)) ? Number(height) : height || 500} p={1}>
       <DataGrid
         loading={loading}
         getRowId={(row) => String(row.Id)}
-        getRowHeight={() => 'auto'}
         columns={columns}
         rows={rows}
+        editMode="row"
+        experimentalFeatures={{
+          columnGrouping: true,
+        }}
+        processRowUpdate={editable ? processRowUpdate : undefined}
         initialState={{
           pagination: {
             paginationModel: {
@@ -268,6 +333,7 @@ export const Dashboard: React.FC<IDashboardProps> = ({
             searchAction: searchAction,
             tabValue: tabValue,
             currentTabValue: currentTabValue,
+            updateMessage: updateMessage,
             onTabChange: handleTabChange,
             onQueryChange: handleSearchQueryChange,
             onSearch: handleSearch,

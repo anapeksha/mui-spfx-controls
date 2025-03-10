@@ -2,7 +2,8 @@ import { GridColDef } from '@mui/x-data-grid';
 import { FieldTypes, IFieldInfo } from '@pnp/sp/fields';
 
 export const generateDashboardColumn = (
-  currentField: IFieldInfo
+  currentField: IFieldInfo,
+  editable: boolean
 ): GridColDef => {
   switch (currentField.FieldTypeKind) {
     case FieldTypes.User:
@@ -10,6 +11,7 @@ export const generateDashboardColumn = (
         flex: 1,
         field: currentField.InternalName,
         headerName: currentField.Title,
+        editable: editable,
         resizable: true,
         valueGetter: (params) => {
           return params.value ? params.value.Title : '';
@@ -19,6 +21,7 @@ export const generateDashboardColumn = (
       return {
         flex: 0.5,
         field: currentField.InternalName,
+        editable: editable,
         headerName: currentField.Title,
         resizable: true,
         type: 'boolean',
@@ -27,6 +30,7 @@ export const generateDashboardColumn = (
       return {
         flex: 1,
         field: currentField.InternalName,
+        editable: editable,
         headerName: currentField.Title,
         resizable: true,
         valueGetter: (params) => {
@@ -40,6 +44,7 @@ export const generateDashboardColumn = (
         flex: 2,
         field: currentField.InternalName,
         headerName: currentField.Title,
+        editable: editable,
         type: 'singleSelect',
         resizable: true,
         valueOptions: currentField.Choices ? currentField.Choices : [],
@@ -49,6 +54,7 @@ export const generateDashboardColumn = (
       return {
         flex: 2,
         field: currentField.InternalName,
+        editable: editable,
         headerName: currentField.Title,
         type: 'number',
         resizable: true,
@@ -57,14 +63,16 @@ export const generateDashboardColumn = (
       return {
         flex: 4,
         field: currentField.InternalName,
+        editable: editable,
         headerName: currentField.Title,
-        type: 'number',
+        type: 'string',
         resizable: true,
       };
     default:
       return {
         flex: 2,
         field: currentField.InternalName,
+        editable: editable,
         headerName: currentField.Title,
         resizable: true,
         type: 'string',
