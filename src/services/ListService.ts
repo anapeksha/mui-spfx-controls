@@ -2,6 +2,7 @@ import { WebPartContext } from '@microsoft/sp-webpart-base';
 import { SPFI } from '@pnp/sp';
 import { FieldTypes, IFieldInfo } from '@pnp/sp/fields';
 import { IList, IListInfo } from '@pnp/sp/lists';
+import { PermissionKind } from '@pnp/sp/security';
 import { getSP } from '../config';
 
 class ListService {
@@ -11,9 +12,11 @@ class ListService {
     this.sp = getSP(context);
     this.list = this.sp.web.lists.getById(listId);
   }
+
   private checkCustomFieldType(field: IFieldInfo): boolean {
     return !field.Hidden;
   }
+
   private async getListSize(): Promise<number> {
     return new Promise((resolve, reject) => {
       this.list
@@ -26,6 +29,7 @@ class ListService {
         });
     });
   }
+
   public async getLists(): Promise<IListInfo[]> {
     return new Promise((resolve, reject) => {
       this.sp.web
@@ -38,6 +42,7 @@ class ListService {
         });
     });
   }
+
   public async getListFields(
     fieldInternalNames?: string[]
   ): Promise<IFieldInfo[]> {
@@ -59,6 +64,7 @@ class ListService {
         });
     });
   }
+
   public async getListItems(
     fields: IFieldInfo[],
     filter?: string,
@@ -102,17 +108,64 @@ class ListService {
     }
     return totalItems;
   }
-  public async createListItem(value: any): Promise<any> {
-    return new Promise((resolve, reject) => {
-      this.list.items
-        .add(value)
-        .then((response) => {
-          resolve(response);
-        })
-        .catch((error) => {
-          reject(error);
-        });
-    });
+
+  public async createListItem(
+    value: Record<string, any>
+  ): Promise<Record<string, any>> {
+    const userPermissions =
+      await this.list.getCurrentUserEffectivePermissions();
+
+    const hasPermissionToAdd = this.list.hasPermissions(
+      userPermissions,
+      PermissionKind.AddListItems
+    );
+
+    if (!hasPermissionToAdd) {
+      throw new Error('Permission Error');
+    }
+    return await this.list.items.add(value);
+  }
+
+  public async updateListItem(
+    id: number,
+    newRow: Record<string, any>
+  ): Promise<void> {
+    const userPermissions =
+      await this.list.getCurrentUserEffectivePermissions();
+
+    const hasPermissionToEdit = this.list.hasPermissions(
+      userPermissions,
+      PermissionKind.EditListItems
+    );
+
+    if (!hasPermissionToEdit) {
+      throw new Error('Permission Error');
+    }
+
+    const excludedFields = new Set([
+      'ID',
+      'Created',
+      'Modified',
+      'Author',
+      'Editor',
+      'GUID',
+      'Version',
+      'Attachments',
+      'odata.editLink',
+      'odata.id',
+      'odata.type',
+      'odata.metadata',
+      'odata.etag',
+    ]);
+
+    const filteredRow = Object.keys(newRow).reduce((acc, key) => {
+      if (!excludedFields.has(key)) {
+        acc[key] = newRow[key];
+      }
+      return acc;
+    }, {} as Record<string, any>);
+
+    await this.list.items.getById(id).update(filteredRow);
   }
 }
 
