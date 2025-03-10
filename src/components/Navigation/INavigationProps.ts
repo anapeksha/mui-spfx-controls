@@ -1,4 +1,3 @@
-import { BoxProps } from '@mui/material';
 import { TreeItemProps, TreeViewProps } from '@mui/x-tree-view';
 
 type TreeViewBaseProps = TreeViewProps<false>;
@@ -28,7 +27,7 @@ interface INavigationProps {
   items: INavigationModel[];
   itemProps?: TreeItemBaseProps;
   viewProps?: TreeViewBaseProps;
-  sx?: BoxProps['sx'];
+  linkTarget?: string;
 }
 
 export type { INavigationModel, INavigationProps };
