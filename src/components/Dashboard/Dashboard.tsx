@@ -99,7 +99,7 @@ const CustomGridToolbar = ({
             {tabValue &&
               tabValue.map((value, index) => (
                 <Tab
-                  key={index}
+                  key={`${value.label}-${index}`}
                   label={value.label}
                   value={value}
                   disabled={value.disabled || loading}
@@ -245,7 +245,7 @@ export const Dashboard: React.FC<IDashboardProps> = ({
     >
       <DataGrid
         loading={loading}
-        getRowId={(row) => row.Id}
+        getRowId={(row) => String(row.Id)}
         getRowHeight={() => 'auto'}
         columns={columns}
         rows={rows}
