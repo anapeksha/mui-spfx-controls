@@ -57,7 +57,6 @@ export const ListForm: React.FC<IListFormProps> = ({
   }, [list, fields]);
 
   const handleFieldTypes = (): React.ReactNode => {
-    console.log(list);
     if (loading) {
       if (list === '' || list === undefined || list === null) {
         return (
