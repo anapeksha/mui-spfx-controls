@@ -1,8 +1,8 @@
 [CmdletBinding()]
 param (
-    [Parameter(Mandatory = $false, HelpMessage = "URL of the SharePoint Admin Center, e.g.https://contoso-admin.sharepoint.com")]
+    [Parameter(Mandatory = $true, HelpMessage = "URL of the SharePoint Admin Center, e.g.https://contoso-admin.sharepoint.com")]
     [string]$AdminUrl,
-    [Parameter(Mandatory = $false, HelpMessage = "URL of SharePoint Site Collection where AppCatalog should be enabled")]
+    [Parameter(Mandatory = $true, HelpMessage = "URL of SharePoint Site Collection where AppCatalog should be enabled")]
     [string]$SiteUrl
 )
 
