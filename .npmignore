@@ -5,6 +5,7 @@ config
 release
 src
 tests
+lib/tests
 temp
 sharepoint
 .vscode
