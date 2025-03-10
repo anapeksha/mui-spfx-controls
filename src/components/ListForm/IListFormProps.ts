@@ -7,6 +7,7 @@ interface IListFormProps {
   fields: string[];
   onSave: (formData: Record<string, any>) => void;
   onCancel: () => void;
+  label?: string;
   paperVariant?: PaperProps['variant'];
   paperElevation?: PaperProps['elevation'];
   inputVariant?: TextFieldProps['variant'];
