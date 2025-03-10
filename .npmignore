@@ -4,7 +4,7 @@ config
 !lib/config
 release
 src
-test
+tests
 temp
 sharepoint
 .vscode
@@ -15,7 +15,7 @@ lib/webparts
 lib/extensions
 
 #scripts
-EnableAppCatalog.ps1
+*.ps1
 
 #build files
 tsconfig.json
