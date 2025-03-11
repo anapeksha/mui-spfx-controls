@@ -1,23 +1,18 @@
 import * as React from 'react';
 
-import {
-  KeyboardArrowDown,
-  KeyboardArrowRight,
-  Link,
-} from '@mui/icons-material';
-import { TreeItem, TreeView, type TreeItemProps } from '@mui/x-tree-view';
+import { SimpleTreeView, TreeItem, type TreeItemProps } from '@mui/x-tree-view';
 import { FC, ReactNode } from 'react';
 import type { INavigationModel, INavigationProps } from './INavigationProps';
 
 const renderTree = (
   item: INavigationModel,
   target?: string,
-  props?: Omit<TreeItemProps, 'onClick' | 'nodeId' | 'label'>
+  props?: Omit<TreeItemProps, 'onClick' | 'itemId' | 'label' | 'key'>
 ): ReactNode => (
   <TreeItem
     {...props}
     key={item.id}
-    nodeId={item.id}
+    itemId={item.id}
     label={item.label}
     onClick={
       item.children ? undefined : () => window.open(new URL(item.link!), target)
@@ -34,18 +29,9 @@ export const Navigation: FC<INavigationProps> = ({
   linkTarget,
 }) => {
   return (
-    <TreeView
-      defaultCollapseIcon={
-        viewProps?.defaultCollapseIcon || <KeyboardArrowDown color="primary" />
-      }
-      defaultExpandIcon={
-        viewProps?.defaultExpandIcon || <KeyboardArrowRight color="primary" />
-      }
-      defaultEndIcon={viewProps?.defaultEndIcon || <Link color="primary" />}
-      {...viewProps}
-    >
+    <SimpleTreeView {...viewProps}>
       {items.map((item) => renderTree(item, linkTarget, itemProps))}
-    </TreeView>
+    </SimpleTreeView>
   );
 };
 

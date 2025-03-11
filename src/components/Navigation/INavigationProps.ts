@@ -1,8 +1,11 @@
-import { TreeItemProps, TreeViewProps } from '@mui/x-tree-view';
+import { SimpleTreeViewProps, TreeItemProps } from '@mui/x-tree-view';
 
-type TreeViewBaseProps = TreeViewProps<false>;
+type TreeViewBaseProps = SimpleTreeViewProps<false>;
 
-type TreeItemBaseProps = Omit<TreeItemProps, 'onClick' | 'nodeId' | 'label'>;
+type TreeItemBaseProps = Omit<
+  TreeItemProps,
+  'onClick' | 'itemId' | 'label' | 'key'
+>;
 
 interface IBaseNavigationModel {
   id: string;
