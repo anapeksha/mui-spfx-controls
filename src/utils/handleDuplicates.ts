@@ -1,9 +1,9 @@
-import { IExtendedPeoplePickerEntity } from '../components/PeoplePicker/IExtendedPeoplePicker';
+import { IPeoplePickerEntity } from '../components/PeoplePicker/IPeoplePickerProps';
 
 const listContainsPeople = (
-  user: IExtendedPeoplePickerEntity,
-  users: IExtendedPeoplePickerEntity[]
-): IExtendedPeoplePickerEntity[] | boolean => {
+  user: IPeoplePickerEntity,
+  users: IPeoplePickerEntity[]
+): IPeoplePickerEntity[] | boolean => {
   if (!users || !users.length || users.length === 0) {
     return false;
   } else {
@@ -12,9 +12,9 @@ const listContainsPeople = (
 };
 
 export const handleDuplicates = (
-  searchResults: IExtendedPeoplePickerEntity[],
-  currentValue: IExtendedPeoplePickerEntity[]
-): IExtendedPeoplePickerEntity[] => {
+  searchResults: IPeoplePickerEntity[],
+  currentValue: IPeoplePickerEntity[]
+): IPeoplePickerEntity[] => {
   return searchResults.filter(
     (result) => !listContainsPeople(result, currentValue)
   );

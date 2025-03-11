@@ -9,9 +9,10 @@ import {
   Checkbox,
   CircularProgress,
   FormControlLabel,
-  Unstable_Grid2 as Grid,
+  Grid2 as Grid,
   MenuItem,
   TextField,
+  Typography,
 } from '@mui/material';
 import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -30,6 +31,7 @@ export const ListForm: React.FC<IListFormProps> = ({
   fields,
   onSave,
   onCancel,
+  label,
   paperVariant,
   paperElevation,
   inputVariant,
@@ -56,11 +58,26 @@ export const ListForm: React.FC<IListFormProps> = ({
 
   const handleFieldTypes = (): React.ReactNode => {
     if (loading) {
-      return (
-        <Grid display="flex" width="100%" justifyContent="center">
-          <CircularProgress />
-        </Grid>
-      );
+      if (list === '' || list === undefined || list === null) {
+        return (
+          <Grid display="flex" width="100%" justifyContent="center" p={1}>
+            <Typography
+              color="primary"
+              variant="h5"
+              fontWeight="bold"
+              component="span"
+            >
+              Select a list to continue
+            </Typography>
+          </Grid>
+        );
+      } else {
+        return (
+          <Grid display="flex" width="100%" justifyContent="center">
+            <CircularProgress />
+          </Grid>
+        );
+      }
     } else {
       return filteredFields.map((field, index) => {
         switch (field.TypeAsString) {
@@ -97,7 +114,7 @@ export const ListForm: React.FC<IListFormProps> = ({
                   size={inputSize}
                   fullWidth
                   disabled={field.ReadOnlyField}
-                  onSelectionChange={(value) =>
+                  onChange={(value) =>
                     setFormData({
                       ...formData,
                       [field.InternalName]: value,
@@ -119,7 +136,7 @@ export const ListForm: React.FC<IListFormProps> = ({
                   size={inputSize}
                   fullWidth
                   disabled={field.ReadOnlyField}
-                  onSelectionChange={(value) =>
+                  onChange={(value) =>
                     setFormData({
                       ...formData,
                       [field.InternalName]: value,
@@ -240,8 +257,8 @@ export const ListForm: React.FC<IListFormProps> = ({
               <Grid key={`grid-${field.Id}-${index}`} width="100%">
                 <Card
                   sx={{
-                    backgroundColor: (theme) => theme.palette.primary.main,
-                    color: (theme) => theme.palette.common.white,
+                    backgroundColor: 'primary.main',
+                    color: 'common.white',
                   }}
                 >
                   <CardHeader
@@ -259,8 +276,8 @@ export const ListForm: React.FC<IListFormProps> = ({
               >
                 <Card
                   sx={{
-                    backgroundColor: (theme) => theme.palette.error.main,
-                    color: (theme) => theme.palette.common.white,
+                    backgroundColor: 'error.main',
+                    color: 'common.white',
                   }}
                 >
                   <CardHeader title="Yet to be implemented!" />
@@ -291,6 +308,7 @@ export const ListForm: React.FC<IListFormProps> = ({
         elevation={isNaN(Number(paperElevation)) ? 2 : paperElevation}
         sx={{ p: 2 }}
       >
+        {label ? <CardHeader title={label} /> : null}
         <CardContent>
           <Grid
             container

@@ -32,10 +32,10 @@
   ],
   "scripts": {
     "serve": "gulp serve",
-    "serve:fast": "fast-serve",
+    "serve:fast": "fast-serve --reactProfiling",
     "build": "gulp bundle",
     "clean": "gulp clean",
-    "test": "gulp test && jest --passWithNoTests",
+    "test": "gulp test && jest",
     "build:ship": "gulp bundle --ship",
     "package-solution": "gulp package-solution --ship"
   },
@@ -43,23 +43,23 @@
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@fluentui/react": "^8.106.4",
-    "@microsoft/sp-component-base": "1.20.0",
-    "@microsoft/sp-core-library": "1.20.0",
-    "@microsoft/sp-lodash-subset": "1.20.0",
-    "@microsoft/sp-office-ui-fabric-core": "1.20.0",
-    "@microsoft/sp-property-pane": "1.20.0",
-    "@microsoft/sp-webpart-base": "1.20.0",
-    "@mui/icons-material": "^5.16.14",
-    "@mui/material": "^5.16.14",
-    "@mui/x-data-grid": "^6.20.4",
-    "@mui/x-date-pickers": "^6.20.2",
-    "@mui/x-tree-view": "^6.17.0",
-    "@pnp/graph": "^4.2.0",
+    "@microsoft/sp-component-base": "^1.20.0",
+    "@microsoft/sp-core-library": "^1.20.0",
+    "@microsoft/sp-lodash-subset": "^1.20.0",
+    "@microsoft/sp-office-ui-fabric-core": "^1.20.0",
+    "@microsoft/sp-property-pane": "^1.20.0",
+    "@microsoft/sp-webpart-base": "^1.20.0",
+    "@mui/icons-material": "^6.4.7",
+    "@mui/material": "^6.4.7",
+    "@mui/x-data-grid": "^7.27.3",
+    "@mui/x-date-pickers": "^7.27.3",
+    "@mui/x-tree-view": "^7.26.0",
+    "@pnp/graph": "^4.10.0",
     "@pnp/sp": "^4.10.0",
     "@pnp/spfx-property-controls": "^3.19.0",
     "dayjs": "^1.11.13",
-    "react": "17.0.1",
-    "react-dom": "17.0.1"
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1"
   },
   "devDependencies": {
     "@microsoft/eslint-config-spfx": "^1.20.2",
@@ -67,22 +67,54 @@
     "@microsoft/microsoft-graph-types": "^2.40.0",
     "@microsoft/rush-stack-compiler-4.7": "^0.1.1",
     "@microsoft/sp-build-web": "^1.20.2",
-    "@microsoft/sp-module-interfaces": "1.20.2",
+    "@microsoft/sp-module-interfaces": "^1.20.2",
     "@rushstack/eslint-config": "^2.6.2",
-    "@testing-library/jest-dom": "^6.6.3",
-    "@testing-library/react": "^12.1.5",
-    "@testing-library/user-event": "^13.5.0",
+    "@types/enzyme": "^3.10.18",
     "@types/jest": "^29.5.14",
-    "@types/react": "17.0.45",
-    "@types/react-dom": "17.0.17",
+    "@types/react": "^17.0.45",
+    "@types/react-dom": "^17.0.17",
     "@types/webpack-env": "~1.15.2",
+    "@wojtekmaj/enzyme-adapter-react-17": "^0.8.0",
     "ajv": "^6.12.6",
+    "enzyme": "^3.11.0",
     "eslint": "^8.57.1",
-    "eslint-plugin-react-hooks": "4.3.0",
+    "eslint-plugin-react-hooks": "^4.3.0",
     "gulp": "^4.0.2",
+    "identity-obj-proxy": "^3.0.0",
     "jest": "^29.7.0",
     "spfx-fast-serve-helpers": "^1.20.4",
     "ts-jest": "^29.2.6",
-    "typescript": "4.7.4"
+    "typescript": "^4.7.4"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.(ts|tsx)$": "ts-jest"
+    },
+    "setupFilesAfterEnv": [
+      "<rootDir>/src/tests/setup.ts"
+    ],
+    "testMatch": [
+      "**/src/**/*.test.ts",
+      "**/src/**/*.test.tsx"
+    ],
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "json"
+    ],
+    "moduleNameMapper": {
+      "@microsoft/sp-webpart-base": "identity-obj-proxy",
+      "@microsoft/sp-core-library": "identity-obj-proxy",
+      "@microsoft/sp-application-base": "identity-obj-proxy",
+      "office-ui-fabric-react/lib/(.*)$": "office-ui-fabric-react/lib-commonjs/$1",
+      "@pnp/sp": "identity-obj-proxy",
+      "'@pnp/sp/fields": "identity-obj-proxy",
+      "ControlStrings": "identity-obj-proxy",
+      "\\.(css|scss)$": "identity-obj-proxy"
+    },
+    "modulePathIgnorePatterns": [
+      "<rootDir>/lib/"
+    ]
   }
 }

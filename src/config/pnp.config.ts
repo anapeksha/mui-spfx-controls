@@ -1,6 +1,6 @@
 import { WebPartContext } from '@microsoft/sp-webpart-base';
 import { graphfi, GraphFI, SPFx as GraphSPFx } from '@pnp/graph';
-import { Caching } from '@pnp/queryable';
+import { BrowserFetchWithRetry, Caching } from '@pnp/queryable';
 import { spfi, SPFI, SPFx as SpSPFx } from '@pnp/sp';
 import '@pnp/sp/batching';
 import '@pnp/sp/fields';
@@ -18,14 +18,20 @@ let _graph: GraphFI;
 
 export const getSP = (context?: WebPartContext): SPFI => {
   if (!!context) {
-    _sp = spfi().using(SpSPFx(context)).using(Caching());
+    _sp = spfi()
+      .using(SpSPFx(context))
+      .using(Caching())
+      .using(BrowserFetchWithRetry({ retries: 5 }));
   }
   return _sp;
 };
 
 export const getGraph = (context?: WebPartContext): GraphFI => {
   if (!!context) {
-    _graph = graphfi().using(GraphSPFx(context)).using(Caching());
+    _graph = graphfi()
+      .using(GraphSPFx(context))
+      .using(Caching())
+      .using(BrowserFetchWithRetry({ retries: 5 }));
   }
   return _graph;
 };

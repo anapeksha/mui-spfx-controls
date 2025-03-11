@@ -1,30 +1,31 @@
 import { WebPartContext } from '@microsoft/sp-webpart-base';
 import { PrincipalSource, PrincipalType, SPFI } from '@pnp/sp';
-import { IPeoplePickerEntity } from '@pnp/sp/profiles';
-import { IExtendedPeoplePickerEntity } from '../components/PeoplePicker/IExtendedPeoplePicker';
+import { IPeoplePickerEntity as IBasePeoplePickerEntity } from '@pnp/sp/profiles';
+import { ISiteUser } from '@pnp/sp/site-users/types';
+import { IPeoplePickerEntity } from '../components/PeoplePicker/IPeoplePickerProps';
 import { getSP } from '../config';
 import { generateImageUrl } from '../utils';
 
 class PeopleSearchService {
-  private extendedResults: IExtendedPeoplePickerEntity[] = [];
+  private extendedResults: IPeoplePickerEntity[] = [];
   private sp: SPFI;
   private image?: string;
   constructor(context: WebPartContext) {
     this.sp = getSP(context);
   }
-  private restrictUnInvalidated(user: IPeoplePickerEntity): boolean {
+  private restrictUnInvalidated(user: IBasePeoplePickerEntity): boolean {
     return !(
       user.EntityData &&
       user.EntityData.PrincipalType &&
       user.EntityData.PrincipalType === 'UNVALIDATED_EMAIL_ADDRESS'
     );
   }
-  public async resolveUser(
+  public async searchUser(
     context: WebPartContext,
     query: string,
     maximumSuggestions?: number
-  ): Promise<IExtendedPeoplePickerEntity[]> {
-    return new Promise<IExtendedPeoplePickerEntity[]>((resolve, reject) => {
+  ): Promise<IPeoplePickerEntity[]> {
+    return new Promise<IPeoplePickerEntity[]>((resolve, reject) => {
       this.sp.profiles
         .clientPeoplePickerSearchUser({
           AllowEmailAddresses: true,
@@ -57,6 +58,29 @@ class PeopleSearchService {
           reject(error);
         });
     });
+  }
+
+  public async resolveUser(
+    context: WebPartContext,
+    query: string
+  ): Promise<IPeoplePickerEntity> {
+    const resolvedUser = await this.sp.profiles.clientPeoplePickerResolveUser({
+      AllowEmailAddresses: true,
+      AllowMultipleEntities: false,
+      AllUrlZones: false,
+      MaximumEntitySuggestions: 25,
+      PrincipalSource: PrincipalSource.All,
+      PrincipalType: PrincipalType.All,
+      QueryString: query,
+    });
+    return {
+      ...resolvedUser,
+      Image: generateImageUrl(context, resolvedUser.EntityData.Email),
+    };
+  }
+
+  public findUserByEmail(email: string): ISiteUser {
+    return this.sp.web.siteUsers.getByEmail(email);
   }
 }
 

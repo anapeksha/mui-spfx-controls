@@ -1,10 +1,12 @@
 name: Test Components
 on:
-  release:
-    types: [created]
+  pull_request:
+    types:
+      - closed
 
 jobs:
   test:
+    if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
@@ -14,9 +16,7 @@ jobs:
         with:
           node-version: '18.x'
           cache: 'npm'
-      - name: Set Environment to Development
-        run: echo "NODE_ENV=development" >> $GITHUB_ENV
       - name: Install dependencies
         run: npm ci
       - name: Run Tests
-        run: npm test -- --coverage --watchAll=false
+        run: npm test

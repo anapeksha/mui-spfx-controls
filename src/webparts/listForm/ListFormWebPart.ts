@@ -27,6 +27,7 @@ export interface IListFormWebPartProps {
   fields: string[];
   onSave: (formData: Record<string, any>) => void;
   onCancel: () => void;
+  label?: string;
   paperVariant?: PaperProps['variant'];
   paperElevation?: PaperProps['elevation'];
   inputVariant?: TextFieldProps['variant'];
@@ -46,6 +47,7 @@ export default class ListFormWebPart extends BaseClientSideWebPart<IListFormWebP
       context: this.context,
       list: this.properties.list,
       fields: this.properties.fields,
+      label: this.properties.label,
       paperVariant: this.properties.paperVariant,
       paperElevation: this.properties.paperElevation,
       inputVariant: this.properties.inputVariant,
@@ -119,6 +121,9 @@ export default class ListFormWebPart extends BaseClientSideWebPart<IListFormWebP
                       text: 'elevation',
                     },
                   ],
+                }),
+                PropertyPaneTextField('label', {
+                  label: strings.LabelFieldLabel,
                 }),
                 PropertyPaneTextField('paperElevation', {
                   label: strings.PaperElevationFieldLabel,

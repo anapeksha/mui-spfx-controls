@@ -25,6 +25,7 @@ export interface IDashboardWebPartProps {
   list: string;
   fields: string[];
   height: number;
+  editable: boolean;
   exportAction: boolean;
   tabAction: true;
   searchAction: boolean;
@@ -45,6 +46,7 @@ export default class DashboardWebPart extends BaseClientSideWebPart<IDashboardWe
       context: this.context,
       list: this.properties.list,
       fields: this.properties.fields,
+      editable: this.properties.editable,
       columnAction: this.properties.columnAction,
       exportAction: this.properties.exportAction,
       tabAction: this.properties.tabAction,
@@ -119,6 +121,9 @@ export default class DashboardWebPart extends BaseClientSideWebPart<IDashboardWe
                 }),
                 PropertyPaneToggle('densityAction', {
                   label: strings.DensityActionFieldLabel,
+                }),
+                PropertyPaneToggle('editable', {
+                  label: strings.EditableActionFieldLabel,
                 }),
                 PropertyFieldMonacoEditor('tabValue', {
                   key: 'tabValue-editor',
