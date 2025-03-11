@@ -15,13 +15,13 @@ type AutocompleteBaseProps = AutocompleteProps<
   true
 >;
 
-interface IPeoplePickerEntity extends IBasePeoplePickerEntity {
+export interface IPeoplePickerEntity extends IBasePeoplePickerEntity {
   Image: string;
 }
 
 interface IPeoplePickerBaseProps {
   context: WebPartContext;
-  label: string;
+  label?: string;
   multiple?: boolean;
   required?: boolean;
   searchSuggestionLimit?: number;
@@ -38,16 +38,9 @@ interface IPeoplePickerBaseProps {
   LoadingComponent?: ReactNode;
 }
 
-interface ISingleValueProps extends IPeoplePickerBaseProps {
-  multiple: true;
-  defaultValue?: IPeoplePickerEntity[];
-  onSelectionChange?: (value: IPeoplePickerEntity[]) => void;
+export interface IPeoplePickerProps extends IPeoplePickerBaseProps {
+  multiple?: boolean;
+  value?: IPeoplePickerEntity | IPeoplePickerEntity[];
+  defaultValue?: IPeoplePickerEntity | IPeoplePickerEntity[];
+  onChange?: (value: IPeoplePickerEntity | IPeoplePickerEntity[]) => void;
 }
-
-interface IMultiValueProps extends IPeoplePickerBaseProps {
-  multiple?: false;
-  defaultValue?: IPeoplePickerEntity;
-  onSelectionChange?: (value: IPeoplePickerEntity) => void;
-}
-
-export type IPeoplePickerProps = ISingleValueProps | IMultiValueProps;

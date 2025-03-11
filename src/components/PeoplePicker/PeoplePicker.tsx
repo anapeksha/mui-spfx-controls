@@ -14,8 +14,10 @@ import * as React from 'react';
 import { FC, useEffect, useState } from 'react';
 import { PeopleSearchService } from '../../services';
 import { handleDuplicates } from '../../utils';
-import type { IExtendedPeoplePickerEntity } from './IExtendedPeoplePicker';
-import type { IPeoplePickerProps } from './IPeoplePickerProps';
+import type {
+  IPeoplePickerEntity,
+  IPeoplePickerProps,
+} from './IPeoplePickerProps';
 
 export const PeoplePicker: FC<IPeoplePickerProps> = ({
   context,
@@ -23,7 +25,8 @@ export const PeoplePicker: FC<IPeoplePickerProps> = ({
   required,
   multiple,
   defaultValue,
-  onSelectionChange,
+  value,
+  onChange,
   searchSuggestionLimit,
   disabled,
   variant,
@@ -38,11 +41,9 @@ export const PeoplePicker: FC<IPeoplePickerProps> = ({
 }) => {
   const searchService = new PeopleSearchService(context);
   const [query, setQuery] = useState<string>('');
-  const [searchResults, setSearchResults] = useState<
-    IExtendedPeoplePickerEntity[]
-  >([]);
+  const [searchResults, setSearchResults] = useState<IPeoplePickerEntity[]>([]);
   const [selectedUsers, setSelectedUsers] = useState<
-    IExtendedPeoplePickerEntity[] | IExtendedPeoplePickerEntity | null
+    IPeoplePickerEntity[] | IPeoplePickerEntity | null
   >([]);
   const [error, setError] = useState<Error | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -51,7 +52,7 @@ export const PeoplePicker: FC<IPeoplePickerProps> = ({
     if (query !== '') {
       setLoading(true);
       searchService
-        .resolveUser(context, query, searchSuggestionLimit)
+        .searchUser(context, query, searchSuggestionLimit)
         .then((response) => {
           setSearchResults(response);
           setLoading(false);
@@ -69,14 +70,13 @@ export const PeoplePicker: FC<IPeoplePickerProps> = ({
     <Autocomplete
       multiple={multiple}
       options={searchResults}
+      value={value}
       defaultValue={defaultValue}
-      getOptionLabel={(option: IExtendedPeoplePickerEntity) =>
-        option.DisplayText
-      }
+      getOptionLabel={(option: IPeoplePickerEntity) => option.DisplayText}
       filterOptions={(options) =>
         handleDuplicates(
-          options as IExtendedPeoplePickerEntity[],
-          selectedUsers as IExtendedPeoplePickerEntity[]
+          options as IPeoplePickerEntity[],
+          selectedUsers as IPeoplePickerEntity[]
         )
       }
       popupIcon={null}
@@ -95,26 +95,26 @@ export const PeoplePicker: FC<IPeoplePickerProps> = ({
       }
       onChange={(
         event,
-        value: IExtendedPeoplePickerEntity | IExtendedPeoplePickerEntity[],
+        value: IPeoplePickerEntity | IPeoplePickerEntity[],
         reason
       ) => {
         if (reason === 'selectOption' || reason === 'removeOption') {
           setSelectedUsers(value);
           setQuery('');
-          if (onSelectionChange) {
-            onSelectionChange(value as any);
+          if (onChange) {
+            onChange(value as any);
           }
         } else if (reason === 'clear') {
           setSelectedUsers([]);
           setQuery('');
-          if (onSelectionChange) {
-            onSelectionChange([] as any);
+          if (onChange) {
+            onChange([] as any);
           }
         }
       }}
       onInputChange={(event, newValue) => setQuery(newValue)}
       renderTags={(users, getTagProps) => {
-        return users.map((user: IExtendedPeoplePickerEntity, index) => (
+        return users.map((user: IPeoplePickerEntity, index) => (
           <Chip
             {...getTagProps({ index })}
             key={index}
@@ -125,7 +125,7 @@ export const PeoplePicker: FC<IPeoplePickerProps> = ({
           />
         ));
       }}
-      renderOption={(props, option: IExtendedPeoplePickerEntity) => (
+      renderOption={(props, option: IPeoplePickerEntity) => (
         <ListItem {...props}>
           <Stack direction="row" spacing={1} alignItems="center">
             {option.Image !== '' ? (
