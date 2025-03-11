@@ -1,4 +1,4 @@
-import { Search } from '@mui/icons-material';
+import { Check, Close, Search } from '@mui/icons-material';
 import {
   Box,
   Fade,
@@ -17,6 +17,7 @@ import {
   GridToolbarDensitySelector,
   GridToolbarExport,
   GridToolbarFilterButton,
+  GridToolbarProps,
 } from '@mui/x-data-grid';
 import { Logger } from '@pnp/logging';
 import * as React from 'react';
@@ -25,7 +26,7 @@ import { ListService } from '../../services';
 import { generateDashboardColumn } from '../../utils';
 import { IDashboardProps, ITabSchema } from './IDashboardProps';
 
-interface ICustomGridToolbarProps {
+interface ICustomGridToolbarProps extends GridToolbarProps {
   loading: boolean;
   columnAction: boolean;
   densityAction: boolean;
@@ -93,25 +94,40 @@ const CustomGridToolbar = ({
         </GridToolbarContainer>
       ) : null}
       {columnAction || densityAction || filterAction || exportAction ? (
-        <GridToolbarContainer
-        // sx={{ display: 'flex', gap: 1, alignItems: 'center' }}
-        >
+        <GridToolbarContainer sx={{ display: 'flex', alignItems: 'center' }}>
           {columnAction ? <GridToolbarColumnsButton /> : null}
           {densityAction ? <GridToolbarDensitySelector /> : null}
           {filterAction ? <GridToolbarFilterButton /> : null}
           {exportAction ? <GridToolbarExport /> : null}
           {updateMessage ? (
-            <Fade in timeout={500}>
-              <Typography
-                fontWeight="bold"
-                sx={{
-                  textAlign: 'center',
-                  color: `${updateMessage.type}.main`,
-                }}
-              >
-                {updateMessage.text}
-              </Typography>
-            </Fade>
+            <Box>
+              <Fade in timeout={500}>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    gap: 1,
+                    alignItems: 'center',
+                    p: '4px 5px',
+                  }}
+                >
+                  {updateMessage.type === 'success' ? (
+                    <Check color="success" fontSize="small" />
+                  ) : (
+                    <Close color="error" fontSize="small" />
+                  )}
+                  <Typography
+                    fontSize="small"
+                    variant="button"
+                    component="span"
+                    sx={{
+                      color: `${updateMessage.type}.main`,
+                    }}
+                  >
+                    {updateMessage.text}
+                  </Typography>
+                </Box>
+              </Fade>
+            </Box>
           ) : null}
         </GridToolbarContainer>
       ) : null}
@@ -183,6 +199,7 @@ export const Dashboard: React.FC<IDashboardProps> = ({
             : -1;
           if (index !== -1) {
             tempColumns[index] = generateDashboardColumn(
+              context,
               value,
               !value.ReadOnlyField && editable ? true : false
             );
@@ -193,6 +210,7 @@ export const Dashboard: React.FC<IDashboardProps> = ({
             ? tempColumns
             : [...response].map((value) =>
                 generateDashboardColumn(
+                  context,
                   value,
                   !value.ReadOnlyField && editable ? true : false
                 )
@@ -201,6 +219,7 @@ export const Dashboard: React.FC<IDashboardProps> = ({
         setCachedColumns(
           [...response].map((value) =>
             generateDashboardColumn(
+              context,
               value,
               !value.ReadOnlyField && editable ? true : false
             )
@@ -290,11 +309,11 @@ export const Dashboard: React.FC<IDashboardProps> = ({
     setLoading(true);
     try {
       await listService.updateListItem(rowId, newRow);
-      setUpdateMessage({ text: 'Saved!', type: 'success' });
+      setUpdateMessage({ text: 'Changes saved!', type: 'success' });
       return newRow;
     } catch (error) {
       Logger.error(error);
-      setUpdateMessage({ text: 'Error!', type: 'error' });
+      setUpdateMessage({ text: 'Error saving!', type: 'error' });
       return oldRow;
     } finally {
       setLoading(false);
@@ -303,16 +322,13 @@ export const Dashboard: React.FC<IDashboardProps> = ({
   };
 
   return (
-    <Box height={!isNaN(Number(height)) ? Number(height) : height || 500} p={1}>
+    <Box height={!isNaN(Number(height)) ? Number(height) : height || 500}>
       <DataGrid
         loading={loading}
         getRowId={(row) => String(row.Id)}
         columns={columns}
         rows={rows}
         editMode="row"
-        experimentalFeatures={{
-          columnGrouping: true,
-        }}
         processRowUpdate={editable ? processRowUpdate : undefined}
         initialState={{
           pagination: {
@@ -337,7 +353,7 @@ export const Dashboard: React.FC<IDashboardProps> = ({
             onTabChange: handleTabChange,
             onQueryChange: handleSearchQueryChange,
             onSearch: handleSearch,
-          },
+          } as ICustomGridToolbarProps,
         }}
         sx={sx}
       />
