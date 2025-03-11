@@ -9,7 +9,7 @@ import {
   Checkbox,
   CircularProgress,
   FormControlLabel,
-  Unstable_Grid2 as Grid,
+  Grid2 as Grid,
   MenuItem,
   TextField,
   Typography,
@@ -114,7 +114,7 @@ export const ListForm: React.FC<IListFormProps> = ({
                   size={inputSize}
                   fullWidth
                   disabled={field.ReadOnlyField}
-                  onSelectionChange={(value) =>
+                  onChange={(value) =>
                     setFormData({
                       ...formData,
                       [field.InternalName]: value,
@@ -136,7 +136,7 @@ export const ListForm: React.FC<IListFormProps> = ({
                   size={inputSize}
                   fullWidth
                   disabled={field.ReadOnlyField}
-                  onSelectionChange={(value) =>
+                  onChange={(value) =>
                     setFormData({
                       ...formData,
                       [field.InternalName]: value,
