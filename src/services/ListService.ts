@@ -1,4 +1,5 @@
 import { WebPartContext } from '@microsoft/sp-webpart-base';
+import { Logger } from '@pnp/logging';
 import { SPFI } from '@pnp/sp';
 import { FieldTypes, IFieldInfo } from '@pnp/sp/fields';
 import { IList, IListInfo } from '@pnp/sp/lists';
@@ -158,14 +159,35 @@ class ListService {
       'odata.etag',
     ]);
 
-    const filteredRow = Object.keys(newRow).reduce((acc, key) => {
-      if (!excludedFields.has(key)) {
-        acc[key] = newRow[key];
+    // Function to resolve SharePoint user ID by email
+    const resolveUserId = async (email: string): Promise<number | null> => {
+      try {
+        const user = await this.sp.web.siteUsers.getByEmail(email)();
+        return user.Id;
+      } catch (error) {
+        Logger.error(error);
+        return null;
       }
-      return acc;
-    }, {} as Record<string, any>);
+    };
 
-    await this.list.items.getById(id).update(filteredRow);
+    const processedRow: Record<string, any> = {};
+
+    for (const [key, value] of Object.entries(newRow)) {
+      if (!excludedFields.has(key) && !key.includes('@odata.')) {
+        if (typeof value === 'object' && value?.EMail) {
+          // If it's a People field, resolve its user ID
+          const userId = await resolveUserId(value.EMail);
+          if (userId) {
+            processedRow[`${key}Id`] = userId;
+          }
+        } else {
+          // Keep other fields as they are
+          processedRow[key] = value;
+        }
+      }
+    }
+
+    await this.list.items.getById(id).update(processedRow);
   }
 }
 
