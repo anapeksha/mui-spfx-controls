@@ -1,7 +1,6 @@
 import { WebPartContext } from '@microsoft/sp-webpart-base';
 import { PrincipalSource, PrincipalType, SPFI } from '@pnp/sp';
 import { IPeoplePickerEntity as IBasePeoplePickerEntity } from '@pnp/sp/profiles';
-import { ISiteUser } from '@pnp/sp/site-users/types';
 import { IPeoplePickerEntity } from '../components/PeoplePicker/IPeoplePickerProps';
 import { getSP } from '../config';
 import { generateImageUrl } from '../utils';
@@ -77,10 +76,6 @@ class PeopleSearchService {
       ...resolvedUser,
       Image: generateImageUrl(context, resolvedUser.EntityData.Email),
     };
-  }
-
-  public findUserByEmail(email: string): ISiteUser {
-    return this.sp.web.siteUsers.getByEmail(email);
   }
 }
 

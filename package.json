@@ -58,6 +58,7 @@
     "@pnp/sp": "^4.10.0",
     "@pnp/spfx-property-controls": "^3.19.0",
     "dayjs": "^1.11.13",
+    "enzyme-to-json": "^3.6.2",
     "react": "^17.0.1",
     "react-dom": "^17.0.1"
   },
@@ -87,9 +88,9 @@
     "typescript": "^4.7.4"
   },
   "jest": {
-    "transform": {
-      "^.+\\.(ts|tsx)$": "ts-jest"
-    },
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ],
     "setupFilesAfterEnv": [
       "<rootDir>/src/tests/setup.ts"
     ],
@@ -97,6 +98,9 @@
       "**/src/**/*.test.ts",
       "**/src/**/*.test.tsx"
     ],
+    "transform": {
+      "^.+\\.(ts|tsx)$": "ts-jest"
+    },
     "moduleFileExtensions": [
       "ts",
       "tsx",

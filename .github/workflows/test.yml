@@ -1,12 +1,14 @@
-name: Test Components
+name: Test
 on:
   pull_request:
     types:
       - closed
+    branches:
+      - main
 
 jobs:
   test:
-    if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main'
+    name: Unit Test Components
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository

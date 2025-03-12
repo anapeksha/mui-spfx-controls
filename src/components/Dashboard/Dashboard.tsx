@@ -164,6 +164,7 @@ export const Dashboard: React.FC<IDashboardProps> = ({
   tabAction,
   tabValue,
   editable,
+  resizable,
   columnAction,
   densityAction,
   filterAction,
@@ -201,7 +202,8 @@ export const Dashboard: React.FC<IDashboardProps> = ({
             tempColumns[index] = generateDashboardColumn(
               context,
               value,
-              !value.ReadOnlyField && editable ? true : false
+              !value.ReadOnlyField && editable ? true : false,
+              resizable ? true : false
             );
           }
         });
@@ -212,7 +214,8 @@ export const Dashboard: React.FC<IDashboardProps> = ({
                 generateDashboardColumn(
                   context,
                   value,
-                  !value.ReadOnlyField && editable ? true : false
+                  !value.ReadOnlyField && editable ? true : false,
+                  resizable ? true : false
                 )
               )
         );
@@ -221,7 +224,8 @@ export const Dashboard: React.FC<IDashboardProps> = ({
             generateDashboardColumn(
               context,
               value,
-              !value.ReadOnlyField && editable ? true : false
+              !value.ReadOnlyField && editable ? true : false,
+              resizable ? true : false
             )
           )
         );

@@ -1,4 +1,5 @@
 jest.mock('../../services/ListService');
+jest.mock('../../services/PeopleSearchService');
 
 import { DataGrid } from '@mui/x-data-grid';
 import { mount } from 'enzyme';
@@ -9,7 +10,7 @@ import { IDashboardProps } from '../components/Dashboard/IDashboardProps';
 import { ListService } from '../services';
 import { mockContext } from './__mocks__/context';
 
-describe('Dashboard Component Tests', () => {
+describe('<Dashboard />', () => {
   let wrapper: any;
   let listService: ListService;
   const fields = ['Title', 'Created', 'AssignedTo'];

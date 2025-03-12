@@ -6,6 +6,7 @@ define([], function () {
     ListFieldLabel: 'Select a List',
     ColumnsFieldLabel: 'Select List Columns',
     EditableActionFieldLabel: 'Editable',
+    ResizableActionFieldLabel: 'Resizable',
     ExportActionFieldLabel: 'Enable Export',
     TabActionFieldLabel: 'Enable Tabs',
     SearchActionFieldLabel: 'Enable Search',
