@@ -26,8 +26,10 @@ interface IPeoplePickerBaseProps {
   required?: boolean;
   searchSuggestionLimit?: number;
   personSelectionLimit?: number;
+  loading?: boolean;
   disabled?: boolean;
   variant?: TextFieldVariants;
+  renderInput?: AutocompleteBaseProps['renderInput'];
   tagVariant?: ChipOwnProps['variant'];
   color?: TextFieldProps['color'];
   tagColor?: ChipOwnProps['color'];
