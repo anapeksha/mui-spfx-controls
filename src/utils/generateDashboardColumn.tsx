@@ -1,5 +1,6 @@
 import { WebPartContext } from '@microsoft/sp-webpart-base';
 import { GridColDef } from '@mui/x-data-grid';
+import { GridApiCommunity } from '@mui/x-data-grid/internals';
 import { FieldTypes, IFieldInfo } from '@pnp/sp/fields';
 import React, { useEffect, useState } from 'react';
 import { IPeoplePickerProps, PeoplePicker } from '../components';
@@ -8,9 +9,11 @@ import { PeopleSearchService } from '../services';
 
 interface IWrapperPeoplePickerProps extends IPeoplePickerProps {
   query: string;
+  api: GridApiCommunity;
 }
 
 const WrapperPeoplePicker: React.FC<IWrapperPeoplePickerProps> = ({
+  api,
   context,
   query,
   multiple,
@@ -19,18 +22,28 @@ const WrapperPeoplePicker: React.FC<IWrapperPeoplePickerProps> = ({
 }) => {
   const peopleSearchService = new PeopleSearchService(context);
   const [resolvedUser, setResolvedUser] = useState<
-    IPeoplePickerEntity | IPeoplePickerEntity[] | undefined
-  >();
+    IPeoplePickerEntity | IPeoplePickerEntity[] | null
+  >(null);
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     peopleSearchService
       .resolveUser(context, query)
-      .then((response) => setResolvedUser(response))
-      .catch(() => {});
+      .then((response) => {
+        setLoading(false);
+        setResolvedUser(response);
+      })
+      .catch(() => {
+        setLoading(false);
+        setResolvedUser(null);
+      });
   }, []);
+
   return (
     <PeoplePicker
       context={context}
-      value={resolvedUser}
+      loading={loading}
+      value={resolvedUser!}
       onChange={onChange}
       {...props}
     />
@@ -40,7 +53,8 @@ const WrapperPeoplePicker: React.FC<IWrapperPeoplePickerProps> = ({
 export const generateDashboardColumn = (
   context: WebPartContext,
   currentField: IFieldInfo,
-  editable: boolean
+  editable: boolean,
+  resizable: boolean
 ): GridColDef => {
   switch (currentField.FieldTypeKind) {
     case FieldTypes.User:
@@ -50,10 +64,11 @@ export const generateDashboardColumn = (
         headerName: currentField.Title,
         editable: !currentField.ReadOnlyField && editable,
         valueFormatter: (params: any) => params.Title,
-        resizable: true,
+        resizable: resizable,
         renderEditCell: (params) => {
           return (
             <WrapperPeoplePicker
+              api={params.api}
               context={context}
               query={params.value.EMail}
               onChange={(selectedUser: IPeoplePickerEntity) => {
@@ -78,7 +93,7 @@ export const generateDashboardColumn = (
         headerName: currentField.Title,
         editable: !currentField.ReadOnlyField && editable,
         type: 'boolean',
-        resizable: true,
+        resizable: resizable,
       };
     case FieldTypes.DateTime:
       return {
@@ -90,7 +105,7 @@ export const generateDashboardColumn = (
           return new Date(params);
         },
         type: 'dateTime',
-        resizable: true,
+        resizable: resizable,
       };
     case FieldTypes.Choice:
     case FieldTypes.MultiChoice:
@@ -100,7 +115,7 @@ export const generateDashboardColumn = (
         headerName: currentField.Title,
         editable: !currentField.ReadOnlyField && editable,
         type: 'singleSelect',
-        resizable: true,
+        resizable: resizable,
         valueOptions: currentField.Choices ? currentField.Choices : [],
       };
     case FieldTypes.Number:
@@ -111,7 +126,7 @@ export const generateDashboardColumn = (
         headerName: currentField.Title,
         editable: !currentField.ReadOnlyField && editable,
         type: 'number',
-        resizable: true,
+        resizable: resizable,
       };
     case FieldTypes.Note:
       return {
@@ -120,7 +135,7 @@ export const generateDashboardColumn = (
         headerName: currentField.Title,
         editable: !currentField.ReadOnlyField && editable,
         type: 'string',
-        resizable: true,
+        resizable: resizable,
       };
     default:
       return {
@@ -129,7 +144,7 @@ export const generateDashboardColumn = (
         headerName: currentField.Title,
         editable: !currentField.ReadOnlyField && editable,
         type: 'string',
-        resizable: true,
+        resizable: resizable,
       };
   }
 };

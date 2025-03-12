@@ -17,6 +17,7 @@ interface IDashboardBaseProps {
   list: string;
   fields: string[];
   editable?: boolean;
+  resizable?: boolean;
   columnAction?: boolean;
   densityAction?: boolean;
   filterAction?: boolean;
