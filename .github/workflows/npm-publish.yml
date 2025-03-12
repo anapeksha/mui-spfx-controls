@@ -1,15 +1,16 @@
-name: Build and Publish
+name: Build
 on:
   release:
-    types: [created]
+    types: [published]
 
 jobs:
   build:
+    name: Build and Publish Library
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Setup Node
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '18.x'
