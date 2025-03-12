@@ -26,6 +26,7 @@ export interface IDashboardWebPartProps {
   fields: string[];
   height: number;
   editable: boolean;
+  resizable: boolean;
   exportAction: boolean;
   tabAction: true;
   searchAction: boolean;
@@ -47,6 +48,7 @@ export default class DashboardWebPart extends BaseClientSideWebPart<IDashboardWe
       list: this.properties.list,
       fields: this.properties.fields,
       editable: this.properties.editable,
+      resizable: this.properties.resizable,
       columnAction: this.properties.columnAction,
       exportAction: this.properties.exportAction,
       tabAction: this.properties.tabAction,
@@ -124,6 +126,9 @@ export default class DashboardWebPart extends BaseClientSideWebPart<IDashboardWe
                 }),
                 PropertyPaneToggle('editable', {
                   label: strings.EditableActionFieldLabel,
+                }),
+                PropertyPaneToggle('resizable', {
+                  label: strings.ResizableActionFieldLabel,
                 }),
                 PropertyFieldMonacoEditor('tabValue', {
                   key: 'tabValue-editor',
