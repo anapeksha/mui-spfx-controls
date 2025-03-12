@@ -1,4 +1,5 @@
 jest.mock('../../services/ListService');
+jest.mock('../../services/PeopleSearchService');
 
 import { DataGrid } from '@mui/x-data-grid';
 import { mount } from 'enzyme';
