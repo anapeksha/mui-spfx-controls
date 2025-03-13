@@ -62,6 +62,8 @@ export default class DashboardWebPart extends BaseClientWebPart {
         tabAction: true,
         densityAction: false,
         searchAction: true,
+        editable: true,
+        resizable: true,
         tabValue: [{fieldToMatch: "Field1", stringToMatch: "Test", label: "Tab1"}],
         height: 750,
       }
@@ -186,6 +188,7 @@ A SharePoint people picker component with MUI library integration
 - tagColor (optional): Chip color, e.g., "default" or "secondary"
 - size (optional): Size of component
 - LoadingComponent (optional): A loading component
+- renderInput (optional): Render a custom input component
 - sx (optional): MUI's sx prop
 
 ### Dashboard
@@ -204,6 +207,8 @@ A dashboard component with MUI Data Grid
 - searchAction (optional): Enable/Disable search functionality
 - tabAction (optional): Enable/Disable tab feature
 - tabValue (required if tabAction is true): Array object for Tabs
+- editable (optional): Enable/Disable editing feature
+- resizable (optional): Enable/Disable column resizing
 - height (optional): Absolute or relative container height
 - sx (optional): MUI's sx prop
 
