@@ -1,9 +1,16 @@
 # SPFx Material-UI Component Library
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![NPM publish](https://github.com/anapeksha/mui-spfx-controls/actions/workflows/npm-publish.yml/badge.svg)](https://github.com/anapeksha/mui-spfx-controls/actions/workflows/npm-publish.yml)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/anapeksha/mui-spfx-controls/blob/main/License)
+[![Publish](https://github.com/anapeksha/mui-spfx-controls/actions/workflows/publish.yml/badge.svg)](https://github.com/anapeksha/mui-spfx-controls/actions/workflows/publish.yml)
+[![Test](https://github.com/anapeksha/mui-spfx-controls/actions/workflows/test.yml/badge.svg)](https://github.com/anapeksha/mui-spfx-controls/actions/workflows/test.yml)
 
 This is a SharePoint Framework (SPFx) component library built using Material-UI (MUI). It provides reusable React components for building modern and visually appealing user interfaces in SharePoint.
+
+## Deployment
+
+A .sppkg solution package is available in the [Releases](https://github.com/anapeksha/mui-spfx-controls/releases). You can upload this package to your SharePoint App Catalog for direct deployment.
+
+This package includes built-in configurable web parts, making it easy to use without additional development.
 
 ## Installation
 
@@ -278,7 +285,7 @@ A search bar component with MUI library integration
 
 ## Development
 
-If you want to contribute to the library, you can follow these steps:
+Run the solution in development mode:
 
 Clone the repository:
 
@@ -299,8 +306,8 @@ Serve the solution
 npm run serve:fast
 ```
 
-Test the components/webparts in a sample SPFx project
+Test the components/webparts in the workbench
 
 ## License
 
-This project is licensed under the MIT License - see the `LICENSE.md` file for details.
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/anapeksha/mui-spfx-controls/blob/main/License) file for details.
