@@ -4,7 +4,7 @@ import { SPFI } from '@pnp/sp';
 import { FieldTypes, IFieldInfo } from '@pnp/sp/fields';
 import { IList, IListInfo } from '@pnp/sp/lists';
 import { PermissionKind } from '@pnp/sp/security';
-import { getSP } from '../config';
+import { getSP } from '../config/pnp.config';
 
 class ListService {
   private sp: SPFI;

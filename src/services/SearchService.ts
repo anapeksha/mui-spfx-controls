@@ -1,7 +1,7 @@
 import { WebPartContext } from '@microsoft/sp-webpart-base';
 import { SPFI } from '@pnp/sp';
 import { SearchResults } from '@pnp/sp/search';
-import { getSP } from '../config';
+import { getSP } from '../config/pnp.config';
 
 class SearchService {
   private sp: SPFI;
