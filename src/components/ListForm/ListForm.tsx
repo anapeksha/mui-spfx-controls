@@ -21,7 +21,7 @@ import { IFieldInfo } from '@pnp/sp/fields';
 import * as dayjs from 'dayjs';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import { ListService } from '../../services';
+import { ListService } from '../../services/ListService';
 import { PeoplePicker } from '../PeoplePicker/PeoplePicker';
 import { IListFormProps } from './IListFormProps';
 

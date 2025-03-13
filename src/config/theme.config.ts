@@ -1,4 +1,4 @@
-import { createTheme, colors } from '@mui/material';
+import { colors, createTheme } from '@mui/material';
 
 const spTheme = (window as any).__themeState__.theme;
 
@@ -19,7 +19,7 @@ const theme = createTheme({
     secondary: {
       light: spTheme.themeLighterAlt,
       main: spTheme.themeSecondary,
-      dark: spTheme.themeDarkerAlt,
+      dark: spTheme.themeDarkAlt,
     },
     success: {
       light: spTheme.greenLight,

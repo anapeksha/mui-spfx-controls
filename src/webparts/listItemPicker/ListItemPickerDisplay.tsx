@@ -1,7 +1,10 @@
-import * as React from 'react';
 import { ThemeProvider } from '@mui/material';
-import { theme } from '../../config';
-import { ListItemPicker, IListItemPickerProps } from '../../components';
+import * as React from 'react';
+import {
+  IListItemPickerProps,
+  ListItemPicker,
+} from '../../components/ListItemPicker';
+import { theme } from '../../config/theme.config';
 
 const ListItemPickerDisplay: React.FC<IListItemPickerProps> = (props) => {
   return (

@@ -13,8 +13,8 @@ import {
 import { Logger } from '@pnp/logging';
 import * as React from 'react';
 import { FC, useMemo, useState } from 'react';
-import { PeopleSearchService } from '../../services';
-import { handleDuplicates } from '../../utils';
+import { PeopleSearchService } from '../../services/PeopleSearchService';
+import { handleDuplicates } from '../../utils/handleDuplicates';
 import type {
   IPeoplePickerEntity,
   IPeoplePickerProps,

@@ -1,7 +1,7 @@
 import { ThemeProvider } from '@mui/material';
 import * as React from 'react';
-import { Navigation, INavigationProps } from '../../components';
-import { theme } from '../../config';
+import { INavigationProps, Navigation } from '../../components/Navigation';
+import { theme } from '../../config/theme.config';
 
 const NavigationDisplay: React.FC<INavigationProps> = (props) => {
   return (

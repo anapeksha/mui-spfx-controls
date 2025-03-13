@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist/test",
+    "module": "CommonJS",
+    "target": "ES6",
+    "lib": ["ES6", "DOM"],
+    "jsx": "react",
+    "types": ["jest", "node", "react"],
+    "esModuleInterop": true,
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": false,
+    "noImplicitAny": false,
+    "isolatedModules": false,
+    "noEmit": true,
+    "resolveJsonModule": true
+  },
+  "include": ["src/**/*.test.ts", "src/**/*.test.tsx", "src/**/setup.ts"]
+}

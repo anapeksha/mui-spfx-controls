@@ -12,7 +12,7 @@ import { Logger } from '@pnp/logging';
 import { ISearchResult } from '@pnp/sp/search';
 import debounce from 'lodash/debounce';
 import React, { FC, Fragment, useCallback, useEffect, useState } from 'react';
-import { SearchService } from '../../services';
+import { SearchService } from '../../services/SearchService';
 import { ISearchBarProps } from './ISearchBarProps';
 
 const SearchBar: FC<ISearchBarProps> = ({

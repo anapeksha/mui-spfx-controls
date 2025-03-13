@@ -172,16 +172,23 @@ class ListService {
 
     const processedRow: Record<string, any> = {};
 
-    for (const [key, value] of Object.entries(newRow)) {
-      if (!excludedFields.has(key) && !key.includes('@odata.')) {
-        if (typeof value === 'object' && value?.EMail) {
-          // If it's a People field, resolve its user ID
+    const keys = Object.keys(newRow);
+
+    for (let i = 0; i < keys.length; i++) {
+      const key = keys[i];
+      const value = newRow[key];
+
+      if (!excludedFields.has(key) && key.indexOf('@odata.') === -1) {
+        if (
+          typeof value === 'object' &&
+          value &&
+          Object.prototype.hasOwnProperty.call(value, 'EMail')
+        ) {
           const userId = await resolveUserId(value.EMail);
           if (userId) {
-            processedRow[`${key}Id`] = userId;
+            processedRow[key + 'Id'] = userId;
           }
         } else {
-          // Keep other fields as they are
           processedRow[key] = value;
         }
       }

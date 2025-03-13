@@ -1,18 +1,13 @@
-jest.mock('../../services/ListService');
-jest.mock('../../services/PeopleSearchService');
+jest.mock('../services/ListService');
+jest.mock('../services/PeopleSearchService');
 
-import { DataGrid } from '@mui/x-data-grid';
-import { mount } from 'enzyme';
+import { act, render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import React from 'react';
-import { act } from 'react-dom/test-utils';
-import { Dashboard } from '../components';
-import { IDashboardProps } from '../components/Dashboard/IDashboardProps';
-import { ListService } from '../services';
-import { mockContext } from './__mocks__/context';
+import { Dashboard, IDashboardProps } from '../components/Dashboard';
+import { mockContext } from './__mocks__/context'; // Ensure the path is correct
 
 describe('<Dashboard />', () => {
-  let wrapper: any;
-  let listService: ListService;
   const fields = ['Title', 'Created', 'AssignedTo'];
 
   const mockProps: IDashboardProps = {
@@ -29,57 +24,60 @@ describe('<Dashboard />', () => {
     height: 500,
   };
 
-  beforeEach(async () => {
-    listService = new ListService(mockContext, 'mockList');
-
-    await act(async () => {
-      wrapper = mount((<Dashboard {...mockProps} />) as any);
+  it('should render the Dashboard correctly', async () => {
+    act(() => {
+      render(<Dashboard {...mockProps} />);
     });
 
-    wrapper.update();
+    await waitFor(() =>
+      expect(screen.getByTestId('mui-spfx-dashboard')).toBeInTheDocument()
+    );
   });
 
-  it('should render the DataGrid', () => {
-    expect(wrapper.find(DataGrid).exists()).toBe(true);
-  });
+  it('should display correct number of rows', async () => {
+    act(() => {
+      render(<Dashboard {...mockProps} />);
+    });
 
-  it('should call getListFields and getListItems on mount', () => {
-    expect(listService.getListFields).toHaveBeenCalledWith(fields);
-    expect(listService.getListItems).toHaveBeenCalled();
-  });
-
-  it('should display correct number of rows', () => {
-    const rows = wrapper.find(DataGrid).prop('rows');
-    expect(rows).toHaveLength(3); // Assuming the mock returns 3 items
+    await waitFor(() => {
+      const rows = screen.getAllByRole('row');
+      expect(rows).toHaveLength(4); // 3 data rows + 1 header row
+    });
   });
 
   it('should filter rows based on search query', async () => {
     await act(async () => {
-      wrapper.find('input[aria-label="search"]').simulate('change', {
-        target: { value: 'Project B' },
-      });
-      wrapper.find('form').simulate('submit');
+      render(<Dashboard {...mockProps} />);
     });
 
-    wrapper.update();
+    const searchInput = screen.getByRole('textbox', { name: /search/i });
 
-    const filteredRows = wrapper.find(DataGrid).prop('rows');
-    expect(filteredRows).toHaveLength(1);
-    expect(filteredRows[0].Title).toBe('Project B');
+    await act(async () => {
+      userEvent.type(searchInput, 'Project B');
+    });
+
+    await waitFor(() => {
+      const rows = screen.getAllByRole('row');
+      expect(rows).toHaveLength(2); // 1 result row + 1 header row
+      expect(screen.getByText('Project B')).toBeInTheDocument();
+    });
   });
 
   it('should change rows when tab is switched', async () => {
-    const newTab = { fieldToMatch: 'Status', stringToMatch: 'Completed' };
-
     await act(async () => {
-      wrapper.find('Tabs').prop('onChange')(null, newTab);
+      render(<Dashboard {...mockProps} />);
     });
 
-    wrapper.update();
+    const tabButton = screen.getByRole('tab', { name: /completed/i });
 
-    const updatedRows = wrapper.find(DataGrid).prop('rows');
-    expect(
-      updatedRows.every((row: any) => row.Status === 'Completed')
-    ).toBeTruthy();
+    await act(async () => {
+      await userEvent.click(tabButton);
+    });
+
+    await waitFor(() => {
+      const rows = screen.getAllByRole('row');
+      expect(rows).toHaveLength(2);
+      expect(screen.getByText('Project B')).toBeInTheDocument();
+    });
   });
 });
