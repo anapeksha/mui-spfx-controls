@@ -2,7 +2,10 @@
 export default {
   testEnvironment: 'jsdom',
   transform: {
-    '^.+\\.(ts|tsx)$': ['ts-jest', { tsconfig: 'tsconfig.test.json' }],
+    '^.+\\.(ts|tsx)$': [
+      'ts-jest',
+      { tsconfig: '<rootDir>/tsconfig.test.json' },
+    ],
   },
   setupFilesAfterEnv: ['<rootDir>/src/tests/setup.ts'],
   testRegex: 'src/tests/.*\\.test.(ts?|tsx?)$',
