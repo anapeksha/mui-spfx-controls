@@ -3,9 +3,9 @@ import { GridColDef } from '@mui/x-data-grid';
 import { GridApiCommunity } from '@mui/x-data-grid/internals';
 import { FieldTypes, IFieldInfo } from '@pnp/sp/fields';
 import React, { useEffect, useState } from 'react';
-import { IPeoplePickerProps, PeoplePicker } from '../components';
+import { IPeoplePickerProps, PeoplePicker } from '../components/PeoplePicker';
 import { IPeoplePickerEntity } from '../components/PeoplePicker/IPeoplePickerProps';
-import { PeopleSearchService } from '../services';
+import { PeopleSearchService } from '../services/PeopleSearchService';
 
 interface IWrapperPeoplePickerProps extends IPeoplePickerProps {
   query: string;

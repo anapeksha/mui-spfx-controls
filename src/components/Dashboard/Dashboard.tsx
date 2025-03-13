@@ -22,8 +22,8 @@ import {
 import { Logger } from '@pnp/logging';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import { ListService } from '../../services';
-import { generateDashboardColumn } from '../../utils';
+import { ListService } from '../../services/ListService';
+import { generateDashboardColumn } from '../../utils/generateDashboardColumn';
 import { IDashboardProps, ITabSchema } from './IDashboardProps';
 
 interface ICustomGridToolbarProps extends GridToolbarProps {
@@ -326,7 +326,10 @@ export const Dashboard: React.FC<IDashboardProps> = ({
   };
 
   return (
-    <Box height={!isNaN(Number(height)) ? Number(height) : height || 500}>
+    <Box
+      data-testid="mui-spfx-dashboard"
+      height={!isNaN(Number(height)) ? Number(height) : height || 500}
+    >
       <DataGrid
         loading={loading}
         getRowId={(row) => String(row.Id)}

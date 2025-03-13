@@ -3,7 +3,7 @@ import { PrincipalSource, PrincipalType, SPFI } from '@pnp/sp';
 import { IPeoplePickerEntity as IBasePeoplePickerEntity } from '@pnp/sp/profiles';
 import { IPeoplePickerEntity } from '../components/PeoplePicker/IPeoplePickerProps';
 import { getSP } from '../config';
-import { generateImageUrl } from '../utils';
+import { generateImageUrl } from '../utils/generateImageUrl';
 
 class PeopleSearchService {
   private extendedResults: IPeoplePickerEntity[] = [];

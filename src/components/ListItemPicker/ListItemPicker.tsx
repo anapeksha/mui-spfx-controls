@@ -1,7 +1,7 @@
 import { Autocomplete, Skeleton, TextField } from '@mui/material';
 import { Logger } from '@pnp/logging';
 import React, { FC, useEffect, useState } from 'react';
-import { ListService } from '../../services';
+import { ListService } from '../../services/ListService';
 import { IListItemPickerProps } from './IListItemPickerProps';
 
 export const ListItemPicker: FC<IListItemPickerProps> = ({

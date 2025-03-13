@@ -1,6 +1,6 @@
 import { Breadcrumbs, Link } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-import { LinkItems, SiteService } from '../../services';
+import { LinkItems, SiteService } from '../../services/SiteService';
 import { ISiteBreadcrumbProps } from './ISiteBreadcrumbProps';
 
 const SiteBreadcrumb: React.FC<ISiteBreadcrumbProps> = ({
