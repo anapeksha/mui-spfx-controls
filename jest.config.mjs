@@ -1,6 +1,5 @@
 /** @type {import('jest').Config} */
 export default {
-  preset: 'ts-jest',
   testEnvironment: 'jsdom',
   transform: {
     '^.+\\.(ts|tsx)$': ['ts-jest', { tsconfig: 'tsconfig.test.json' }],
