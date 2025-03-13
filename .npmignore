@@ -32,4 +32,4 @@ gulpfile.mjs
 
 #Test files
 jest.config.mjs
-jest.setup.mjs
+tsconfig.test.json
