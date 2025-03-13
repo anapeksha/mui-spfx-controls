@@ -1,19 +1,20 @@
 {
   "compilerOptions": {
-    "outDir": "./dist/test",
+    "target": "ES2022",
     "module": "CommonJS",
-    "target": "ES6",
-    "lib": ["ES6", "DOM"],
+    "lib": ["ESNext", "DOM"],
     "jsx": "react",
-    "types": ["jest", "node", "react"],
-    "esModuleInterop": true,
+    "types": ["jest", "react"],
     "allowJs": true,
-    "skipLibCheck": true,
     "strict": false,
     "noImplicitAny": false,
-    "isolatedModules": false,
+    "moduleResolution": "Node",
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "isolatedModules": true,
     "noEmit": true,
     "resolveJsonModule": true
   },
-  "include": ["src/**/*.test.ts", "src/**/*.test.tsx", "src/**/setup.ts"]
+  "include": ["src/**/*.test.ts", "src/**/*.test.tsx", "src/tests/setup.ts"]
 }
