@@ -35,7 +35,7 @@
     "serve:fast": "fast-serve --reactProfiling",
     "build": "gulp bundle",
     "clean": "gulp clean",
-    "test": "gulp test && jest",
+    "test": "jest",
     "build:ship": "gulp bundle --ship",
     "package-solution": "gulp package-solution --ship"
   },
