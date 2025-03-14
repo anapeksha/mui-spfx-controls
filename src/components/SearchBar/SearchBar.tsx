@@ -89,6 +89,7 @@ const SearchBar: FC<ISearchBarProps> = ({
   return (
     <Autocomplete
       open={open}
+      role="searchbox"
       fullWidth={fullWidth}
       onOpen={() => setOpen(true)}
       onClose={() => setOpen(false)}
@@ -111,16 +112,19 @@ const SearchBar: FC<ISearchBarProps> = ({
           variant={variant}
           error={error !== null}
           helperText={error !== null ? 'Error searching' : ''}
-          InputProps={{
-            ...params.InputProps,
-            endAdornment: (
-              <Fragment>
-                {loading ? (
-                  <CircularProgress color="inherit" size={20} />
-                ) : null}
-                {params.InputProps.endAdornment}
-              </Fragment>
-            ),
+          slotProps={{
+            input: {
+              ...params.InputProps,
+              role: 'search',
+              endAdornment: (
+                <Fragment>
+                  {loading ? (
+                    <CircularProgress color="inherit" size={20} />
+                  ) : null}
+                  {params.InputProps.endAdornment}
+                </Fragment>
+              ),
+            },
           }}
         />
       )}
@@ -133,7 +137,11 @@ const SearchBar: FC<ISearchBarProps> = ({
           <ListItemText primary={option.Title} secondary={option.Author} />
         </ListItem>
       )}
-      ListboxProps={{ sx: { maxHeight: 500 } }}
+      slotProps={{
+        listbox: {
+          sx: { maxHeight: 500 },
+        },
+      }}
     />
   );
 };

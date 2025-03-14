@@ -12,7 +12,7 @@ import {
 } from '@mui/material';
 import { Logger } from '@pnp/logging';
 import * as React from 'react';
-import { FC, useMemo, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { PeopleSearchService } from '../../services/PeopleSearchService';
 import { handleDuplicates } from '../../utils/handleDuplicates';
 import type {
@@ -24,22 +24,16 @@ export const PeoplePicker: FC<IPeoplePickerProps> = ({
   context,
   label,
   required,
-  multiple,
-  defaultValue,
-  value,
   onChange,
   searchSuggestionLimit,
   renderInput,
-  disabled,
   variant,
   tagVariant,
   color,
   tagColor,
-  size,
   LoadingComponent,
   name,
   fullWidth,
-  sx,
   ...props
 }) => {
   const searchService = new PeopleSearchService(context);
@@ -47,35 +41,33 @@ export const PeoplePicker: FC<IPeoplePickerProps> = ({
   const [selectedUsers, setSelectedUsers] = useState<
     IPeoplePickerEntity[] | IPeoplePickerEntity | null
   >([]);
+  const [searchResults, setSearchResults] = useState<IPeoplePickerEntity[]>([]);
   const [error, setError] = useState<Error | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const searchResults = useMemo<IPeoplePickerEntity[]>(() => {
+  useEffect(() => {
     if (query !== '') {
-      let storedResults: IPeoplePickerEntity[] = [];
       setLoading(true);
       searchService
         .searchUser(context, query, searchSuggestionLimit)
         .then((response) => {
-          storedResults = response;
+          setSearchResults(response);
           setLoading(false);
         })
         .catch((error) => {
           Logger.error(error);
           setError(error);
         });
-      return storedResults;
     } else {
-      return [];
+      setSearchResults([]);
     }
   }, [query]);
 
   return (
     <Autocomplete
-      multiple={multiple}
+      {...props}
+      data-testid="mui-spfx-peoplepicker"
       options={searchResults}
-      value={value}
-      defaultValue={defaultValue}
       getOptionLabel={(option: IPeoplePickerEntity) => option.DisplayText || ''}
       filterOptions={(options) =>
         handleDuplicates(
@@ -84,11 +76,7 @@ export const PeoplePicker: FC<IPeoplePickerProps> = ({
         )
       }
       popupIcon={props.loading ? <CircularProgress size={20} /> : null}
-      size={size}
       loading={loading}
-      disabled={disabled}
-      sx={sx}
-      fullWidth
       loadingText={
         LoadingComponent || (
           <Stack direction="row" spacing={1}>
@@ -156,7 +144,6 @@ export const PeoplePicker: FC<IPeoplePickerProps> = ({
                 error={error !== null ? true : false}
                 helperText={error ? 'Something went wrong' : ''}
                 label={label}
-                fullWidth={fullWidth || true}
               />
             )
       }
