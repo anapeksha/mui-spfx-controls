@@ -1,10 +1,16 @@
 {
+  "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
-    "target": "ES2022",
-    "module": "CommonJS",
+    "target": "ESNext",
+    "module": "ESNext",
     "lib": ["ESNext", "DOM"],
     "jsx": "react",
-    "types": ["jest", "react"],
+    "types": [
+      "jest",
+      "react",
+      "@testing-library/jest-dom",
+      "@testing-library/user-event"
+    ],
     "allowJs": true,
     "strict": false,
     "noImplicitAny": false,
@@ -16,6 +22,6 @@
     "noEmit": true,
     "resolveJsonModule": true
   },
-  "include": ["src/**/*.test.ts", "src/**/*.test.tsx", "src/tests/setup.ts"],
+  "include": ["**/**/*.test.ts", "**/**/*.test.tsx", "src/tests/setup.ts"],
   "exclude": ["**/node_modules", "**/dist", "**/lib"]
 }
