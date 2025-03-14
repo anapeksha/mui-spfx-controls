@@ -19,5 +19,5 @@
     "lib": ["es5", "dom", "es2015.collection", "es2015.promise"]
   },
   "include": ["src/**/*.ts", "src/**/*.tsx"],
-  "exclude": ["**/node_modules", "**/dist", "**/lib"]
+  "exclude": ["**/node_modules", "**/dist", "**/lib", "src/tests"]
 }
