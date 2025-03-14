@@ -1,6 +1,8 @@
 /** @type {import('jest').Config} */
 export default {
   testEnvironment: 'jsdom',
+  maxWorkers: 4,
+  silent: true,
   transform: {
     '^.+\\.(ts|tsx)$': [
       'ts-jest',
@@ -20,6 +22,4 @@ export default {
     '\\.(css|scss)$': 'identity-obj-proxy',
   },
   modulePathIgnorePatterns: ['<rootDir>/lib/'],
-  maxWorkers: 4,
-  silent: false,
 };
