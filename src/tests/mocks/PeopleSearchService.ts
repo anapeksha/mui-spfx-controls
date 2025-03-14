@@ -7,7 +7,7 @@ export const mockUser = {
   Description: 'john.doe@example.com',
   EntityData: { Email: 'john.doe@example.com', PrincipalType: 'User' },
   Image: 'https://example.com/profile.jpg',
-} as unknown as IPeoplePickerEntity;
+} as IPeoplePickerEntity;
 
 export const mockUserList: IPeoplePickerEntity[] = [mockUser];
 
