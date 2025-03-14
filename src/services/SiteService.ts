@@ -1,7 +1,7 @@
 import { Environment, EnvironmentType } from '@microsoft/sp-core-library';
 import { WebPartContext } from '@microsoft/sp-webpart-base';
 import { SPFI } from '@pnp/sp';
-import { getSP } from '../config';
+import { getSP } from '../config/pnp.config';
 
 interface LinkItems {
   label: string;

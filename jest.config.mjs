@@ -1,8 +1,13 @@
 /** @type {import('jest').Config} */
 export default {
   testEnvironment: 'jsdom',
+  maxWorkers: 4,
+  silent: true,
   transform: {
-    '^.+\\.(ts|tsx)$': ['ts-jest', { tsconfig: 'tsconfig.test.json' }],
+    '^.+\\.(ts|tsx)$': [
+      'ts-jest',
+      { tsconfig: '<rootDir>/tsconfig.test.json' },
+    ],
   },
   setupFilesAfterEnv: ['<rootDir>/src/tests/setup.ts'],
   testRegex: 'src/tests/.*\\.test.(ts?|tsx?)$',
@@ -17,6 +22,4 @@ export default {
     '\\.(css|scss)$': 'identity-obj-proxy',
   },
   modulePathIgnorePatterns: ['<rootDir>/lib/'],
-  maxWorkers: 4,
-  silent: false,
 };

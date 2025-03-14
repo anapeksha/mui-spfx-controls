@@ -63,6 +63,7 @@ const CustomGridToolbar = ({
         <GridToolbarContainer>
           <Paper
             component="form"
+            role="search"
             sx={{
               p: '2px 4px',
               display: 'flex',

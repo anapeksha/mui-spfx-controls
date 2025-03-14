@@ -8,7 +8,7 @@ This is a SharePoint Framework (SPFx) component library built using Material-UI 
 
 ## Deployment
 
-A .sppkg solution package is available in the [Releases](https://github.com/anapeksha/mui-spfx-controls/releases). You can upload this package to your SharePoint App Catalog for direct deployment.
+A .sppkg solution package is available in [Releases](https://github.com/anapeksha/mui-spfx-controls/releases). You can upload this package to your SharePoint App Catalog for direct deployment.
 
 This package includes built-in configurable web parts, making it easy to use without additional development.
 
@@ -310,4 +310,4 @@ Test the components/webparts in the workbench
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](https://github.com/anapeksha/mui-spfx-controls/blob/main/License) file for details.
+This project is licensed under the MIT License - see [LICENSE](https://github.com/anapeksha/mui-spfx-controls/blob/main/License) file for details.
