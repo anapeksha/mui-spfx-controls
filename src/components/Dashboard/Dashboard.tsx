@@ -79,7 +79,7 @@ const CustomGridToolbar = ({
             <InputBase
               sx={{ ml: 1, flex: 1 }}
               placeholder="Search"
-              inputProps={{ 'aria-label': 'search' }}
+              inputProps={{ 'aria-label': 'search', role: 'searchbox' }}
               onChange={(event) => onQueryChange(event.target.value)}
               fullWidth
             />
