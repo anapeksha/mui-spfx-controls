@@ -1,94 +1,171 @@
-jest.mock('../services/ListService');
-jest.mock('../services/PeopleSearchService');
+jest.mock('../services/ListService', () =>
+  jest.requireActual('./mocks/ListService')
+);
+jest.mock('../services/PeopleSearchService', () =>
+  jest.requireActual('./mocks/PeopleSearchService')
+);
 
-import { render, waitFor } from '@testing-library/react';
+import { act, render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import React from 'react';
-import { Dashboard } from '../components/Dashboard';
-import { ListService } from '../services/ListService';
-import { PeopleSearchService } from '../services/PeopleSearchService';
-import { mockContext } from './__mocks__/context';
+import { Dashboard, IDashboardProps } from '../components/Dashboard';
+import { ITabSchema } from '../components/Dashboard/IDashboardProps';
+import { mockedContext } from './mocks/context'; // Ensure this path is correct
+import { mockedListItems } from './mocks/ListService';
 
-describe('Dashboard Component', () => {
-  let mockListService: jest.Mocked<ListService>;
-  let mockPeopleSearchService: jest.Mocked<PeopleSearchService>;
+describe('<Dashboard />', () => {
+  let props: IDashboardProps;
+  const searchText: string = 'Project Alpha';
+  const mockedTabValue: ITabSchema[] = [
+    {
+      label: 'Active Projects',
+      fieldToMatch: 'Status',
+      stringToMatch: 'Active',
+      displayFields: ['Title', 'AssignedTo', 'Created'],
+      disabled: false,
+      wrapped: false,
+    },
+    {
+      label: 'Completed Projects',
+      fieldToMatch: 'Status',
+      stringToMatch: 'Completed',
+      displayFields: ['Title', 'Priority', 'Created', 'Status'],
+      disabled: false,
+      wrapped: false,
+    },
+    {
+      label: 'High Priority',
+      fieldToMatch: 'Priority',
+      stringToMatch: '1',
+      displayFields: ['Title', 'AssignedTo', 'Priority'],
+      disabled: false,
+      wrapped: false,
+    },
+  ];
+  const mockedInternalNames: string[] = [
+    'Title',
+    'Created',
+    'AssignedTo',
+    'Status',
+    'Priority',
+  ];
 
-  const mockList = 'TestList';
-  const mockFields = ['Title', 'Created', 'AssignedTo'];
+  /** It should render the dashboard component properly */
+  it('Should render the component', async () => {
+    props = {
+      context: mockedContext,
+      list: 'mockList',
+      fields: mockedInternalNames,
+      columnAction: true,
+      densityAction: true,
+      filterAction: true,
+      exportAction: true,
+      searchAction: true,
+    };
 
-  beforeEach(() => {
-    // Reset mock before each test
-    jest.clearAllMocks();
+    await act(async () => {
+      render(<Dashboard {...props} />);
+    });
 
-    mockListService = new ListService(
-      mockContext,
-      mockList
-    ) as jest.Mocked<ListService>;
-
-    mockPeopleSearchService = new PeopleSearchService(
-      mockContext
-    ) as jest.Mocked<PeopleSearchService>;
+    expect(screen.getByTestId('mui-spfx-dashboard')).toBeInTheDocument();
   });
-  it('calls listService.getListFields with correct fields', async () => {
-    render(
-      <Dashboard
-        context={mockContext}
-        list={mockList}
-        fields={mockFields}
-        tabAction={false}
-        tabValue={undefined as never}
-        editable={false}
-        resizable={false}
-        columnAction={false}
-        densityAction={false}
-        filterAction={false}
-        exportAction={false}
-        searchAction={false}
-        height={500}
-        sx={{}}
-      />
-    );
+
+  /** Match number of rows to be equal to dataset */
+  it('Should display correct number of rows', async () => {
+    props = {
+      context: mockedContext,
+      list: 'mockList',
+      fields: mockedInternalNames,
+      columnAction: true,
+      densityAction: true,
+      filterAction: true,
+      exportAction: true,
+      searchAction: true,
+    };
+
+    await act(async () => {
+      render(<Dashboard {...props} />);
+    });
 
     await waitFor(() => {
-      expect(mockListService.getListFields).toHaveBeenCalledWith(mockFields);
-      expect(mockPeopleSearchService.resolveUser).toHaveBeenCalledWith(
-        mockContext,
-        'admin@contoso.com'
-      );
+      const rows = screen.getAllByRole('row');
+      const bodyRowLength = rows.length - 1;
+      expect(bodyRowLength).toBe(mockedListItems.length);
     });
   });
 
-  it('calls listService.getListItems with correct parameters', async () => {
-    render(
-      <Dashboard
-        context={mockContext}
-        list={mockList}
-        fields={mockFields}
-        tabAction={false}
-        tabValue={undefined as never}
-        editable={false}
-        resizable={false}
-        columnAction={false}
-        densityAction={false}
-        filterAction={false}
-        exportAction={false}
-        searchAction={false}
-        height={500}
-        sx={{}}
-      />
-    );
+  /** Check search filter */
+  it('Should filter rows based on search', async () => {
+    props = {
+      context: mockedContext,
+      list: 'mockList',
+      fields: mockedInternalNames,
+      columnAction: true,
+      densityAction: true,
+      filterAction: true,
+      exportAction: true,
+      searchAction: true,
+    };
+
+    await act(async () => {
+      render(<Dashboard {...props} />);
+    });
+
+    const searchInput = await screen.getByPlaceholderText('Search');
+    const searchForm = await screen.findByRole<HTMLFormElement>('search');
+
+    await act(async () => {
+      await userEvent.type(searchInput, searchText);
+      searchForm.submit();
+    });
 
     await waitFor(() => {
-      expect(mockListService.getListItems).toHaveBeenCalledWith(
-        expect.arrayContaining([
-          expect.objectContaining({ InternalName: 'Title' }),
-          expect.objectContaining({ InternalName: 'Created' }),
-        ]),
-        '',
-        'Created'
+      const rows = screen.getAllByRole('row');
+      const bodyRowLength = rows.length - 1;
+      expect(bodyRowLength).toBe(
+        mockedListItems.filter((value) => value.Title.includes(searchText))
+          .length
       );
-      expect(mockPeopleSearchService.resolveUser).toHaveBeenCalledWith(
-        mockContext,
-        'admin@contoso.com'
+      expect(screen.getByText(searchText)).toBeInTheDocument();
+    });
+  });
+
+  /** Tab change property check */
+  it('Should change rows when tab switched', async () => {
+    props = {
+      context: mockedContext,
+      list: 'mockList',
+      fields: mockedInternalNames,
+      columnAction: true,
+      densityAction: true,
+      filterAction: true,
+      exportAction: true,
+      searchAction: true,
+      tabAction: true,
+      tabValue: mockedTabValue,
+    };
+
+    await act(async () => {
+      render(<Dashboard {...props} />);
+    });
+
+    const tabButton = screen.getByRole('tab', {
+      name: mockedTabValue[1].label,
+    });
+
+    await act(async () => {
+      userEvent.click(tabButton);
+    });
+
+    await waitFor(() => {
+      const rows = screen.getAllByRole('row');
+      const bodyRowLength2 = rows.length - 1;
+      expect(bodyRowLength2).toBe(
+        mockedListItems.filter((value) =>
+          value[mockedTabValue[1].fieldToMatch].includes(
+            mockedTabValue[1].stringToMatch
+          )
+        ).length
       );
     });
   });

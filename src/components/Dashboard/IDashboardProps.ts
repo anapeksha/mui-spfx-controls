@@ -34,7 +34,7 @@ interface IDashboardTabbedProps extends IDashboardBaseProps {
 
 interface IDashboardNotTabbedProps extends IDashboardBaseProps {
   tabAction?: false;
-  tabValue: never;
+  tabValue?: undefined;
 }
 
 type IDashboardProps = IDashboardTabbedProps | IDashboardNotTabbedProps;

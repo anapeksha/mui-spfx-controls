@@ -1,6 +1,6 @@
 import { WebPartContext } from '@microsoft/sp-webpart-base';
 
-export const mockContext = {
+export const mockedContext = {
   pageContext: {
     web: {
       absoluteUrl: 'https://contoso.sharepoint.com/sites/mocksite',
