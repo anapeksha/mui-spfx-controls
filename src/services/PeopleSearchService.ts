@@ -8,16 +8,19 @@ import { generateImageUrl } from '../utils/generateImageUrl';
 class PeopleSearchService {
   private extendedResults: IPeoplePickerEntity[] = [];
   private sp: SPFI;
-  private image?: string;
   constructor(context: WebPartContext) {
     this.sp = getSP(context);
   }
   private restrictUnInvalidated(user: IBasePeoplePickerEntity): boolean {
-    return !(
-      user.EntityData &&
-      user.EntityData.PrincipalType &&
-      user.EntityData.PrincipalType === 'UNVALIDATED_EMAIL_ADDRESS'
-    );
+    if (user.EntityData.PrincipalType) {
+      if (user.EntityData.PrincipalType === 'UNVALIDATED_EMAIL_ADDRESS') {
+        return false;
+      } else {
+        return true;
+      }
+    } else {
+      return true;
+    }
   }
   public async searchUser(
     context: WebPartContext,
@@ -38,17 +41,18 @@ class PeopleSearchService {
         .then((response) => {
           response.filter((value) => this.restrictUnInvalidated(value));
           response.forEach((value) => {
+            let image = '';
             if (value.Description && value.Description !== '') {
-              this.image = generateImageUrl(context, value.Description);
+              image = generateImageUrl(context, value.Description);
             } else if (
               value.EntityData.Email &&
               value.EntityData.Email !== ''
             ) {
-              this.image = generateImageUrl(context, value.EntityData.Email);
+              image = generateImageUrl(context, value.EntityData.Email);
             }
             this.extendedResults.push({
               ...value,
-              Image: this.image as string,
+              Image: image,
             });
           });
           resolve(this.extendedResults);
