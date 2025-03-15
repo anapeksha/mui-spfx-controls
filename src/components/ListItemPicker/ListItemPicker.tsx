@@ -60,6 +60,7 @@ export const ListItemPicker: FC<IListItemPickerProps> = ({
       options={listItems}
       getOptionLabel={(option) => option[displayField] || ''}
       defaultValue={defaultValue}
+      filterOptions={(x) => x}
       loading={loading}
       size={size}
       disabled={disabled}

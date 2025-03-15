@@ -85,7 +85,7 @@ export const PeoplePicker: FC<IPeoplePickerProps> = ({
           selectedUsers as IPeoplePickerEntity[]
         )
       }
-      popupIcon={props.loading ? <CircularProgress size={20} /> : null}
+      popupIcon={null}
       loading={loading}
       loadingText={
         LoadingComponent || (
@@ -154,6 +154,19 @@ export const PeoplePicker: FC<IPeoplePickerProps> = ({
                 error={error !== null ? true : false}
                 helperText={error ? 'Something went wrong' : ''}
                 label={label}
+                slotProps={{
+                  input: {
+                    ...params.InputProps,
+                    endAdornment: (
+                      <React.Fragment>
+                        {props.loading ? (
+                          <CircularProgress color="inherit" size={20} />
+                        ) : null}
+                        {params.InputProps.endAdornment}
+                      </React.Fragment>
+                    ),
+                  },
+                }}
               />
             )
       }
