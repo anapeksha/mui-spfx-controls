@@ -13,7 +13,7 @@ import {
 import { Logger } from '@pnp/logging';
 import * as React from 'react';
 import { FC, useEffect, useState } from 'react';
-import { PeopleSearchService } from '../../services/PeopleSearchService';
+import { PeopleService } from '../../services/PeopleService';
 import { handleDuplicates } from '../../utils/handleDuplicates';
 import type {
   IPeoplePickerEntity,
@@ -24,9 +24,7 @@ export const PeoplePicker: FC<IPeoplePickerProps> = ({
   context,
   label,
   required,
-  onChange,
   searchSuggestionLimit,
-  renderInput,
   variant,
   tagVariant,
   color,
@@ -34,9 +32,11 @@ export const PeoplePicker: FC<IPeoplePickerProps> = ({
   LoadingComponent,
   name,
   fullWidth,
+  onChange,
+  renderInput,
   ...props
 }) => {
-  const searchService = new PeopleSearchService(context);
+  const peopleService = new PeopleService(context);
   const [query, setQuery] = useState<string>('');
   const [selectedUsers, setSelectedUsers] = useState<
     IPeoplePickerEntity[] | IPeoplePickerEntity | null
@@ -46,29 +46,39 @@ export const PeoplePicker: FC<IPeoplePickerProps> = ({
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
-    if (query !== '') {
-      setLoading(true);
-      searchService
-        .searchUser(context, query, searchSuggestionLimit)
-        .then((response) => {
-          setSearchResults(response);
-          setLoading(false);
-        })
-        .catch((error) => {
+    const searchUser = async (): Promise<void> => {
+      if (query !== '') {
+        try {
+          setLoading(true);
+          const searchedUsers = await peopleService.searchUser(
+            context,
+            query,
+            searchSuggestionLimit
+          );
+          setSearchResults(searchedUsers);
+        } catch (error) {
           Logger.error(error);
           setError(error);
-        });
-    } else {
-      setSearchResults([]);
-    }
+        } finally {
+          setLoading(false);
+        }
+      } else {
+        setSearchResults([]);
+      }
+    };
+
+    searchUser();
   }, [query]);
 
   return (
     <Autocomplete
       {...props}
       data-testid="mui-spfx-peoplepicker"
+      fullWidth={fullWidth !== undefined ? fullWidth : true}
       options={searchResults}
-      getOptionLabel={(option: IPeoplePickerEntity) => option.DisplayText || ''}
+      getOptionLabel={(option: IPeoplePickerEntity) =>
+        option?.DisplayText || ''
+      }
       filterOptions={(options) =>
         handleDuplicates(
           options as IPeoplePickerEntity[],

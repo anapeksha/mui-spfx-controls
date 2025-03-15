@@ -4,13 +4,13 @@ import { SPFI } from '@pnp/sp';
 import { FieldTypes, IFieldInfo } from '@pnp/sp/fields';
 import { IList, IListInfo } from '@pnp/sp/lists';
 import { PermissionKind } from '@pnp/sp/security';
-import { getSP } from '../config/pnp.config';
+import { getSp } from '../config/pnp.config';
 
 class ListService {
   private sp: SPFI;
   private list: IList;
   constructor(context: WebPartContext, listId: string) {
-    this.sp = getSP(context);
+    this.sp = getSp(context);
     this.list = this.sp.web.lists.getById(listId);
   }
 
