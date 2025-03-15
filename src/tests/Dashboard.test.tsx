@@ -1,8 +1,8 @@
 jest.mock('../services/ListService', () =>
   jest.requireActual('./mocks/ListService')
 );
-jest.mock('../services/PeopleSearchService', () =>
-  jest.requireActual('./mocks/PeopleSearchService')
+jest.mock('../services/PeopleService', () =>
+  jest.requireActual('./mocks/PeopleService')
 );
 
 import { act, render, screen, waitFor } from '@testing-library/react';
@@ -14,7 +14,6 @@ import { mockedContext } from './mocks/context'; // Ensure this path is correct
 import { mockedListItems } from './mocks/ListService';
 
 describe('<Dashboard />', () => {
-  let props: IDashboardProps;
   const searchText: string = 'Project Alpha';
   const mockedTabValue: ITabSchema[] = [
     {
@@ -49,20 +48,15 @@ describe('<Dashboard />', () => {
     'Status',
     'Priority',
   ];
+  const mockListName = 'MOCK_LIST';
+  let props: IDashboardProps = {
+    context: mockedContext,
+    list: mockListName,
+    fields: mockedInternalNames,
+  };
 
   /** It should render the dashboard component properly */
   it('Should render the component', async () => {
-    props = {
-      context: mockedContext,
-      list: 'mockList',
-      fields: mockedInternalNames,
-      columnAction: true,
-      densityAction: true,
-      filterAction: true,
-      exportAction: true,
-      searchAction: true,
-    };
-
     await act(async () => {
       render(<Dashboard {...props} />);
     });
@@ -72,17 +66,6 @@ describe('<Dashboard />', () => {
 
   /** Match number of rows to be equal to dataset */
   it('Should display correct number of rows', async () => {
-    props = {
-      context: mockedContext,
-      list: 'mockList',
-      fields: mockedInternalNames,
-      columnAction: true,
-      densityAction: true,
-      filterAction: true,
-      exportAction: true,
-      searchAction: true,
-    };
-
     await act(async () => {
       render(<Dashboard {...props} />);
     });
@@ -96,16 +79,7 @@ describe('<Dashboard />', () => {
 
   /** Check search filter */
   it('Should filter rows based on search', async () => {
-    props = {
-      context: mockedContext,
-      list: 'mockList',
-      fields: mockedInternalNames,
-      columnAction: true,
-      densityAction: true,
-      filterAction: true,
-      exportAction: true,
-      searchAction: true,
-    };
+    props = { ...props, searchAction: true };
 
     await act(async () => {
       render(<Dashboard {...props} />);
@@ -133,14 +107,8 @@ describe('<Dashboard />', () => {
   /** Tab change property check */
   it('Should change rows when tab switched', async () => {
     props = {
-      context: mockedContext,
-      list: 'mockList',
-      fields: mockedInternalNames,
-      columnAction: true,
-      densityAction: true,
-      filterAction: true,
-      exportAction: true,
-      searchAction: true,
+      ...props,
+      searchAction: false,
       tabAction: true,
       tabValue: mockedTabValue,
     };
