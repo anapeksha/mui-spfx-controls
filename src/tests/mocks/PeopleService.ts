@@ -47,7 +47,7 @@ export const mockUsers = [
   },
 ] as IPeoplePickerEntity[];
 
-export class PeopleSearchService {
+export class PeopleService {
   constructor(context: WebPartContext) {}
 
   public async searchUser(
