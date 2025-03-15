@@ -25,30 +25,33 @@ export const ListItemPicker: FC<IListItemPickerProps> = ({
   sx,
 }) => {
   const [listItems, setListItems] = useState<any[]>([]);
+  const [query, setQuery] = useState('');
   const [error, setError] = useState<Error | null>(null);
   const [loading, setLoading] = useState(false);
   const listService = new ListService(context, list);
 
   useEffect(() => {
-    setLoading(true);
-    listService
-      .getListFields(fields)
-      .then((response) => {
-        listService
-          .getListItems(response, '', 'Created', Number(searchSuggestionLimit))
-          .then((itemResponse) => {
-            setListItems(itemResponse);
-            setLoading(false);
-          })
-          .catch((error) => {
-            Logger.error(error);
-          });
-      })
-      .catch((error) => {
+    const fetchItems = async (): Promise<void> => {
+      try {
+        setLoading(true);
+        const fieldResponse = await listService.getListFields(fields);
+        const itemResponse = await listService.getListItems(
+          fieldResponse,
+          `substringof('${query}', ${displayField})`,
+          'Created',
+          Number(searchSuggestionLimit)
+        );
+        setListItems(itemResponse);
+      } catch (error) {
         Logger.error(error);
         setError(error);
-      });
-  }, [list, fields, displayField, searchSuggestionLimit]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchItems();
+  }, [list, fields, displayField, searchSuggestionLimit, query]);
 
   return (
     <Autocomplete
@@ -56,7 +59,7 @@ export const ListItemPicker: FC<IListItemPickerProps> = ({
       disableCloseOnSelect={multiple}
       options={listItems}
       getOptionLabel={(option) => option[displayField] || ''}
-      defaultValue={multiple ? [] : defaultValue}
+      defaultValue={defaultValue}
       loading={loading}
       size={size}
       disabled={disabled}
@@ -64,11 +67,11 @@ export const ListItemPicker: FC<IListItemPickerProps> = ({
       loadingText={LoadingComponent || <Skeleton width="100%" height={40} />}
       sx={sx}
       onChange={(event, value: any[]) => {
-        console.log(value);
         if (onSelectionChange) {
           onSelectionChange(value);
         }
       }}
+      onInputChange={(event, newValue) => setQuery(newValue)}
       renderInput={(params) => (
         <TextField
           {...params}
