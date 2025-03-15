@@ -10,6 +10,7 @@ import {
   CircularProgress,
   FormControlLabel,
   Grid2 as Grid,
+  Grid2Props as GridProps,
   MenuItem,
   TextField,
   Typography,
@@ -25,6 +26,10 @@ import { ListService } from '../../services/ListService';
 import { PeoplePicker } from '../PeoplePicker/PeoplePicker';
 import { IListFormProps } from './IListFormProps';
 
+interface IResponsiveFieldInfo extends IFieldInfo {
+  size?: GridProps['size'];
+}
+
 export const ListForm: React.FC<IListFormProps> = ({
   context,
   list,
@@ -37,23 +42,29 @@ export const ListForm: React.FC<IListFormProps> = ({
   inputVariant,
   inputSize,
   fieldSpacing,
+  responsive,
 }) => {
   const listService = new ListService(context, list);
-  const [filteredFields, setFilteredFields] = useState<IFieldInfo[]>([]);
+  const [filteredFields, setFilteredFields] = useState<IResponsiveFieldInfo[]>(
+    []
+  );
   const [formData, setFormData] = useState<any>();
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    setLoading(true);
-    listService
-      .getListFields(fields)
-      .then((response) => {
+    const fetchFields = async (): Promise<void> => {
+      try {
+        setLoading(true);
+        const response = await listService.getListFields(fields);
         setFilteredFields(response);
-        setLoading(false);
-      })
-      .catch((error) => {
+      } catch (error) {
         Logger.error(error);
-      });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchFields();
   }, [list, fields]);
 
   const handleFieldTypes = (): React.ReactNode => {
@@ -83,7 +94,11 @@ export const ListForm: React.FC<IListFormProps> = ({
         switch (field.TypeAsString) {
           case 'Text':
             return (
-              <Grid key={`grid-${field.Id}-${index}`} width="100%">
+              <Grid
+                key={`grid-${field.Id}-${index}`}
+                width="100%"
+                size={field.size}
+              >
                 <TextField
                   label={field.Title}
                   name={field.InternalName}
@@ -103,7 +118,11 @@ export const ListForm: React.FC<IListFormProps> = ({
             );
           case 'User':
             return (
-              <Grid key={`grid-${field.Id}-${index}`} width="100%">
+              <Grid
+                key={`grid-${field.Id}-${index}`}
+                width="100%"
+                size={field.size}
+              >
                 <PeoplePicker
                   context={context}
                   label={field.Title}
@@ -125,7 +144,11 @@ export const ListForm: React.FC<IListFormProps> = ({
             );
           case 'UserMulti':
             return (
-              <Grid key={`grid-${field.Id}-${index}`} width="100%">
+              <Grid
+                key={`grid-${field.Id}-${index}`}
+                width="100%"
+                size={field.size}
+              >
                 <PeoplePicker
                   context={context}
                   label={field.Title}
@@ -147,7 +170,11 @@ export const ListForm: React.FC<IListFormProps> = ({
             );
           case 'Choice':
             return (
-              <Grid key={`grid-${field.Id}-${index}`} width="100%">
+              <Grid
+                key={`grid-${field.Id}-${index}`}
+                width="100%"
+                size={field.size}
+              >
                 <TextField
                   label={field.Title}
                   name={field.InternalName}
@@ -174,7 +201,11 @@ export const ListForm: React.FC<IListFormProps> = ({
             );
           case 'MultiChoice':
             return (
-              <Grid key={`grid-${field.Id}-${index}`} width="100%">
+              <Grid
+                key={`grid-${field.Id}-${index}`}
+                width="100%"
+                size={field.size}
+              >
                 <TextField
                   label={field.Title}
                   name={field.InternalName}
@@ -206,7 +237,11 @@ export const ListForm: React.FC<IListFormProps> = ({
             );
           case 'DateTime':
             return (
-              <Grid key={`grid-${field.Id}-${index}`} width="100%">
+              <Grid
+                key={`grid-${field.Id}-${index}`}
+                width="100%"
+                size={field.size}
+              >
                 <DateTimePicker
                   label={field.Title}
                   name={field.InternalName}
@@ -230,7 +265,11 @@ export const ListForm: React.FC<IListFormProps> = ({
             );
           case 'Boolean':
             return (
-              <Grid key={`grid-${field.Id}-${index}`} width="100%">
+              <Grid
+                key={`grid-${field.Id}-${index}`}
+                width="100%"
+                size={field.size}
+              >
                 <FormControlLabel
                   required={field.Required}
                   name={field.InternalName}
@@ -248,13 +287,21 @@ export const ListForm: React.FC<IListFormProps> = ({
             );
           case 'Lookup':
             return (
-              <Grid key={`grid-${field.Id}-${index}`} width="100%">
+              <Grid
+                key={`grid-${field.Id}-${index}`}
+                width="100%"
+                size={field.size}
+              >
                 <p>{(field as any).LookupList}</p>
               </Grid>
             );
           case 'Counter':
             return (
-              <Grid key={`grid-${field.Id}-${index}`} width="100%">
+              <Grid
+                key={`grid-${field.Id}-${index}`}
+                width="100%"
+                size={field.size}
+              >
                 <Card
                   sx={{
                     backgroundColor: 'primary.main',
@@ -263,7 +310,7 @@ export const ListForm: React.FC<IListFormProps> = ({
                 >
                   <CardHeader
                     title={`Counter Type, Title - ${field.Title}`}
-                    titleTypographyProps={{ variant: 'h6' }}
+                    slotProps={{ typography: { variant: 'h6' } }}
                   />
                 </Card>
               </Grid>
@@ -273,6 +320,7 @@ export const ListForm: React.FC<IListFormProps> = ({
               <Grid
                 key={`grid-not-implemented-${field.Id}-${index}`}
                 width="100%"
+                size={field.size}
               >
                 <Card
                   sx={{
