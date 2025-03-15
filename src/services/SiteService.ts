@@ -1,7 +1,7 @@
 import { Environment, EnvironmentType } from '@microsoft/sp-core-library';
 import { WebPartContext } from '@microsoft/sp-webpart-base';
 import { SPFI } from '@pnp/sp';
-import { getSP } from '../config/pnp.config';
+import { getSp } from '../config/pnp.config';
 
 interface LinkItems {
   label: string;
@@ -14,40 +14,42 @@ class SiteService {
   private sp: SPFI;
   private _linkItems: LinkItems[] = [];
   constructor(context: WebPartContext) {
-    this.sp = getSP(context);
+    this.sp = getSp(context);
   }
 
-  private getParentWeb(context: WebPartContext, webUrl: string): void {
-    this.sp.web
-      .getParentWeb()
-      .then((response) => {
+  private async getParentWeb(
+    context: WebPartContext,
+    webUrl: string
+  ): Promise<void> {
+    try {
+      const response = await this.sp.web.getParentWeb().then((response) => {
         return response.select('Id', 'Title', 'ServerRelativeUrl')();
-      })
-      .then((response) => {
-        if (!response.ServerRelativeUrl && !response.Title) {
-          return;
-        }
-        this._linkItems.unshift({
-          label: response.Title,
-          key: response.Id,
-          href: response.ServerRelativeUrl,
-        });
+      });
+      if (!response.ServerRelativeUrl && !response.Title) {
+        return;
+      }
+      this._linkItems.unshift({
+        label: response.Title,
+        key: response.Id,
+        href: response.ServerRelativeUrl,
+      });
 
-        if (
-          response.ServerRelativeUrl ===
-          context.pageContext.site.serverRelativeUrl
-        ) {
-          return;
-        } else {
-          webUrl = webUrl.substring(
-            0,
-            webUrl.indexOf(`${response.ServerRelativeUrl}/`) +
-              response.ServerRelativeUrl.length
-          );
-          return this.getParentWeb(context, webUrl);
-        }
-      })
-      .catch((error) => {});
+      if (
+        response.ServerRelativeUrl ===
+        context.pageContext.site.serverRelativeUrl
+      ) {
+        return;
+      } else {
+        webUrl = webUrl.substring(
+          0,
+          webUrl.indexOf(`${response.ServerRelativeUrl}/`) +
+            response.ServerRelativeUrl.length
+        );
+        return this.getParentWeb(context, webUrl);
+      }
+    } catch {
+      /* empty */
+    }
   }
 
   public generateBreadcrumbs(context: WebPartContext): LinkItems[] | undefined {

@@ -1,5 +1,14 @@
 import { WebPartContext } from '@microsoft/sp-webpart-base';
-import { GridProps, PaperProps, TextFieldProps } from '@mui/material';
+import {
+  Grid2Props as GridProps,
+  PaperProps,
+  TextFieldProps,
+} from '@mui/material';
+
+type ResponsiveFieldType = {
+  name: string;
+  size: GridProps['size'];
+};
 
 interface IListFormProps {
   context: WebPartContext;
@@ -13,6 +22,7 @@ interface IListFormProps {
   inputVariant?: TextFieldProps['variant'];
   inputSize?: TextFieldProps['size'];
   fieldSpacing?: GridProps['spacing'];
+  responsive?: ResponsiveFieldType[];
 }
 
-export type { IListFormProps };
+export type { IListFormProps, ResponsiveFieldType };

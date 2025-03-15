@@ -1,5 +1,5 @@
-jest.mock('../services/PeopleSearchService', () =>
-  jest.requireActual('./mocks/PeopleSearchService')
+jest.mock('../services/PeopleService', () =>
+  jest.requireActual('./mocks/PeopleService')
 );
 
 import { act, render, screen, waitFor } from '@testing-library/react';
@@ -7,13 +7,14 @@ import userEvent from '@testing-library/user-event';
 import React from 'react';
 import { IPeoplePickerProps, PeoplePicker } from '../components/PeoplePicker';
 import { mockedContext } from './mocks/context';
-import { mockUsers } from './mocks/PeopleSearchService';
+import { mockUsers } from './mocks/PeopleService';
 
 describe('<PeoplePicker />', () => {
   let props: IPeoplePickerProps = {
     context: mockedContext,
     label: 'Select User',
   };
+  const userQuery: string = 'John';
 
   const onChangeMock = jest.fn();
 
@@ -35,7 +36,7 @@ describe('<PeoplePicker />', () => {
     const input = await screen.findByRole<HTMLInputElement>('combobox');
 
     await act(async () => {
-      await userEvent.type(input, 'John');
+      await userEvent.type(input, userQuery);
     });
 
     const user = await screen.findByText(mockUsers[0].DisplayText);
@@ -56,7 +57,7 @@ describe('<PeoplePicker />', () => {
     const input = await screen.findByRole<HTMLInputElement>('combobox');
 
     await act(async () => {
-      await userEvent.type(input, 'John');
+      await userEvent.type(input, userQuery);
     });
 
     const user = await screen.findByText(mockUsers[0].DisplayText);

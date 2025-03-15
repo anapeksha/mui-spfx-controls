@@ -16,7 +16,7 @@ import '@pnp/sp/webs';
 let _sp: SPFI;
 let _graph: GraphFI;
 
-export const getSP = (context?: WebPartContext): SPFI => {
+export const getSp = (context?: WebPartContext): SPFI => {
   if (!!context) {
     _sp = spfi()
       .using(SpSPFx(context))
