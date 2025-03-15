@@ -7,7 +7,7 @@ import userEvent from '@testing-library/user-event';
 import React from 'react';
 import { IPeoplePickerProps, PeoplePicker } from '../components/PeoplePicker';
 import { mockedContext } from './mocks/context';
-import { mockUserList } from './mocks/PeopleSearchService';
+import { mockUsers } from './mocks/PeopleSearchService';
 
 describe('<PeoplePicker />', () => {
   let props: IPeoplePickerProps = {
@@ -15,6 +15,9 @@ describe('<PeoplePicker />', () => {
     label: 'Select User',
   };
 
+  const onChangeMock = jest.fn();
+
+  /** Should render component properly */
   it('Should render PeoplePicker component', async () => {
     await act(async () => {
       render(<PeoplePicker {...props} />);
@@ -23,6 +26,7 @@ describe('<PeoplePicker />', () => {
     expect(screen.getByTestId('mui-spfx-peoplepicker')).toBeInTheDocument();
   });
 
+  /** Show search results while typing */
   it('Should show search results while typing', async () => {
     await act(async () => {
       render(<PeoplePicker {...props} />);
@@ -31,79 +35,38 @@ describe('<PeoplePicker />', () => {
     const input = await screen.findByRole<HTMLInputElement>('combobox');
 
     await act(async () => {
-      await userEvent.click(input);
-      await userEvent.type(input, 'John', {
-        delay: 1000,
-      });
+      await userEvent.type(input, 'John');
     });
 
-    const user = await screen.findByText(mockUserList[0].DisplayText);
+    const user = await screen.findByText(mockUsers[0].DisplayText);
 
     await waitFor(() => {
       expect(user).toBeInTheDocument();
     });
   });
 
-  //   it('should select a user from the search results', async () => {
-  //     render(
-  //       <PeoplePicker
-  //         context={mockedContext}
-  //         label="Select User"
-  //         onChange={onChangeMock}
-  //       />
-  //     );
+  /** Should call on change on single select */
+  it('Should select a user from the search results', async () => {
+    const updatedProps = { ...props, onChange: onChangeMock };
 
-  //     const input = screen.getByLabelText('Select User');
-  //     await userEvent.type(input, 'John');
+    await act(async () => {
+      render(<PeoplePicker {...updatedProps} />);
+    });
 
-  //     await waitFor(() => {
-  //       userEvent.click(screen.getByText(mockUserList[0].DisplayText));
-  //     });
+    const input = await screen.findByRole<HTMLInputElement>('combobox');
 
-  //     expect(screen.getByText(mockUserList[0].DisplayText)).toBeInTheDocument();
-  //     expect(onChangeMock).toHaveBeenCalledWith([mockUserList[0]]);
-  //   });
+    await act(async () => {
+      await userEvent.type(input, 'John');
+    });
 
-  //   it('should remove a selected user', async () => {
-  //     render(
-  //       <PeoplePicker
-  //         context={mockedContext}
-  //         label="Select User"
-  //         onChange={onChangeMock}
-  //       />
-  //     );
+    const user = await screen.findByText(mockUsers[0].DisplayText);
 
-  //     const input = screen.getByLabelText('Select User');
-  //     await userEvent.type(input, 'John');
+    await act(async () => {
+      userEvent.click(user);
+    });
 
-  //     await waitFor(() => {
-  //       userEvent.click(screen.getByText(mockUserList[0].DisplayText));
-  //     });
-
-  //     const removeButton = screen.getByRole('button', { name: /close/i });
-  //     await userEvent.click(removeButton);
-
-  //     await waitFor(() => {
-  //       expect(
-  //         screen.queryByText(mockUserList[0].DisplayText)
-  //       ).not.toBeInTheDocument();
-  //     });
-
-  //     expect(onChangeMock).toHaveBeenCalledWith([]);
-  //   });
-
-  //   it('should show a loading state while fetching results', async () => {
-  //     render(
-  //       <PeoplePicker
-  //         context={mockedContext}
-  //         label="Select User"
-  //         onChange={onChangeMock}
-  //       />
-  //     );
-
-  //     const input = screen.getByLabelText('Select User');
-  //     await userEvent.type(input, 'John');
-
-  //     expect(screen.getByRole('progressbar')).toBeInTheDocument();
-  //   });
+    await waitFor(() => {
+      expect(onChangeMock).toHaveBeenCalledWith(mockUsers[0]);
+    });
+  });
 });
