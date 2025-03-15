@@ -5,7 +5,7 @@ import { FieldTypes, IFieldInfo } from '@pnp/sp/fields';
 import React, { useEffect, useState } from 'react';
 import { IPeoplePickerProps, PeoplePicker } from '../components/PeoplePicker';
 import { IPeoplePickerEntity } from '../components/PeoplePicker/IPeoplePickerProps';
-import { PeopleSearchService } from '../services/PeopleSearchService';
+import { PeopleService } from '../services/PeopleService';
 
 interface IWrapperPeoplePickerProps extends IPeoplePickerProps {
   query: string;
@@ -20,23 +20,28 @@ const WrapperPeoplePicker: React.FC<IWrapperPeoplePickerProps> = ({
   onChange,
   ...props
 }) => {
-  const peopleSearchService = new PeopleSearchService(context);
+  const peopleService = new PeopleService(context);
   const [resolvedUser, setResolvedUser] = useState<
     IPeoplePickerEntity | IPeoplePickerEntity[] | null
   >(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    peopleSearchService
-      .resolveUser(context, query)
-      .then((response) => {
-        setLoading(false);
-        setResolvedUser(response);
-      })
-      .catch(() => {
-        setLoading(false);
+    const resolveUser = async (): Promise<void> => {
+      try {
+        const resolvedUserResponse = await peopleService.resolveUser(
+          context,
+          query
+        );
+        setResolvedUser(resolvedUserResponse);
+      } catch {
         setResolvedUser(null);
-      });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    resolveUser();
   }, []);
 
   return (
