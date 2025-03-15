@@ -1,7 +1,7 @@
 {
   "name": "mui-spfx-controls",
   "description": "SPFx component library with MUI",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "license": "MIT",
   "engines": {
     "node": ">=16.13.0 <17.0.0 || >=18.17.1 <19.0.0"
