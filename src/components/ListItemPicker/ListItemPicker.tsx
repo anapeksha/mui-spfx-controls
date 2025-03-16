@@ -1,5 +1,6 @@
 import { Autocomplete, Skeleton, TextField } from '@mui/material';
 import { Logger } from '@pnp/logging';
+import debounce from 'lodash/debounce';
 import React, { FC, useEffect, useState } from 'react';
 import { ListService } from '../../services/ListService';
 import { IListItemPickerProps } from './IListItemPickerProps';
@@ -31,7 +32,7 @@ export const ListItemPicker: FC<IListItemPickerProps> = ({
   const listService = new ListService(context, list);
 
   useEffect(() => {
-    const fetchItems = async (): Promise<void> => {
+    const fetchItems = debounce(async (): Promise<void> => {
       try {
         setLoading(true);
         const fieldResponse = await listService.getListFields(fields);
@@ -48,7 +49,7 @@ export const ListItemPicker: FC<IListItemPickerProps> = ({
       } finally {
         setLoading(false);
       }
-    };
+    }, 300);
 
     fetchItems();
   }, [list, fields, displayField, searchSuggestionLimit, query]);

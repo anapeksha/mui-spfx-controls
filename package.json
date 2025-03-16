@@ -1,8 +1,9 @@
 {
   "name": "mui-spfx-controls",
   "description": "SPFx component library with MUI",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "license": "MIT",
+  "type": "module",
   "engines": {
     "node": ">=16.13.0 <17.0.0 || >=18.17.1 <19.0.0"
   },
@@ -31,12 +32,12 @@
     "sharepoint framework"
   ],
   "scripts": {
-    "serve": "gulp serve",
-    "serve:fast": "fast-serve --reactProfiling",
-    "build": "gulp bundle",
-    "clean": "gulp clean",
-    "test": "jest",
+    "analyze": "gulp bundle --ship --analyze",
+    "build": "gulp build",
     "build:ship": "gulp bundle --ship",
+    "clean": "gulp clean",
+    "serve": "fast-serve --reactProfiling",
+    "test": "jest",
     "package-solution": "gulp package-solution --ship"
   },
   "dependencies": {
@@ -58,6 +59,7 @@
     "@pnp/sp": "^4.10.0",
     "@pnp/spfx-property-controls": "^3.19.0",
     "dayjs": "^1.11.13",
+    "mui-spfx-controls": "^0.6.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1"
   },
@@ -75,6 +77,7 @@
     "@types/jest": "^29.5.14",
     "@types/react": "^17.0.45",
     "@types/react-dom": "^17.0.17",
+    "@types/webpack-bundle-analyzer": "^4.7.0",
     "@types/webpack-env": "~1.15.2",
     "ajv": "^6.12.6",
     "eslint": "^8.57.1",
@@ -85,6 +88,7 @@
     "jest-environment-jsdom": "^29.7.0",
     "spfx-fast-serve-helpers": "^1.20.4",
     "ts-jest": "^29.2.6",
-    "typescript": "^4.7.4"
+    "typescript": "^4.7.4",
+    "webpack-bundle-analyzer": "^4.10.2"
   }
 }
