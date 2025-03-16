@@ -352,8 +352,14 @@ export const ListForm: React.FC<IListFormProps> = ({
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Card
-        variant={paperVariant}
-        elevation={isNaN(Number(paperElevation)) ? 2 : paperElevation}
+        variant={paperVariant || 'outlined'}
+        elevation={
+          paperVariant === 'elevation'
+            ? isNaN(Number(paperElevation))
+              ? 2
+              : paperElevation
+            : 0
+        }
         sx={{ p: 2 }}
       >
         {label ? <CardHeader title={label} /> : null}
