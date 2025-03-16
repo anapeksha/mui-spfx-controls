@@ -20,9 +20,9 @@ lib/extensions
 
 #build files
 tsconfig.json
-gulpfile.mjs
+gulpfile.js
 .yo-rc.json
-.eslintrc.js
+.eslintrc.cjs
 
 #logs
 *.log
@@ -31,7 +31,7 @@ gulpfile.mjs
 .prettierrc
 
 #Test files
-jest.config.mjs
+jest.config.js
 tsconfig.test.json
 
 #Markdowns
