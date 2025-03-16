@@ -33,3 +33,6 @@ gulpfile.mjs
 #Test files
 jest.config.mjs
 tsconfig.test.json
+
+#Markdowns
+CHANGELOG.md
