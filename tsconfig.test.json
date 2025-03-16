@@ -5,12 +5,7 @@
     "module": "ESNext",
     "lib": ["ESNext", "DOM"],
     "jsx": "react",
-    "types": [
-      "jest",
-      "react",
-      "@testing-library/jest-dom",
-      "@testing-library/user-event"
-    ],
+    "types": ["jest", "react"],
     "allowJs": true,
     "strict": false,
     "noImplicitAny": false,
