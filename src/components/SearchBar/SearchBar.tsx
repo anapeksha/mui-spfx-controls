@@ -13,9 +13,9 @@ import { ISearchResult } from '@pnp/sp/search';
 import debounce from 'lodash/debounce';
 import React, { FC, Fragment, useCallback, useEffect, useState } from 'react';
 import { SearchService } from '../../services/SearchService';
-import { ISearchBarProps } from './ISearchBarProps';
+import { ISearchbarProps } from './ISearchbarProps';
 
-const SearchBar: FC<ISearchBarProps> = ({
+const Searchbar: FC<ISearchbarProps> = ({
   label,
   variant,
   color,
@@ -146,4 +146,4 @@ const SearchBar: FC<ISearchBarProps> = ({
   );
 };
 
-export default SearchBar;
+export default Searchbar;

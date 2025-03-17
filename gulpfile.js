@@ -2,6 +2,7 @@
 
 import build from '@microsoft/sp-build-web';
 import gulp from 'gulp';
+import process from 'process';
 import * as fastServe from 'spfx-fast-serve-helpers';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 
@@ -15,7 +16,6 @@ build.configureWebpack.mergeConfig({
       config.plugins = [];
     }
 
-    // Run analyzer only if '--analyze' flag is passed
     if (process.argv.includes('--analyze')) {
       config.plugins.push(
         new BundleAnalyzerPlugin({
@@ -23,6 +23,13 @@ build.configureWebpack.mergeConfig({
           openAnalyzer: true,
         })
       );
+    }
+
+    if (process.argv.includes('build')) {
+      if (!config.resolve) {
+        config.resolve = {};
+      }
+      config.resolve.tsConfigPath = 'tsconfig.build.json';
     }
 
     return config;

@@ -45,8 +45,8 @@
     "search-bar-web-part": {
       "components": [
         {
-          "entrypoint": "./lib/webparts/searchBar/SearchBarWebPart.js",
-          "manifest": "./src/webparts/searchBar/SearchBarWebPart.manifest.json"
+          "entrypoint": "./lib/webparts/searchbar/SearchbarWebPart.js",
+          "manifest": "./src/webparts/searchbar/SearchbarWebPart.manifest.json"
         }
       ]
     },

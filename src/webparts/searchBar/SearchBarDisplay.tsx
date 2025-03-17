@@ -1,12 +1,12 @@
 import { ThemeProvider } from '@mui/material';
 import React from 'react';
-import { ISearchBarProps, SearchBar } from '../../components/SearchBar';
+import { ISearchbarProps, Searchbar } from '../../components/Searchbar';
 import { theme } from '../../config/theme.config';
 
-const SearchBarDisplay: React.FC<ISearchBarProps> = (props) => {
+const SearchBarDisplay: React.FC<ISearchbarProps> = (props) => {
   return (
     <ThemeProvider theme={theme}>
-      <SearchBar {...props} />
+      <Searchbar {...props} />
     </ThemeProvider>
   );
 };

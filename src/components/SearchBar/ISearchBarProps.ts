@@ -14,7 +14,7 @@ type AutocompleteBaseProps = AutocompleteProps<
   true
 >;
 
-interface ISearchBarProps {
+interface ISearchbarProps {
   label?: string;
   fullWidth?: boolean;
   size?: AutocompleteBaseProps['size'];
@@ -30,4 +30,4 @@ interface ISearchBarProps {
   ) => void;
 }
 
-export type { AutocompleteBaseProps, ISearchBarProps };
+export type { AutocompleteBaseProps, ISearchbarProps };
