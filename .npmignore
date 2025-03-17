@@ -36,3 +36,6 @@ tsconfig.test.json
 
 #Markdowns
 CHANGELOG.md
+
+#Schema Directory
+schemas
