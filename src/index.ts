@@ -13,8 +13,8 @@ export { default as Navigation } from './components/Navigation';
 export * from './components/PeoplePicker';
 export { default as PeoplePicker } from './components/PeoplePicker';
 
-export * from './components/temp';
-export { default as Searchbar } from './components/temp';
+export * from './components/Searchbar';
+export { default as Searchbar } from './components/Searchbar';
 
 export * from './components/SiteBreadcrumb';
 export { default as SiteBreadcrumb } from './components/SiteBreadcrumb';
