@@ -8,7 +8,7 @@ import {
 import { ISearchResult } from '@pnp/sp/search';
 
 type AutocompleteBaseProps = AutocompleteProps<
-  ISearchResult,
+  ISearchResult | ISearchResult[],
   boolean,
   boolean,
   true
