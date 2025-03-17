@@ -10,9 +10,9 @@ import { TextFieldProps, TextFieldVariants } from '@mui/material';
 import * as React from 'react';
 import * as ReactDom from 'react-dom';
 import * as strings from 'SearchBarWebPartStrings';
-import SearchBarDisplay from './SearchBarDisplay';
+import SearchbarDisplay from './SearchbarDisplay';
 
-export interface ISearchBarWebPartProps {
+export interface ISearchbarWebPartProps {
   label: string;
   size: TextFieldProps['size'];
   color: TextFieldProps['color'];
@@ -21,9 +21,9 @@ export interface ISearchBarWebPartProps {
   excludedScope: string;
 }
 
-export default class SearchBarWebPart extends BaseClientSideWebPart<ISearchBarWebPartProps> {
+export default class SearchbarWebPart extends BaseClientSideWebPart<ISearchbarWebPartProps> {
   public render(): void {
-    const element: React.ReactElement = React.createElement(SearchBarDisplay, {
+    const element: React.ReactElement = React.createElement(SearchbarDisplay, {
       context: this.context,
       label: this.properties.label,
       variant: this.properties.variant,

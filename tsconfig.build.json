@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "mui-spfx-controls": ["lib/index"],
+      "mui-spfx-controls/*": ["lib/components/*"]
+    }
+  }
+}

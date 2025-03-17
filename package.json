@@ -1,4 +1,5 @@
 {
+  "$schema": "https://json.schemastore.org/package",
   "name": "mui-spfx-controls",
   "description": "SPFx component library with MUI",
   "version": "0.6.2",
@@ -9,13 +10,50 @@
   },
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./lib/index.js",
+      "require": "./lib/index.js",
+      "types": "./lib/index.d.ts"
+    },
+    "./Dashboard": {
+      "import": "./lib/components/Dashboard/index.js",
+      "require": "./lib/components/Dashboard/index.js",
+      "types": "./lib/components/Dashboard/index.d.ts"
+    },
+    "./ListForm": {
+      "import": "./lib/components/ListForm/index.js",
+      "require": "./lib/components/ListForm/index.js",
+      "types": "./lib/components/ListForm/index.d.ts"
+    },
+    "./ListItemPicker": {
+      "import": "./lib/components/ListItemPicker/index.js",
+      "require": "./lib/components/ListItemPicker/index.js",
+      "types": "./lib/components/ListItemPicker/index.d.ts"
+    },
+    "./Navigation": {
+      "import": "./lib/components/Navigation/index.js",
+      "require": "./lib/components/Navigation/index.js",
+      "types": "./lib/components/Navigation/index.d.ts"
+    },
+    "./PeoplePicker": {
+      "import": "./lib/components/PeoplePicker/index.js",
+      "require": "./lib/components/PeoplePicker/index.js",
+      "types": "./lib/components/PeoplePicker/index.d.ts"
+    },
+    "./Searchbar": {
+      "import": "./lib/components/SearchBar/index.js",
+      "require": "./lib/components/SearchBar/index.js",
+      "types": "./lib/components/SearchBar/index.d.ts"
+    }
+  },
   "author": {
     "name": "Anapeksha Mukherjee",
     "email": "anapeksha.mukherjee@gmail.com"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/anapeksha/mui-spfx-controls"
+    "url": "git+https://github.com/anapeksha/mui-spfx-controls.git"
   },
   "bugs": {
     "url": "https://github.com/anapeksha/mui-spfx-controls/issues"
@@ -59,7 +97,6 @@
     "@pnp/sp": "^4.10.0",
     "@pnp/spfx-property-controls": "^3.19.0",
     "dayjs": "^1.11.13",
-    "mui-spfx-controls": "^0.6.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1"
   },
