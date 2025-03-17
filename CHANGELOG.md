@@ -1,5 +1,13 @@
 # Changelog
 
+## **v0.6.3** (Bug Fix Release)
+
+### **Bug Fixes & Improvements**
+
+- **Fixed an import bug**
+  - Submodule paths were not added in package.json
+  - Updated tsconfig to build the module and support webpack v5
+
 ## **v0.6.2** (Bug Fix Release)
 
 ### **Bug Fixes & Improvements**
