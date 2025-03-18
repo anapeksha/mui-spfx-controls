@@ -3,8 +3,6 @@ export default {
   testEnvironment: 'jsdom',
   maxWorkers: 4,
   silent: true,
-  rootDir: '.',
-  collectCoverage: true,
   transform: {
     '^.+\\.(ts|tsx)$': [
       'ts-jest',
