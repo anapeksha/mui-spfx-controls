@@ -4,12 +4,20 @@
   "description": "SPFx component library with MUI",
   "version": "0.6.3",
   "license": "MIT",
-  "type": "module",
   "engines": {
     "node": ">=16.13.0 <17.0.0 || >=18.17.1 <19.0.0"
   },
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
+  "scripts": {
+    "analyze": "gulp bundle --ship --analyze",
+    "build": "gulp build",
+    "build:ship": "gulp bundle --ship",
+    "clean": "gulp clean",
+    "serve": "fast-serve --reactProfiling",
+    "test": "jest",
+    "package-solution": "gulp package-solution --ship"
+  },
   "exports": {
     ".": {
       "import": "./lib/index.js",
@@ -69,15 +77,6 @@
     "material ui",
     "sharepoint framework"
   ],
-  "scripts": {
-    "analyze": "gulp bundle --ship --analyze",
-    "build": "gulp build",
-    "build:ship": "gulp bundle --ship",
-    "clean": "gulp clean",
-    "serve": "fast-serve --reactProfiling",
-    "test": "jest",
-    "package-solution": "gulp package-solution --ship"
-  },
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
