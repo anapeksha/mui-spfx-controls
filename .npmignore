@@ -19,10 +19,10 @@ lib/extensions
 *.ps1
 
 #build files
-tsconfig.json
-gulpfile.js
+tsconfig.*
+gulpfile.mjs
 .yo-rc.json
-.eslintrc.cjs
+.eslintrc.js
 
 #logs
 *.log
@@ -31,8 +31,7 @@ gulpfile.js
 .prettierrc
 
 #Test files
-jest.config.js
-tsconfig.test.json
+jest.config.mjs
 
 #Markdowns
 CHANGELOG.md
