@@ -14,13 +14,13 @@ module.exports = {
       ],
       parser: '@typescript-eslint/parser',
       parserOptions: {
-        project: './includes/tsconfig.json',
+        project: './tsconfig.test.json',
         ecmaVersion: 2022,
         sourceType: 'module',
       },
       env: {
-        jest: true, // Enable Jest global variables
-        node: true, // Allow Node.js global variables
+        jest: true,
+        node: true,
       },
       rules: {
         '@typescript-eslint/no-explicit-any': 'off',
