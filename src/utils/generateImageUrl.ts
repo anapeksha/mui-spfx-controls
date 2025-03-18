@@ -8,7 +8,7 @@ export const generateImageUrl = (
     return `${
       context.pageContext.web.absoluteUrl
     }/_layouts/15/userphoto.aspx?accountname=${encodeURIComponent(
-      email as string
+      email || ''
     )}&size=M`;
   } else {
     return '';
