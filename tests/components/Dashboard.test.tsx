@@ -1,17 +1,17 @@
-jest.mock('../src/services/ListService', () =>
-  jest.requireActual('./mocks/ListService')
+jest.mock('../../src/services/ListService', () =>
+  jest.requireActual('../mocks/ListService')
 );
-jest.mock('../src/services/PeopleService', () =>
-  jest.requireActual('./mocks/PeopleService')
+jest.mock('../../src/services/PeopleService', () =>
+  jest.requireActual('../mocks/PeopleService')
 );
 
 import { act, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
-import { Dashboard, IDashboardProps } from '../src/components/Dashboard';
-import { ITabSchema } from '../src/components/Dashboard/IDashboardProps';
-import { mockedContext } from './mocks/context'; // Ensure this path is correct
-import { mockedListItems } from './mocks/ListService';
+import { Dashboard, IDashboardProps } from '../../src/components/Dashboard';
+import { ITabSchema } from '../../src/components/Dashboard/IDashboardProps';
+import { mockedContext } from '../mocks/context'; // Ensure this path is correct
+import { mockedListItems } from '../mocks/ListService';
 
 describe('<Dashboard />', () => {
   const searchText: string = 'Project Alpha';

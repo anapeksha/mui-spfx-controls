@@ -1,5 +1,5 @@
-jest.mock('../src/services/PeopleService', () =>
-  jest.requireActual('./mocks/PeopleService')
+jest.mock('../../src/services/PeopleService', () =>
+  jest.requireActual('../mocks/PeopleService')
 );
 
 import { act, render, screen, waitFor } from '@testing-library/react';
@@ -8,9 +8,9 @@ import React from 'react';
 import {
   IPeoplePickerProps,
   PeoplePicker,
-} from '../src/components/PeoplePicker';
-import { mockedContext } from './mocks/context';
-import { mockUsers } from './mocks/PeopleService';
+} from '../../src/components/PeoplePicker';
+import { mockedContext } from '../mocks/context';
+import { mockUsers } from '../mocks/PeopleService';
 
 describe('<PeoplePicker />', () => {
   let props: IPeoplePickerProps = {

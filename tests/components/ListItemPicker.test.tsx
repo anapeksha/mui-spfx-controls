@@ -1,13 +1,13 @@
-jest.mock('../src/services/ListService', () =>
-  jest.requireActual('./mocks/ListService')
+jest.mock('../../src/services/ListService', () =>
+  jest.requireActual('../mocks/ListService')
 );
 
 import { act, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
-import { IListItemPickerProps } from '../src/components/ListItemPicker/IListItemPickerProps';
-import ListItemPicker from '../src/components/ListItemPicker/ListItemPicker';
-import { mockedContext } from './mocks/context';
+import { IListItemPickerProps } from '../../src/components/ListItemPicker/IListItemPickerProps';
+import ListItemPicker from '../../src/components/ListItemPicker/ListItemPicker';
+import { mockedContext } from '../mocks/context';
 
 describe('<ListItemPicker />', () => {
   let props: IListItemPickerProps;

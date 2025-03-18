@@ -1,13 +1,13 @@
-jest.mock('../services/ListService', () =>
-  jest.requireActual('./mocks/ListService')
+jest.mock('../../src/services/ListService', () =>
+  jest.requireActual('../mocks/ListService')
 );
 
 import { act, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
-import { IListFormProps } from '../src/components/ListForm/IListFormProps';
-import ListForm from '../src/components/ListForm/ListForm';
-import { mockedContext } from './mocks/context';
+import { IListFormProps } from '../../src/components/ListForm/IListFormProps';
+import ListForm from '../../src/components/ListForm/ListForm';
+import { mockedContext } from '../mocks/context';
 
 describe('<ListForm />', () => {
   let props: IListFormProps;

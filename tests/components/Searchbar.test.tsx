@@ -1,11 +1,11 @@
-jest.mock('../src/services/SearchService', () =>
-  jest.requireActual('./mocks/SearchService')
+jest.mock('../../src/services/SearchService', () =>
+  jest.requireActual('../mocks/SearchService')
 );
 
 import { act, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
-import SearchBar, { ISearchbarProps } from '../src/components/Searchbar';
+import SearchBar, { ISearchbarProps } from '../../src/components/Searchbar';
 
 describe('<SearchBar />', () => {
   let props: ISearchbarProps;

@@ -25,6 +25,7 @@ class SiteService {
       const response = await this.sp.web.getParentWeb().then((response) => {
         return response.select('Id', 'Title', 'ServerRelativeUrl')();
       });
+      console.log(response);
       if (!response.ServerRelativeUrl && !response.Title) {
         return;
       }
@@ -47,8 +48,9 @@ class SiteService {
         );
         return this.getParentWeb(context, webUrl);
       }
-    } catch {
+    } catch (error) {
       /* empty */
+      console.log(error);
     }
   }
 
@@ -68,6 +70,7 @@ class SiteService {
       return this._linkItems;
     } else {
       if (Environment.type === EnvironmentType.Test) {
+        console.log(this._linkItems);
         return this._linkItems;
       } else {
         this.getParentWeb(context, context.pageContext.web.absoluteUrl);

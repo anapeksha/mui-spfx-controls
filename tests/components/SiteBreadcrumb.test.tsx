@@ -1,5 +1,5 @@
-jest.mock('../src/services/SiteService', () =>
-  jest.requireActual('./mocks/SiteService')
+jest.mock('../../src/services/SiteService', () =>
+  jest.requireActual('../mocks/SiteService')
 );
 
 import { act, render, screen } from '@testing-library/react';
@@ -7,8 +7,8 @@ import userEvent from '@testing-library/user-event';
 import React from 'react';
 import SiteBreadcrumb, {
   ISiteBreadcrumbProps,
-} from '../src/components/SiteBreadcrumb';
-import { mockedContext } from './mocks/context';
+} from '../../src/components/SiteBreadcrumb';
+import { mockedContext } from '../mocks/context';
 
 describe('<SiteBreadcrumb />', () => {
   const props: ISiteBreadcrumbProps = {

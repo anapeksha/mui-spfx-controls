@@ -1,4 +1,5 @@
 import { Breadcrumbs, Link } from '@mui/material';
+import { Logger } from '@pnp/logging';
 import React, { useEffect, useState } from 'react';
 import { LinkItems, SiteService } from '../../services/SiteService';
 import { ISiteBreadcrumbProps } from './ISiteBreadcrumbProps';
@@ -14,8 +15,14 @@ const SiteBreadcrumb: React.FC<ISiteBreadcrumbProps> = ({
 
   useEffect(() => {
     const fetchData = async (): Promise<void> => {
-      const generatedBreadcrumbData = siteService.generateBreadcrumbs(context);
-      setBreadcrumbData(generatedBreadcrumbData);
+      try {
+        const generatedBreadcrumbData =
+          siteService.generateBreadcrumbs(context);
+        console.log(generatedBreadcrumbData);
+        setBreadcrumbData(generatedBreadcrumbData);
+      } catch (error) {
+        Logger.error(error);
+      }
     };
     fetchData();
   }, []);

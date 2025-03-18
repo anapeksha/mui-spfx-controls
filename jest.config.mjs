@@ -3,7 +3,7 @@ export default {
   testEnvironment: 'jsdom',
   maxWorkers: 4,
   silent: true,
-  passWithNoTests: true,
+  rootDir: '.',
   collectCoverage: true,
   transform: {
     '^.+\\.(ts|tsx)$': [
@@ -12,7 +12,7 @@ export default {
     ],
   },
   setupFilesAfterEnv: ['<rootDir>/tests/setup.ts'],
-  testRegex: '<rootDir>/tests/.*\\.test.(ts?|tsx?)$',
+  testRegex: '/tests/.*\\.test.(ts?|tsx?)$',
   moduleFileExtensions: ['ts', 'tsx', 'js', 'json'],
   moduleNameMapper: {
     '@microsoft/sp-webpart-base': 'identity-obj-proxy',
