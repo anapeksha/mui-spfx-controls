@@ -29,7 +29,7 @@ export const Navigation: FC<INavigationProps> = ({
   linkTarget,
 }) => {
   return (
-    <SimpleTreeView {...viewProps}>
+    <SimpleTreeView {...viewProps} data-testid="mui-spfx-navigation">
       {items.map((item) => renderTree(item, linkTarget, itemProps))}
     </SimpleTreeView>
   );
