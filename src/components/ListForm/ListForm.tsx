@@ -19,7 +19,7 @@ import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { Logger } from '@pnp/logging';
 import { IFieldInfo } from '@pnp/sp/fields';
-import * as dayjs from 'dayjs';
+import dayjs from 'dayjs';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { ListService } from '../../services/ListService';
@@ -352,6 +352,7 @@ export const ListForm: React.FC<IListFormProps> = ({
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Card
+        data-testid="mui-spfx-listform"
         variant={paperVariant || 'outlined'}
         elevation={
           paperVariant === 'elevation'
