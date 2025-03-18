@@ -158,60 +158,75 @@ const CustomGridToolbar = ({
   );
 };
 
-export const Dashboard: React.FC<IDashboardProps> = ({
-  context,
-  list,
-  fields,
-  tabAction,
-  tabValue,
-  editable,
-  resizable,
-  columnAction,
-  densityAction,
-  filterAction,
-  exportAction,
-  searchAction,
-  height,
-  sx,
-}) => {
-  const listService = new ListService(context, list);
-  const [columns, setColumns] = useState<GridColDef[]>([]);
-  const [cachedColumns, setCachedColumns] = useState<GridColDef[]>([]);
-  const [rows, setRows] = useState<Record<string, any>[]>([]);
-  const [cachedRows, setCachedRows] = useState<any[]>([]);
-  const [currentTabValue, setCurrentTabValue] = useState<
-    ITabSchema | undefined
-  >(tabValue ? tabValue[0] : undefined);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [updateMessage, setUpdateMessage] = useState<{
-    text: string;
-    type: 'success' | 'error';
-  } | null>(null);
+const Dashboard: React.ForwardRefExoticComponent<IDashboardProps> =
+  React.forwardRef(
+    (
+      {
+        context,
+        list,
+        fields,
+        tabAction,
+        tabValue,
+        editable,
+        resizable,
+        columnAction,
+        densityAction,
+        filterAction,
+        exportAction,
+        searchAction,
+        height,
+        sx,
+      },
+      ref: React.RefObject<HTMLDivElement>
+    ) => {
+      const listService = new ListService(context, list);
+      const [columns, setColumns] = useState<GridColDef[]>([]);
+      const [cachedColumns, setCachedColumns] = useState<GridColDef[]>([]);
+      const [rows, setRows] = useState<Record<string, any>[]>([]);
+      const [cachedRows, setCachedRows] = useState<any[]>([]);
+      const [currentTabValue, setCurrentTabValue] = useState<
+        ITabSchema | undefined
+      >(tabValue ? tabValue[0] : undefined);
+      const [searchQuery, setSearchQuery] = useState('');
+      const [loading, setLoading] = useState(false);
+      const [updateMessage, setUpdateMessage] = useState<{
+        text: string;
+        type: 'success' | 'error';
+      } | null>(null);
 
-  useEffect(() => {
-    setLoading(true);
-    listService
-      .getListFields(fields)
-      .then((response) => {
-        const tempColumns: GridColDef[] = [];
-        [...response].forEach((value) => {
-          const index = currentTabValue
-            ? currentTabValue.displayFields.indexOf(value.InternalName)
-            : -1;
-          if (index !== -1) {
-            tempColumns[index] = generateDashboardColumn(
-              context,
-              value,
-              !value.ReadOnlyField && editable ? true : false,
-              resizable ? true : false
+      useEffect(() => {
+        setLoading(true);
+        listService
+          .getListFields(fields)
+          .then((response) => {
+            const tempColumns: GridColDef[] = [];
+            [...response].forEach((value) => {
+              const index = currentTabValue
+                ? currentTabValue.displayFields.indexOf(value.InternalName)
+                : -1;
+              if (index !== -1) {
+                tempColumns[index] = generateDashboardColumn(
+                  context,
+                  value,
+                  !value.ReadOnlyField && editable ? true : false,
+                  resizable ? true : false
+                );
+              }
+            });
+            setColumns(() =>
+              currentTabValue
+                ? tempColumns
+                : [...response].map((value) =>
+                    generateDashboardColumn(
+                      context,
+                      value,
+                      !value.ReadOnlyField && editable ? true : false,
+                      resizable ? true : false
+                    )
+                  )
             );
-          }
-        });
-        setColumns(() =>
-          currentTabValue
-            ? tempColumns
-            : [...response].map((value) =>
+            setCachedColumns(
+              [...response].map((value) =>
                 generateDashboardColumn(
                   context,
                   value,
@@ -219,154 +234,148 @@ export const Dashboard: React.FC<IDashboardProps> = ({
                   resizable ? true : false
                 )
               )
-        );
-        setCachedColumns(
-          [...response].map((value) =>
-            generateDashboardColumn(
-              context,
-              value,
-              !value.ReadOnlyField && editable ? true : false,
-              resizable ? true : false
-            )
-          )
-        );
-        listService
-          .getListItems(response, '', 'Created')
-          .then((itemResponse) => {
-            setLoading(false);
-            setRows(() =>
-              currentTabValue
-                ? [...itemResponse].filter(
-                    (value) =>
-                      String(value[currentTabValue.fieldToMatch]).indexOf(
-                        currentTabValue.stringToMatch
-                      ) !== -1
-                  )
-                : [...itemResponse]
             );
-            setCachedRows(itemResponse);
+            listService
+              .getListItems(response, '', 'Created')
+              .then((itemResponse) => {
+                setLoading(false);
+                setRows(() =>
+                  currentTabValue
+                    ? [...itemResponse].filter(
+                        (value) =>
+                          String(value[currentTabValue.fieldToMatch]).indexOf(
+                            currentTabValue.stringToMatch
+                          ) !== -1
+                      )
+                    : [...itemResponse]
+                );
+                setCachedRows(itemResponse);
+              })
+              .catch((error) => {
+                Logger.error(error);
+              });
           })
           .catch((error) => {
             Logger.error(error);
           });
-      })
-      .catch((error) => {
-        Logger.error(error);
-      });
-  }, [list, fields]);
+      }, [list, fields]);
 
-  const handleTabChange = (currentTabValue: ITabSchema | undefined): void => {
-    const tempColumns: GridColDef[] = [];
-    const filteredRows = currentTabValue
-      ? [...cachedRows].filter(
-          (value) =>
-            String(value[currentTabValue.fieldToMatch]).indexOf(
-              currentTabValue.stringToMatch
-            ) !== -1
-        )
-      : [...cachedRows];
-    [...cachedColumns].forEach((value) => {
-      const index = currentTabValue
-        ? currentTabValue?.displayFields.indexOf(value.field)
-        : -1;
-      if (index !== -1) {
-        tempColumns[index] = value;
-      }
-    });
-    setColumns(tempColumns);
-    setRows(filteredRows);
-    setCurrentTabValue(currentTabValue);
-  };
-
-  const handleSearch = (): void => {
-    const filteredRows = [...cachedRows].filter((row: any) =>
-      fields.some(
-        (field) =>
-          row[field] &&
-          String(row[field])
-            .toLowerCase()
-            .indexOf(searchQuery.toLowerCase()) !== -1
-      )
-    );
-    setRows(filteredRows);
-  };
-
-  const handleSearchQueryChange = (newQuery: string): void => {
-    setSearchQuery(newQuery);
-    if (newQuery.length === 0) {
-      setRows(() =>
-        currentTabValue
+      const handleTabChange = (
+        currentTabValue: ITabSchema | undefined
+      ): void => {
+        const tempColumns: GridColDef[] = [];
+        const filteredRows = currentTabValue
           ? [...cachedRows].filter(
               (value) =>
-                value[currentTabValue.fieldToMatch] ===
-                currentTabValue.stringToMatch
+                String(value[currentTabValue.fieldToMatch]).indexOf(
+                  currentTabValue.stringToMatch
+                ) !== -1
             )
-          : [...cachedRows]
+          : [...cachedRows];
+        [...cachedColumns].forEach((value) => {
+          const index = currentTabValue
+            ? currentTabValue?.displayFields.indexOf(value.field)
+            : -1;
+          if (index !== -1) {
+            tempColumns[index] = value;
+          }
+        });
+        setColumns(tempColumns);
+        setRows(filteredRows);
+        setCurrentTabValue(currentTabValue);
+      };
+
+      const handleSearch = (): void => {
+        const filteredRows = [...cachedRows].filter((row: any) =>
+          fields.some(
+            (field) =>
+              row[field] &&
+              String(row[field])
+                .toLowerCase()
+                .indexOf(searchQuery.toLowerCase()) !== -1
+          )
+        );
+        setRows(filteredRows);
+      };
+
+      const handleSearchQueryChange = (newQuery: string): void => {
+        setSearchQuery(newQuery);
+        if (newQuery.length === 0) {
+          setRows(() =>
+            currentTabValue
+              ? [...cachedRows].filter(
+                  (value) =>
+                    value[currentTabValue.fieldToMatch] ===
+                    currentTabValue.stringToMatch
+                )
+              : [...cachedRows]
+          );
+        }
+      };
+
+      const processRowUpdate = async (
+        newRow: Record<string, any>,
+        oldRow: Record<string, any>
+      ): Promise<Record<string, any>> => {
+        const rowId = Number(oldRow.Id);
+        setLoading(true);
+        try {
+          await listService.updateListItem(rowId, newRow);
+          setUpdateMessage({ text: 'Changes saved!', type: 'success' });
+          return newRow;
+        } catch (error) {
+          Logger.error(error);
+          setUpdateMessage({ text: 'Error saving!', type: 'error' });
+          return oldRow;
+        } finally {
+          setLoading(false);
+          setTimeout(() => setUpdateMessage(null), 3000);
+        }
+      };
+
+      return (
+        <Box
+          data-testid="mui-spfx-dashboard"
+          ref={ref}
+          height={!isNaN(Number(height)) ? Number(height) : height || 500}
+        >
+          <DataGrid
+            loading={loading}
+            getRowId={(row) => String(row.Id)}
+            columns={columns}
+            rows={rows}
+            editMode="row"
+            processRowUpdate={editable ? processRowUpdate : undefined}
+            initialState={{
+              pagination: {
+                paginationModel: {
+                  pageSize: 25,
+                },
+              },
+            }}
+            slots={{ toolbar: CustomGridToolbar }}
+            slotProps={{
+              toolbar: {
+                loading: loading,
+                columnAction: columnAction,
+                densityAction: densityAction,
+                filterAction: filterAction,
+                exportAction: exportAction,
+                tabAction: tabAction,
+                searchAction: searchAction,
+                tabValue: tabValue,
+                currentTabValue: currentTabValue,
+                updateMessage: updateMessage,
+                onTabChange: handleTabChange,
+                onQueryChange: handleSearchQueryChange,
+                onSearch: handleSearch,
+              } as ICustomGridToolbarProps,
+            }}
+            sx={sx}
+          />
+        </Box>
       );
     }
-  };
-
-  const processRowUpdate = async (
-    newRow: Record<string, any>,
-    oldRow: Record<string, any>
-  ): Promise<Record<string, any>> => {
-    const rowId = Number(oldRow.Id);
-    setLoading(true);
-    try {
-      await listService.updateListItem(rowId, newRow);
-      setUpdateMessage({ text: 'Changes saved!', type: 'success' });
-      return newRow;
-    } catch (error) {
-      Logger.error(error);
-      setUpdateMessage({ text: 'Error saving!', type: 'error' });
-      return oldRow;
-    } finally {
-      setLoading(false);
-      setTimeout(() => setUpdateMessage(null), 3000);
-    }
-  };
-
-  return (
-    <Box
-      data-testid="mui-spfx-dashboard"
-      height={!isNaN(Number(height)) ? Number(height) : height || 500}
-    >
-      <DataGrid
-        loading={loading}
-        getRowId={(row) => String(row.Id)}
-        columns={columns}
-        rows={rows}
-        editMode="row"
-        processRowUpdate={editable ? processRowUpdate : undefined}
-        initialState={{
-          pagination: {
-            paginationModel: {
-              pageSize: 25,
-            },
-          },
-        }}
-        slots={{ toolbar: CustomGridToolbar }}
-        slotProps={{
-          toolbar: {
-            loading: loading,
-            columnAction: columnAction,
-            densityAction: densityAction,
-            filterAction: filterAction,
-            exportAction: exportAction,
-            tabAction: tabAction,
-            searchAction: searchAction,
-            tabValue: tabValue,
-            currentTabValue: currentTabValue,
-            updateMessage: updateMessage,
-            onTabChange: handleTabChange,
-            onQueryChange: handleSearchQueryChange,
-            onSearch: handleSearch,
-          } as ICustomGridToolbarProps,
-        }}
-        sx={sx}
-      />
-    </Box>
   );
-};
 
 export default Dashboard;

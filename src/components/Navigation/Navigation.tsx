@@ -1,7 +1,12 @@
 import * as React from 'react';
 
 import { SimpleTreeView, TreeItem, type TreeItemProps } from '@mui/x-tree-view';
-import { FC, ReactNode } from 'react';
+import {
+  forwardRef,
+  ForwardRefExoticComponent,
+  ReactNode,
+  RefObject,
+} from 'react';
 import type { INavigationModel, INavigationProps } from './INavigationProps';
 
 const renderTree = (
@@ -22,17 +27,22 @@ const renderTree = (
   </TreeItem>
 );
 
-export const Navigation: FC<INavigationProps> = ({
-  items,
-  itemProps,
-  viewProps,
-  linkTarget,
-}) => {
-  return (
-    <SimpleTreeView {...viewProps} data-testid="mui-spfx-navigation">
-      {items.map((item) => renderTree(item, linkTarget, itemProps))}
-    </SimpleTreeView>
+export const Navigation: ForwardRefExoticComponent<INavigationProps> =
+  forwardRef(
+    (
+      { items, itemProps, viewProps, linkTarget },
+      ref: RefObject<HTMLUListElement>
+    ) => {
+      return (
+        <SimpleTreeView
+          {...viewProps}
+          ref={ref}
+          data-testid="mui-spfx-navigation"
+        >
+          {items.map((item) => renderTree(item, linkTarget, itemProps))}
+        </SimpleTreeView>
+      );
+    }
   );
-};
 
 export default Navigation;
