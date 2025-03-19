@@ -1,5 +1,5 @@
 import { WebPartContext } from '@microsoft/sp-webpart-base';
-import { IPeoplePickerEntity } from '../../components/PeoplePicker/IPeoplePickerProps';
+import { IPeoplePickerEntity } from '../../src/components/PeoplePicker/IPeoplePickerProps';
 
 export const mockUser = {
   Key: 'mock-user-key',

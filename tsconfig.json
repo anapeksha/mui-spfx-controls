@@ -1,9 +1,9 @@
 {
   "extends": "./node_modules/@microsoft/rush-stack-compiler-4.7/includes/tsconfig-web.json",
   "compilerOptions": {
-    "target": "ES2020",
+    "target": "es5",
     "forceConsistentCasingInFileNames": true,
-    "module": "ESNext",
+    "module": "esnext",
     "moduleResolution": "node",
     "jsx": "react",
     "declaration": true,
@@ -16,8 +16,8 @@
     "noImplicitAny": true,
     "typeRoots": ["./node_modules/@types", "./node_modules/@microsoft"],
     "types": ["webpack-env", "jest", "react"],
-    "lib": ["ES2020", "DOM", "DOM.Iterable"]
+    "lib": ["es5", "dom", "es2015.collection", "es2015.promise"]
   },
   "include": ["src/**/*.ts", "src/**/*.tsx"],
-  "exclude": ["**/node_modules", "**/dist", "**/lib", "src/tests"]
+  "exclude": ["**/node_modules", "**/dist", "**/lib"]
 }

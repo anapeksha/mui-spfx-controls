@@ -4,12 +4,20 @@
   "description": "SPFx component library with MUI",
   "version": "0.6.3",
   "license": "MIT",
-  "type": "module",
   "engines": {
     "node": ">=16.13.0 <17.0.0 || >=18.17.1 <19.0.0"
   },
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
+  "scripts": {
+    "analyze": "gulp bundle --ship --analyze",
+    "build": "gulp build",
+    "build:ship": "gulp bundle --ship",
+    "clean": "gulp clean",
+    "serve": "fast-serve --reactProfiling",
+    "test": "jest",
+    "package-solution": "gulp package-solution --ship"
+  },
   "exports": {
     ".": {
       "import": "./lib/index.js",
@@ -69,36 +77,27 @@
     "material ui",
     "sharepoint framework"
   ],
-  "scripts": {
-    "analyze": "gulp bundle --ship --analyze",
-    "build": "gulp build",
-    "build:ship": "gulp bundle --ship",
-    "clean": "gulp clean",
-    "serve": "fast-serve --reactProfiling",
-    "test": "jest",
-    "package-solution": "gulp package-solution --ship"
-  },
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
-    "@fluentui/react": "^8.106.4",
+    "@fluentui/react": "^8.122.12",
     "@microsoft/sp-component-base": "^1.20.0",
     "@microsoft/sp-core-library": "^1.20.0",
     "@microsoft/sp-lodash-subset": "^1.20.0",
     "@microsoft/sp-office-ui-fabric-core": "^1.20.0",
     "@microsoft/sp-property-pane": "^1.20.0",
     "@microsoft/sp-webpart-base": "^1.20.0",
-    "@mui/icons-material": "^6.4.7",
-    "@mui/material": "^6.4.7",
-    "@mui/x-data-grid": "^7.27.3",
-    "@mui/x-date-pickers": "^7.27.3",
-    "@mui/x-tree-view": "^7.26.0",
-    "@pnp/graph": "^4.10.0",
-    "@pnp/sp": "^4.10.0",
+    "@mui/icons-material": "^6.4.8",
+    "@mui/material": "^6.4.8",
+    "@mui/x-data-grid": "^7.28.0",
+    "@mui/x-date-pickers": "^7.28.0",
+    "@mui/x-tree-view": "^7.28.0",
+    "@pnp/graph": "^4.11.0",
+    "@pnp/sp": "^4.11.0",
     "@pnp/spfx-property-controls": "^3.19.0",
     "dayjs": "^1.11.13",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1"
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
   },
   "devDependencies": {
     "@microsoft/eslint-config-spfx": "^1.20.2",

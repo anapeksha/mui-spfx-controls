@@ -27,8 +27,4 @@ import { configure } from '@testing-library/react';
   },
 };
 
-// Optional: Configure Testing Library defaults
 configure({ testIdAttribute: 'data-testid' });
-
-// Optional: Reduce default test timeout
-jest.setTimeout(15000);
