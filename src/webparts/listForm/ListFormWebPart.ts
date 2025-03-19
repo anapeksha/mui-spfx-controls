@@ -8,24 +8,32 @@ import {
   BaseClientSideWebPart,
   WebPartContext,
 } from '@microsoft/sp-webpart-base';
-import { GridProps, PaperProps, TextFieldProps } from '@mui/material';
 import {
+  Grid2Props as GridProps,
+  PaperProps,
+  TextFieldProps,
+} from '@mui/material';
+import {
+  Elanguages,
   IColumnReturnProperty,
   PropertyFieldColumnPicker,
   PropertyFieldColumnPickerOrderBy,
   PropertyFieldListPicker,
   PropertyFieldListPickerOrderBy,
+  PropertyFieldMonacoEditor,
 } from '@pnp/spfx-property-controls';
 import * as strings from 'ListFormWebPartStrings';
 import * as React from 'react';
 import * as ReactDom from 'react-dom';
+import { validateUserFunction } from '../../utils/validateUserFunction';
 import ListFormDisplay from './ListFormDisplay';
 
 export interface IListFormWebPartProps {
   context: WebPartContext;
   list: string;
   fields: string[];
-  onSave: (formData: Record<string, any>) => void;
+  stringOnSave: string;
+  onSave: (formData: Record<string, any>) => void | null;
   onCancel: () => void;
   label?: string;
   paperVariant?: PaperProps['variant'];
@@ -36,12 +44,7 @@ export interface IListFormWebPartProps {
 }
 
 export default class ListFormWebPart extends BaseClientSideWebPart<IListFormWebPartProps> {
-  private handleSave(formData: Record<string, any>): void {
-    console.log(formData);
-  }
-  private handleCancel(): void {
-    return;
-  }
+  private handleCancel(): void {}
   public render(): void {
     const element: React.ReactElement = React.createElement(ListFormDisplay, {
       context: this.context,
@@ -53,7 +56,7 @@ export default class ListFormWebPart extends BaseClientSideWebPart<IListFormWebP
       inputVariant: this.properties.inputVariant,
       inputSize: this.properties.inputSize,
       fieldSpacing: this.properties.fieldSpacing,
-      onSave: this.handleSave,
+      onSave: this.properties.onSave || ((formData) => console.log(formData)),
       onCancel: this.handleCancel,
     });
     ReactDom.render(element, this.domElement);
@@ -107,6 +110,12 @@ export default class ListFormWebPart extends BaseClientSideWebPart<IListFormWebP
                   displayHiddenColumns: false,
                   columnReturnProperty: IColumnReturnProperty['Internal Name'],
                   multiSelect: true,
+                }),
+                PropertyFieldMonacoEditor('stringOnSave', {
+                  key: 'editor-onsaveFn',
+                  value: this.properties.stringOnSave,
+                  language: Elanguages.json,
+                  onChange: (newValue) => validateUserFunction(newValue),
                 }),
                 PropertyPaneDropdown('paperVariant', {
                   label: strings.PaperVariantFieldLabel,

@@ -307,7 +307,6 @@ module.exports = {
       env: {
         jest: true,
         node: true,
-        react: true,
       },
       rules: {
         '@typescript-eslint/no-explicit-any': 'off',
@@ -321,6 +320,7 @@ module.exports = {
         'jest/no-identical-title': 'error',
         'jest/prefer-to-have-length': 'warn',
         'jest/valid-expect': 'error',
+        '@rushstack/hoist-jest-mock': 1,
       },
     },
   ],

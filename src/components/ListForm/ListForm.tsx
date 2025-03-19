@@ -53,23 +53,25 @@ export const ListForm: React.ForwardRefExoticComponent<IListFormProps> =
       const [filteredFields, setFilteredFields] = useState<
         IResponsiveFieldInfo[]
       >([]);
-      const [formData, setFormData] = useState<any>();
+      const [formData, setFormData] = useState<Record<string, any>>({});
       const [loading, setLoading] = useState(false);
 
       useEffect(() => {
-        const fetchFields = async (): Promise<void> => {
-          try {
-            setLoading(true);
-            const response = await listService.getListFields(fields);
-            setFilteredFields(response);
-          } catch (error) {
-            Logger.error(error);
-          } finally {
-            setLoading(false);
-          }
-        };
+        if (list) {
+          const fetchFields = async (): Promise<void> => {
+            try {
+              setLoading(true);
+              const response = await listService.getListFields(fields);
+              setFilteredFields(response);
+            } catch (error) {
+              Logger.error(error);
+            } finally {
+              setLoading(false);
+            }
+          };
 
-        fetchFields();
+          fetchFields();
+        }
       }, [list, fields]);
 
       const handleFieldTypes = (): React.ReactNode => {
@@ -219,7 +221,6 @@ export const ListForm: React.ForwardRefExoticComponent<IListFormProps> =
                       size={inputSize}
                       defaultValue={[]}
                       select
-                      SelectProps={{ multiple: true }}
                       fullWidth
                       disabled={field.ReadOnlyField}
                       onChange={(event) =>
@@ -228,8 +229,13 @@ export const ListForm: React.ForwardRefExoticComponent<IListFormProps> =
                           [field.InternalName]: event.target.value,
                         })
                       }
-                      InputProps={{
-                        readOnly: field.ReadOnlyField,
+                      slotProps={{
+                        select: {
+                          multiple: true,
+                        },
+                        input: {
+                          readOnly: field.ReadOnlyField,
+                        },
                       }}
                     >
                       {field.Choices?.map((choice, index) => (
