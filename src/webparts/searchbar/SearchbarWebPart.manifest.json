@@ -7,12 +7,7 @@
   "manifestVersion": 2,
   "requiresCustomScript": false,
   "supportsFullBleed": true,
-  "supportedHosts": [
-    "SharePointWebPart",
-    "TeamsPersonalApp",
-    "TeamsTab",
-    "SharePointFullPage"
-  ],
+  "supportedHosts": ["SharePointWebPart", "SharePointFullPage"],
   "supportsThemeVariants": true,
   "preconfiguredEntries": [
     {
