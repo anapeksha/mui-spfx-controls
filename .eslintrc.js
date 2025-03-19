@@ -3,13 +3,13 @@
 require('@rushstack/eslint-config/patch/modern-module-resolution');
 
 module.exports = {
-  extends: ['@microsoft/eslint-config-spfx/lib/profiles/react'],
   parserOptions: { tsconfigRootDir: __dirname },
-  ignorePatterns: ['./tests/**', '.eslintrc.test.js'],
   overrides: [
     {
-      files: ['*.ts', '*.tsx'],
+      files: ['*.ts', '*.tsx', '**/src/*.ts', '**/src/*.tsx'],
+      extends: ['@microsoft/eslint-config-spfx/lib/profiles/react'],
       parser: '@typescript-eslint/parser',
+      ignorePatterns: ['./tests/**'],
       parserOptions: {
         project: './tsconfig.json',
         ecmaVersion: 2018,
@@ -295,26 +295,32 @@ module.exports = {
       },
     },
     {
-      // For unit tests, we can be a little bit less strict.  The settings below revise the
-      // defaults specified in the extended configurations, as well as above.
-      files: [
-        // Test files
-        '*.test.ts',
-        '*.test.tsx',
-        '*.spec.ts',
-        '*.spec.tsx',
-
-        // Facebook convention
-        '**/__mocks__/*.ts',
-        '**/__mocks__/*.tsx',
-        '**/__tests__/*.ts',
-        '**/__tests__/*.tsx',
-
-        // Microsoft convention
-        '**/test/*.ts',
-        '**/test/*.tsx',
-      ],
-      rules: {},
+      files: ['*.test.ts', '*.test.tsx', '**/tests/*.ts', '**/tests/*.tsx'],
+      extends: ['@microsoft/eslint-config-spfx/lib/profiles/default'],
+      ignorePatterns: ['./src/**'],
+      parser: '@typescript-eslint/parser',
+      parserOptions: {
+        project: './tsconfig.test.json',
+        ecmaVersion: 2022,
+        sourceType: 'module',
+      },
+      env: {
+        jest: true,
+        node: true,
+      },
+      rules: {
+        '@typescript-eslint/no-explicit-any': 'off',
+        '@typescript-eslint/ban-ts-comment': 'off',
+        '@typescript-eslint/no-unused-vars': [
+          'warn',
+          { argsIgnorePattern: '^_' },
+        ],
+        'jest/no-disabled-tests': 'warn',
+        'jest/no-focused-tests': 'error',
+        'jest/no-identical-title': 'error',
+        'jest/prefer-to-have-length': 'warn',
+        'jest/valid-expect': 'error',
+      },
     },
   ],
 };
