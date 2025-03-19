@@ -1,7 +1,6 @@
 import '@testing-library/jest-dom';
 import { configure } from '@testing-library/react';
 
-// Ensure test environment behaves like SPFx
 (globalThis as any).__themeState__ = {
   theme: {
     bodyBackground: '#ffffff',
