@@ -33,7 +33,7 @@ gulpfile.mjs
 jest.config.mjs
 
 #Markdowns
-CHANGELOG.md
+*.md
 
 #Schema Directory
 schemas
