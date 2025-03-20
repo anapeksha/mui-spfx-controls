@@ -10,7 +10,6 @@ import {
   CircularProgress,
   FormControlLabel,
   Grid2 as Grid,
-  Grid2Props as GridProps,
   MenuItem,
   TextField,
   Typography,
@@ -26,10 +25,6 @@ import { ListService } from '../../services/ListService';
 import { PeoplePicker } from '../PeoplePicker/PeoplePicker';
 import { IListFormProps } from './IListFormProps';
 
-interface IResponsiveFieldInfo extends IFieldInfo {
-  size?: GridProps['size'];
-}
-
 export const ListForm: React.ForwardRefExoticComponent<IListFormProps> =
   forwardRef(
     (
@@ -37,8 +32,6 @@ export const ListForm: React.ForwardRefExoticComponent<IListFormProps> =
         context,
         list,
         fields,
-        onSave,
-        onCancel,
         label,
         paperVariant,
         paperElevation,
@@ -46,13 +39,13 @@ export const ListForm: React.ForwardRefExoticComponent<IListFormProps> =
         inputSize,
         fieldSpacing,
         responsive,
+        onSave,
+        onCancel,
       },
       ref: React.RefObject<HTMLDivElement>
     ) => {
       const listService = new ListService(context, list);
-      const [filteredFields, setFilteredFields] = useState<
-        IResponsiveFieldInfo[]
-      >([]);
+      const [filteredFields, setFilteredFields] = useState<IFieldInfo[]>([]);
       const [formData, setFormData] = useState<Record<string, any>>({});
       const [loading, setLoading] = useState(false);
 
@@ -98,14 +91,16 @@ export const ListForm: React.ForwardRefExoticComponent<IListFormProps> =
           }
         } else {
           return filteredFields.map((field, index) => {
+            const commonProps = {
+              key: `grid-${field.Id}-${index}`,
+              size: responsive
+                ? responsive[field.TypeAsString].size
+                : { xs: 12 },
+            };
             switch (field.TypeAsString) {
               case 'Text':
                 return (
-                  <Grid
-                    key={`grid-${field.Id}-${index}`}
-                    width="100%"
-                    size={field.size}
-                  >
+                  <Grid {...commonProps}>
                     <TextField
                       label={field.Title}
                       name={field.InternalName}
@@ -125,11 +120,7 @@ export const ListForm: React.ForwardRefExoticComponent<IListFormProps> =
                 );
               case 'User':
                 return (
-                  <Grid
-                    key={`grid-${field.Id}-${index}`}
-                    width="100%"
-                    size={field.size}
-                  >
+                  <Grid {...commonProps}>
                     <PeoplePicker
                       context={context}
                       label={field.Title}
@@ -151,11 +142,7 @@ export const ListForm: React.ForwardRefExoticComponent<IListFormProps> =
                 );
               case 'UserMulti':
                 return (
-                  <Grid
-                    key={`grid-${field.Id}-${index}`}
-                    width="100%"
-                    size={field.size}
-                  >
+                  <Grid {...commonProps}>
                     <PeoplePicker
                       context={context}
                       label={field.Title}
@@ -177,11 +164,7 @@ export const ListForm: React.ForwardRefExoticComponent<IListFormProps> =
                 );
               case 'Choice':
                 return (
-                  <Grid
-                    key={`grid-${field.Id}-${index}`}
-                    width="100%"
-                    size={field.size}
-                  >
+                  <Grid {...commonProps}>
                     <TextField
                       label={field.Title}
                       name={field.InternalName}
@@ -208,11 +191,7 @@ export const ListForm: React.ForwardRefExoticComponent<IListFormProps> =
                 );
               case 'MultiChoice':
                 return (
-                  <Grid
-                    key={`grid-${field.Id}-${index}`}
-                    width="100%"
-                    size={field.size}
-                  >
+                  <Grid {...commonProps}>
                     <TextField
                       label={field.Title}
                       name={field.InternalName}
@@ -248,11 +227,7 @@ export const ListForm: React.ForwardRefExoticComponent<IListFormProps> =
                 );
               case 'DateTime':
                 return (
-                  <Grid
-                    key={`grid-${field.Id}-${index}`}
-                    width="100%"
-                    size={field.size}
-                  >
+                  <Grid {...commonProps}>
                     <DateTimePicker
                       label={field.Title}
                       name={field.InternalName}
@@ -276,11 +251,7 @@ export const ListForm: React.ForwardRefExoticComponent<IListFormProps> =
                 );
               case 'Boolean':
                 return (
-                  <Grid
-                    key={`grid-${field.Id}-${index}`}
-                    width="100%"
-                    size={field.size}
-                  >
+                  <Grid {...commonProps}>
                     <FormControlLabel
                       required={field.Required}
                       name={field.InternalName}
@@ -298,21 +269,13 @@ export const ListForm: React.ForwardRefExoticComponent<IListFormProps> =
                 );
               case 'Lookup':
                 return (
-                  <Grid
-                    key={`grid-${field.Id}-${index}`}
-                    width="100%"
-                    size={field.size}
-                  >
+                  <Grid {...commonProps}>
                     <p>{(field as any).LookupList}</p>
                   </Grid>
                 );
               case 'Counter':
                 return (
-                  <Grid
-                    key={`grid-${field.Id}-${index}`}
-                    width="100%"
-                    size={field.size}
-                  >
+                  <Grid {...commonProps}>
                     <Card
                       sx={{
                         backgroundColor: 'primary.main',
@@ -328,11 +291,7 @@ export const ListForm: React.ForwardRefExoticComponent<IListFormProps> =
                 );
               default:
                 return (
-                  <Grid
-                    key={`grid-not-implemented-${field.Id}-${index}`}
-                    width="100%"
-                    size={field.size}
-                  >
+                  <Grid {...commonProps}>
                     <Card
                       sx={{
                         backgroundColor: 'error.main',

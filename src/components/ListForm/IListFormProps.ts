@@ -5,10 +5,9 @@ import {
   TextFieldProps,
 } from '@mui/material';
 
-type ResponsiveFieldType = {
-  name: string;
+interface IResponsiveFieldType {
   size: GridProps['size'];
-};
+}
 
 interface IListFormProps {
   context: WebPartContext;
@@ -22,7 +21,7 @@ interface IListFormProps {
   inputVariant?: TextFieldProps['variant'];
   inputSize?: TextFieldProps['size'];
   fieldSpacing?: GridProps['spacing'];
-  responsive?: ResponsiveFieldType[];
+  responsive?: Record<string, IResponsiveFieldType>;
 }
 
-export type { IListFormProps, ResponsiveFieldType };
+export type { IListFormProps };
