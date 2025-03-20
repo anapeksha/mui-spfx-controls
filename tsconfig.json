@@ -7,6 +7,7 @@
     "moduleResolution": "node",
     "jsx": "react",
     "declaration": true,
+    "allowJs": true,
     "sourceMap": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
@@ -15,9 +16,8 @@
     "inlineSources": false,
     "noImplicitAny": true,
     "typeRoots": ["./node_modules/@types", "./node_modules/@microsoft"],
-    "types": ["webpack-env", "jest", "react"],
+    "types": ["webpack-env"],
     "lib": ["es5", "dom", "es2015.collection", "es2015.promise"]
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx"],
-  "exclude": ["**/node_modules", "**/dist", "**/lib", "**/tests", "*.test.ts"]
+  "include": ["**/src/**/*.ts", "**/src/**/*.tsx"]
 }
