@@ -10,7 +10,7 @@ Click the Fork button on the repository’s page to create a copy under your Git
 
 2. Clone the Repository
 
-git clone https://github.com/YOUR_USERNAME/mui-spfx-controls.git
+git clone https://github.com/anapeksha/mui-spfx-controls.git
 cd mui-spfx-controls
 
 3. Install Dependencies
