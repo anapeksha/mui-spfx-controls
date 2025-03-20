@@ -33,7 +33,7 @@ export interface IListFormWebPartProps {
   list: string;
   fields: string[];
   stringOnSave: string;
-  onSave: (formData: Record<string, any>) => void | null;
+  onSave: ((formData: Record<string, any>) => void) | null;
   onCancel: () => void;
   label?: string;
   paperVariant?: PaperProps['variant'];
@@ -74,6 +74,11 @@ export default class ListFormWebPart extends BaseClientSideWebPart<IListFormWebP
     return Version.parse('1.0');
   }
 
+  private parseOnSaveFn(value: string): void {
+    const parsedFn = validateUserFunction(value);
+    this.properties.onSave = parsedFn;
+  }
+
   protected getPropertyPaneConfiguration(): IPropertyPaneConfiguration {
     return {
       pages: [
@@ -110,12 +115,6 @@ export default class ListFormWebPart extends BaseClientSideWebPart<IListFormWebP
                   displayHiddenColumns: false,
                   columnReturnProperty: IColumnReturnProperty['Internal Name'],
                   multiSelect: true,
-                }),
-                PropertyFieldMonacoEditor('stringOnSave', {
-                  key: 'editor-onsaveFn',
-                  value: this.properties.stringOnSave,
-                  language: Elanguages.json,
-                  onChange: (newValue) => validateUserFunction(newValue),
                 }),
                 PropertyPaneDropdown('paperVariant', {
                   label: strings.PaperVariantFieldLabel,
@@ -171,6 +170,14 @@ export default class ListFormWebPart extends BaseClientSideWebPart<IListFormWebP
                 }),
                 PropertyPaneTextField('fieldSpacing', {
                   label: strings.FieldSpacingFieldLabel,
+                }),
+                PropertyFieldMonacoEditor('stringOnSave', {
+                  key: 'editor-onsaveFn',
+                  value: this.properties.stringOnSave,
+                  language: Elanguages.javascript,
+                  showMiniMap: true,
+                  showLineNumbers: true,
+                  onChange: (newValue) => this.parseOnSaveFn(newValue),
                 }),
               ],
             },
