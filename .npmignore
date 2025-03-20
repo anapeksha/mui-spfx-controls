@@ -34,6 +34,7 @@ jest.config.mjs
 
 #Markdowns
 *.md
+!README.md
 
 #Schema Directory
 schemas
