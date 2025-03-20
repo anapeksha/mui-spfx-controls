@@ -1,19 +1,16 @@
-/* eslint-disable no-undef */
-/* eslint-disable @typescript-eslint/no-require-imports */
 require('@rushstack/eslint-config/patch/modern-module-resolution');
 
 module.exports = {
-  parserOptions: { tsconfigRootDir: __dirname },
   overrides: [
     {
-      files: ['*.ts', '*.tsx', '**/src/*.ts', '**/src/*.tsx'],
+      files: ['**/src/**/*.ts', '**/src/**/*.tsx'],
       extends: ['@microsoft/eslint-config-spfx/lib/profiles/react'],
       parser: '@typescript-eslint/parser',
-      ignorePatterns: ['./tests/**'],
       parserOptions: {
         project: './tsconfig.json',
         ecmaVersion: 2018,
         sourceType: 'module',
+        tsconfigRootDir: __dirname,
       },
       rules: {
         // Prevent usage of the JavaScript null value, while allowing code to access existing APIs that may require null. https://www.npmjs.com/package/@rushstack/eslint-plugin
@@ -297,12 +294,12 @@ module.exports = {
     {
       files: ['*.test.ts', '*.test.tsx', '**/tests/*.ts', '**/tests/*.tsx'],
       extends: ['@microsoft/eslint-config-spfx/lib/profiles/default'],
-      ignorePatterns: ['./src/**'],
       parser: '@typescript-eslint/parser',
       parserOptions: {
         project: './tsconfig.test.json',
         ecmaVersion: 2022,
         sourceType: 'module',
+        tsconfigRootDir: __dirname,
       },
       env: {
         jest: true,
@@ -315,11 +312,7 @@ module.exports = {
           'warn',
           { argsIgnorePattern: '^_' },
         ],
-        'jest/no-disabled-tests': 'warn',
-        'jest/no-focused-tests': 'error',
-        'jest/no-identical-title': 'error',
-        'jest/prefer-to-have-length': 'warn',
-        'jest/valid-expect': 'error',
+        '@rushstack/hoist-jest-mock': 1,
       },
     },
   ],
