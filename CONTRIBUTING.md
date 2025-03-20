@@ -21,9 +21,9 @@ npm install
 
 - Run in Development Mode
 
-````sh
-npm run serve
 ```sh
+npm run serve
+```
 
 This will launch the SPFx workbench for testing components.
 
@@ -32,13 +32,15 @@ This will launch the SPFx workbench for testing components.
 Contribution Guidelines
 
 Reporting Bugs
-• Ensure the bug hasn’t already been reported.
-• Provide a clear, concise description with steps to reproduce the issue.
-• Include any error logs or screenshots if applicable.
+
+- Ensure the bug hasn’t already been reported.
+- Provide a clear, concise description with steps to reproduce the issue.
+- Include any error logs or screenshots if applicable.
 
 Feature Requests
-• Check if the feature exists or is already planned.
-• Clearly describe the feature and how it improves the library.
+
+- Check if the feature exists or is already planned.
+- Clearly describe the feature and how it improves the library.
 
 Code Contributions
 
@@ -46,7 +48,7 @@ Code Contributions
 
 ```sh
 git checkout -b feature/my-new-feature
-````
+```
 
 - Make your changes and ensure they follow project coding standards.
 - Run lint and tests
