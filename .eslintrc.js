@@ -1,5 +1,3 @@
-/* eslint-disable no-undef */
-/* eslint-disable @typescript-eslint/no-require-imports */
 require('@rushstack/eslint-config/patch/modern-module-resolution');
 
 module.exports = {
@@ -303,7 +301,6 @@ module.exports = {
         sourceType: 'module',
         tsconfigRootDir: __dirname,
       },
-      // Set global types
       env: {
         jest: true,
         node: true,
