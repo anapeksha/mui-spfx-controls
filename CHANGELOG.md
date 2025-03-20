@@ -1,5 +1,13 @@
 # Changelog
 
+## **v0.6.4** (Bug Fix Release)
+
+### **Bug Fixes & Improvements**
+
+- **Fixed an import bug**
+  - Fixed issue with Breadcrumb
+  - New ListForm props added
+
 ## **v0.6.3** (Bug Fix Release)
 
 ### **Bug Fixes & Improvements**
