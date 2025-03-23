@@ -1,6 +1,6 @@
 import { WebPartContext } from '@microsoft/sp-webpart-base';
 import { graphfi, GraphFI, SPFx as GraphSPFx } from '@pnp/graph';
-import { BrowserFetchWithRetry, Caching } from '@pnp/queryable';
+import { BrowserFetchWithRetry } from '@pnp/queryable';
 import { spfi, SPFI, SPFx as SpSPFx } from '@pnp/sp';
 import '@pnp/sp/batching';
 import '@pnp/sp/fields';
@@ -21,13 +21,12 @@ let _graph: GraphFI;
  * Ensures that the SPFI instance is set up with the provided SharePoint context.
  *
  * @param {WebPartContext} [context] - The SharePoint WebPart context.
- * @returns {SPFI} - The initialized SPFI instance.
+ * @returns {SPFI} The initialized SPFI instance.
  */
 export const getSp = (context?: WebPartContext): SPFI => {
   if (!!context) {
     _sp = spfi()
       .using(SpSPFx(context))
-      .using(Caching())
       .using(BrowserFetchWithRetry({ retries: 5 }));
   }
   return _sp;
@@ -38,13 +37,12 @@ export const getSp = (context?: WebPartContext): SPFI => {
  * Ensures that the GraphFI instance is set up with the provided SharePoint context.
  *
  * @param {WebPartContext} [context] - The SharePoint WebPart context.
- * @returns {GraphFI} - The initialized GraphFI instance.
+ * @returns {GraphFI} The initialized GraphFI instance.
  */
 export const getGraph = (context?: WebPartContext): GraphFI => {
   if (!!context) {
     _graph = graphfi()
       .using(GraphSPFx(context))
-      .using(Caching())
       .using(BrowserFetchWithRetry({ retries: 5 }));
   }
   return _graph;

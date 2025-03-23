@@ -1,9 +1,9 @@
 import { Version } from '@microsoft/sp-core-library';
-import { type IPropertyPaneConfiguration } from '@microsoft/sp-property-pane';
 import {
-  BaseClientSideWebPart,
-  WebPartContext,
-} from '@microsoft/sp-webpart-base';
+  PropertyPaneTextField,
+  type IPropertyPaneConfiguration,
+} from '@microsoft/sp-property-pane';
+import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 import * as React from 'react';
 import * as ReactDom from 'react-dom';
 
@@ -11,15 +11,18 @@ import * as strings from 'SiteBreadcrumbWebPartStrings';
 import SiteBreadcrumbDisplay from './SiteBreadcrumbDisplay';
 
 export interface ISiteBreadcrumbWebPartProps {
-  context: WebPartContext;
+  separator: React.ReactNode;
 }
 
 export default class SiteBreadcrumbWebPart extends BaseClientSideWebPart<ISiteBreadcrumbWebPartProps> {
   public render(): void {
-    const element: React.ReactElement =
-      React.createElement<ISiteBreadcrumbWebPartProps>(SiteBreadcrumbDisplay, {
+    const element: React.ReactElement = React.createElement(
+      SiteBreadcrumbDisplay,
+      {
         context: this.context,
-      });
+        separator: this.properties.separator,
+      }
+    );
 
     ReactDom.render(element, this.domElement);
   }
@@ -43,7 +46,16 @@ export default class SiteBreadcrumbWebPart extends BaseClientSideWebPart<ISiteBr
           header: {
             description: strings.PropertyPaneDescription,
           },
-          groups: [],
+          groups: [
+            {
+              groupName: strings.BasicGroupName,
+              groupFields: [
+                PropertyPaneTextField('separator', {
+                  label: strings.SeparatorFieldLabel,
+                }),
+              ],
+            },
+          ],
         },
       ],
     };

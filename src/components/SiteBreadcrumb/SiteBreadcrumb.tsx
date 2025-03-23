@@ -38,6 +38,7 @@ const SiteBreadcrumb: ForwardRefExoticComponent<ISiteBreadcrumbProps> =
             Logger.error(error);
           }
         };
+
         fetchData();
       }, []);
 
@@ -59,7 +60,7 @@ const SiteBreadcrumb: ForwardRefExoticComponent<ISiteBreadcrumbProps> =
                       aria-label="Home"
                       href={data.href}
                       underline="hover"
-                      key={data.key}
+                      key={`${data.key}-${index}`}
                       sx={{ display: 'flex', alignItems: 'center' }}
                     >
                       <Home fontSize="inherit" sx={{ mr: 0.5 }} />
@@ -70,7 +71,11 @@ const SiteBreadcrumb: ForwardRefExoticComponent<ISiteBreadcrumbProps> =
                   return renderLastItem ? (
                     renderLastItem(data)
                   ) : (
-                    <Typography color="textSecondary" key={data.key}>
+                    <Typography
+                      aria-label="Current site"
+                      color="textSecondary"
+                      key={`${data.key}-${index}`}
+                    >
                       {data.label}
                     </Typography>
                   );
@@ -78,7 +83,12 @@ const SiteBreadcrumb: ForwardRefExoticComponent<ISiteBreadcrumbProps> =
                   return renderItem ? (
                     renderItem(data)
                   ) : (
-                    <Link underline="hover" href={data.href} key={data.key}>
+                    <Link
+                      aria-label="Site links"
+                      underline="hover"
+                      href={data.href}
+                      key={`${data.key}-${index}`}
+                    >
                       {data.label}
                     </Link>
                   );

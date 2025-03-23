@@ -22,7 +22,7 @@ class PeopleService {
   /**
    * Restricts unvalidated email addresses from appearing in search results.
    * @param {IBasePeoplePickerEntity} user - The user entity to validate.
-   * @returns {boolean} - Returns true if the user is validated, otherwise false.
+   * @returns {boolean} Returns true if the user is validated, otherwise false.
    */
   private restrictUnInvalidated(user: IBasePeoplePickerEntity): boolean {
     if (user.EntityData.PrincipalType) {
@@ -36,7 +36,7 @@ class PeopleService {
    * @param {WebPartContext} context - The SharePoint WebPart context.
    * @param {string} query - The search query string.
    * @param {number} [maximumSuggestions=25] - The maximum number of suggestions to return.
-   * @returns {Promise<IPeoplePickerEntity[]>} - A list of matched people entities.
+   * @returns {Promise<IPeoplePickerEntity[]>} A list of matched people entities.
    */
   public async searchUser(
     context: WebPartContext,
@@ -69,7 +69,7 @@ class PeopleService {
    * Resolves a single user based on a query string.
    * @param {WebPartContext} context - The SharePoint WebPart context.
    * @param {string} query - The user query string.
-   * @returns {Promise<IPeoplePickerEntity>} - The resolved user entity.
+   * @returns {Promise<IPeoplePickerEntity>} The resolved user entity.
    */
   public async resolveUser(
     context: WebPartContext,

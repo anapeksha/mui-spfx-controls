@@ -1,5 +1,7 @@
 declare interface ISiteBreadcrumbWebPartStrings {
   PropertyPaneDescription: string;
+  BasicGroupName: string;
+  SeparatorFieldLabel: string;
 }
 
 declare module 'SiteBreadcrumbWebPartStrings' {

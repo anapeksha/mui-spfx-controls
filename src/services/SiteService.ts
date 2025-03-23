@@ -1,13 +1,9 @@
 import { WebPartContext } from '@microsoft/sp-webpart-base';
 import { SPFI } from '@pnp/sp';
-import '@pnp/sp/sites';
-import '@pnp/sp/webs';
+import { IWeb } from '@pnp/sp/webs';
 import { ILinkItem } from '../components/SiteBreadcrumb/ISiteBreadcrumbProps';
 import { getSp } from '../config/pnp.config';
 
-/**
- * Service class for retrieving breadcrumb navigation data in SharePoint.
- */
 export class SiteService {
   private sp: SPFI;
 
@@ -20,46 +16,61 @@ export class SiteService {
   }
 
   /**
+   * Recursively generates breadcrumb data from the current site up to the root site collection.
+   * @param {IWeb} web - The current site web instance.
+   * @param {string} rootUrl - The root site absolute URL.
+   * @param {ILinkItem[]} breadcrumbs - The collected breadcrumb items.
+   * @returns {Promise<ILinkItem[]>} A promise resolving to the breadcrumb items.
+   */
+  private async generateData(
+    web: IWeb,
+    rootUrl: string,
+    breadcrumbs: ILinkItem[] = []
+  ): Promise<ILinkItem[]> {
+    try {
+      const webInfo = await web.select('Title', 'ServerRelativeUrl', 'Id')();
+
+      if (!webInfo || !webInfo.Title || !webInfo.ServerRelativeUrl) {
+        return breadcrumbs;
+      }
+
+      // Add current site to the breadcrumb list
+      breadcrumbs.unshift({
+        key: webInfo.Id,
+        label: webInfo.Title,
+        href: webInfo.ServerRelativeUrl,
+      });
+
+      // Stop recursion when reaching the root site
+      if (webInfo.ServerRelativeUrl === new URL(rootUrl).pathname) {
+        return breadcrumbs;
+      }
+
+      // Fetch parent site
+      try {
+        const parentWeb = await web.getParentWeb();
+        return this.generateData(parentWeb, rootUrl, breadcrumbs);
+      } catch {
+        return breadcrumbs;
+      }
+    } catch {
+      return breadcrumbs;
+    }
+  }
+
+  /**
    * Retrieves breadcrumb navigation data from the current site up to the root site collection.
-   * @returns {Promise<ILinkItem[]>} - A function returning an array of breadcrumb link items.
+   * @returns {Promise<ILinkItem[]>} A promise resolving to an array of breadcrumb link items.
    */
   public async getBreadcrumbData(): Promise<ILinkItem[]> {
-    const linkItems: ILinkItem[] = [];
     try {
-      let currentWeb = this.sp.web;
-
-      /**
-       * Get root site URL
-       */
       const rootSite = await this.sp.site.select('Url')();
 
-      // eslint-disable-next-line no-constant-condition
-      while (true) {
-        const webInfo = await currentWeb.select('Title', 'ServerRelativeUrl')();
+      const data = await this.generateData(this.sp.web, rootSite.Url, []);
 
-        linkItems.unshift({
-          key: webInfo.ServerRelativeUrl,
-          label: webInfo.Title,
-          href: webInfo.ServerRelativeUrl,
-        });
-
-        if (
-          webInfo.ServerRelativeUrl ===
-          rootSite.Url.replace(window.location.origin, '')
-        ) {
-          break;
-        }
-
-        try {
-          currentWeb = await currentWeb.getParentWeb();
-        } catch {
-          break;
-        }
-      }
-    } catch (error) {
-      console.error('Error fetching breadcrumb:', error);
+      return data;
+    } catch {
+      return [];
     }
-
-    return linkItems;
   }
 }
