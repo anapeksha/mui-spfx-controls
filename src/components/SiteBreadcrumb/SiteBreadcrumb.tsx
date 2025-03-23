@@ -8,8 +8,8 @@ import React, {
   useEffect,
   useState,
 } from 'react';
-import { LinkItem, SiteService } from '../../services/SiteService';
-import { ISiteBreadcrumbProps } from './ISiteBreadcrumbProps';
+import { SiteService } from '../../services/SiteService';
+import { ILinkItem, ISiteBreadcrumbProps } from './ISiteBreadcrumbProps';
 
 const SiteBreadcrumb: ForwardRefExoticComponent<ISiteBreadcrumbProps> =
   forwardRef(
@@ -25,14 +25,14 @@ const SiteBreadcrumb: ForwardRefExoticComponent<ISiteBreadcrumbProps> =
     ) => {
       const siteService = new SiteService(context);
       const [breadcrumbData, setBreadcrumbData] = useState<
-        LinkItem[] | undefined
+        ILinkItem[] | undefined
       >([]);
 
       useEffect(() => {
         const fetchData = async (): Promise<void> => {
           try {
             const generatedBreadcrumbData =
-              await siteService.generateBreadcrumbData(context);
+              await siteService.getBreadcrumbData();
             setBreadcrumbData(generatedBreadcrumbData);
           } catch (error) {
             Logger.error(error);
@@ -43,7 +43,8 @@ const SiteBreadcrumb: ForwardRefExoticComponent<ISiteBreadcrumbProps> =
 
       return (
         <Breadcrumbs
-          maxItems={3}
+          data-testid="mui-spfx-breadcrumb"
+          maxItems={5}
           aria-label="breadcrumb"
           {...breadcrumbProps}
           ref={ref}
@@ -69,7 +70,7 @@ const SiteBreadcrumb: ForwardRefExoticComponent<ISiteBreadcrumbProps> =
                   return renderLastItem ? (
                     renderLastItem(data)
                   ) : (
-                    <Typography color="textPrimary" key={data.key}>
+                    <Typography color="textSecondary" key={data.key}>
                       {data.label}
                     </Typography>
                   );
@@ -77,12 +78,7 @@ const SiteBreadcrumb: ForwardRefExoticComponent<ISiteBreadcrumbProps> =
                   return renderItem ? (
                     renderItem(data)
                   ) : (
-                    <Link
-                      color="inherit"
-                      underline="hover"
-                      href={data.href}
-                      key={data.key}
-                    >
+                    <Link underline="hover" href={data.href} key={data.key}>
                       {data.label}
                     </Link>
                   );

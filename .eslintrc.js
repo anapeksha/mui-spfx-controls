@@ -293,7 +293,7 @@ module.exports = {
     },
     {
       files: ['*.test.ts', '*.test.tsx', '**/tests/*.ts', '**/tests/*.tsx'],
-      extends: ['@microsoft/eslint-config-spfx/lib/profiles/default'],
+      extends: ['@microsoft/eslint-config-spfx/lib/profiles/react'],
       parser: '@typescript-eslint/parser',
       parserOptions: {
         project: './tsconfig.test.json',
@@ -314,6 +314,10 @@ module.exports = {
         ],
         '@rushstack/hoist-jest-mock': 1,
       },
+    },
+    {
+      files: ['./*.mjs'],
+      extends: ['@microsoft/eslint-config-spfx/lib/profiles/default'],
     },
   ],
 };

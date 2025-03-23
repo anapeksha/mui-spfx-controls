@@ -1,5 +1,12 @@
 import { IPeoplePickerEntity } from '../components/PeoplePicker/IPeoplePickerProps';
 
+/**
+ * Checks if a given user exists within a list of users.
+ *
+ * @param {IPeoplePickerEntity} user - The user to check.
+ * @param {IPeoplePickerEntity[]} users - The list of users.
+ * @returns {IPeoplePickerEntity[] | boolean} - Returns true if the user exists, otherwise false.
+ */
 const listContainsPeople = (
   user: IPeoplePickerEntity,
   users: IPeoplePickerEntity[]
@@ -11,6 +18,13 @@ const listContainsPeople = (
   }
 };
 
+/**
+ * Filters out duplicate users from search results based on the current selection.
+ *
+ * @param {IPeoplePickerEntity[]} searchResults - The list of users retrieved from the search.
+ * @param {IPeoplePickerEntity[]} currentValue - The list of already selected users.
+ * @returns {IPeoplePickerEntity[]} - A filtered list containing only unique users.
+ */
 export const handleDuplicates = (
   searchResults: IPeoplePickerEntity[],
   currentValue: IPeoplePickerEntity[]

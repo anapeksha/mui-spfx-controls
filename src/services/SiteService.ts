@@ -1,81 +1,65 @@
 import { WebPartContext } from '@microsoft/sp-webpart-base';
 import { SPFI } from '@pnp/sp';
+import '@pnp/sp/sites';
+import '@pnp/sp/webs';
+import { ILinkItem } from '../components/SiteBreadcrumb/ISiteBreadcrumbProps';
 import { getSp } from '../config/pnp.config';
 
-interface LinkItem {
-  label: string;
-  key: string;
-  href: string;
-  isCurrentItem?: boolean;
-}
-
-class SiteService {
+/**
+ * Service class for retrieving breadcrumb navigation data in SharePoint.
+ */
+export class SiteService {
   private sp: SPFI;
-  private _linkItems: LinkItem[] = [];
 
+  /**
+   * Initializes the SiteService instance.
+   * @param {WebPartContext} context - The SharePoint WebPart context.
+   */
   constructor(context: WebPartContext) {
     this.sp = getSp(context);
   }
 
-  private async getParentWeb(
-    context: WebPartContext,
-    webUrl: string
-  ): Promise<void> {
+  /**
+   * Retrieves breadcrumb navigation data from the current site up to the root site collection.
+   * @returns {Promise<ILinkItem[]>} - A function returning an array of breadcrumb link items.
+   */
+  public async getBreadcrumbData(): Promise<ILinkItem[]> {
+    const linkItems: ILinkItem[] = [];
     try {
-      const response = await this.sp.web.getParentWeb().then((response) => {
-        return response.select('Id', 'Title', 'ServerRelativeUrl')();
-      });
-      if (!response?.ServerRelativeUrl || !response?.Title) {
-        return;
+      let currentWeb = this.sp.web;
+
+      /**
+       * Get root site URL
+       */
+      const rootSite = await this.sp.site.select('Url')();
+
+      // eslint-disable-next-line no-constant-condition
+      while (true) {
+        const webInfo = await currentWeb.select('Title', 'ServerRelativeUrl')();
+
+        linkItems.unshift({
+          key: webInfo.ServerRelativeUrl,
+          label: webInfo.Title,
+          href: webInfo.ServerRelativeUrl,
+        });
+
+        if (
+          webInfo.ServerRelativeUrl ===
+          rootSite.Url.replace(window.location.origin, '')
+        ) {
+          break;
+        }
+
+        try {
+          currentWeb = await currentWeb.getParentWeb();
+        } catch {
+          break;
+        }
       }
-
-      this._linkItems.unshift({
-        label: response.Title,
-        key: response.Id,
-        href: response.ServerRelativeUrl,
-      });
-
-      if (
-        response.ServerRelativeUrl ===
-        context.pageContext.site.serverRelativeUrl
-      ) {
-        return;
-      }
-
-      const newWebUrl = webUrl.substring(
-        0,
-        webUrl.indexOf(`${response.ServerRelativeUrl}/`) +
-          response.ServerRelativeUrl.length
-      );
-
-      await this.getParentWeb(context, newWebUrl);
     } catch (error) {
-      console.error('Error fetching parent web:', error);
+      console.error('Error fetching breadcrumb:', error);
     }
-  }
 
-  public async generateBreadcrumbData(
-    context: WebPartContext
-  ): Promise<LinkItem[]> {
-    this._linkItems = [];
-
-    this._linkItems.push({
-      label: context.pageContext.web.title,
-      key: context.pageContext.web.id.toString(),
-      href: context.pageContext.web.absoluteUrl,
-      isCurrentItem:
-        !!context.pageContext.list &&
-        !context.pageContext.list.serverRelativeUrl,
-    });
-
-    if (
-      context.pageContext.site.serverRelativeUrl !==
-      context.pageContext.web.serverRelativeUrl
-    ) {
-      await this.getParentWeb(context, context.pageContext.web.absoluteUrl);
-    }
-    return this._linkItems;
+    return linkItems;
   }
 }
-
-export { SiteService, type LinkItem };

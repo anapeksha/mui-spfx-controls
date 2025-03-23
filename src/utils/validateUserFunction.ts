@@ -1,3 +1,9 @@
+/**
+ * Validates and converts a user-provided function string into an executable function.
+ *
+ * @param {string} code - The user-provided function code as a string.
+ * @returns {((formData: Record<string, any>) => void) | null} - The validated function or null if invalid.
+ */
 export function validateUserFunction(
   code: string
 ): ((formData: Record<string, any>) => void) | null {

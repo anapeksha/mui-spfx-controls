@@ -1,5 +1,11 @@
 # Changelog
 
+## **v0.6.5** (Bug Fix Release)
+
+### **Bug Fixes & Improvements**
+
+- Handled breadcrumb traversal
+
 ## **v0.6.4** (Bug Fix Release)
 
 ### **Bug Fixes & Improvements**

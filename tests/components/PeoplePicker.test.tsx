@@ -12,8 +12,11 @@ import {
 import { mockedContext } from '../mocks/context';
 import { mockUsers } from '../mocks/PeopleService';
 
+/**
+ * Completed
+ */
 describe('<PeoplePicker />', () => {
-  let props: IPeoplePickerProps = {
+  const props: IPeoplePickerProps = {
     context: mockedContext,
     label: 'Select User',
   };

@@ -4,9 +4,11 @@ import React from 'react';
 import { INavigationProps } from '../../src/components/Navigation/INavigationProps';
 import Navigation from '../../src/components/Navigation/Navigation';
 
+/**
+ * Completed
+ */
 describe('<Navigation />', () => {
-  let props: INavigationProps;
-  props = {
+  const props: INavigationProps = {
     items: [
       {
         id: 'iron_man',
