@@ -14,14 +14,17 @@ describe('<SiteBreadcrumb />', () => {
   const props: ISiteBreadcrumbProps = {
     context: mockedContext,
   };
+
+  /** Should render the component correctly */
   it('renders the SiteBreadcrumb component', async () => {
     await act(async () => {
       render(<SiteBreadcrumb {...props} />);
     });
 
-    expect(screen.getByRole('navigation')).toBeInTheDocument();
+    expect(screen.getByTestId('mui-spfx-breadcrumb')).toBeInTheDocument();
   });
 
+  /** Check if link is opened */
   it('navigates to the correct breadcrumb link when clicked', async () => {
     const mockNavigate = jest.fn();
     jest.spyOn(window, 'open').mockImplementation(mockNavigate);

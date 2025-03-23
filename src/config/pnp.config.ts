@@ -16,6 +16,13 @@ import '@pnp/sp/webs';
 let _sp: SPFI;
 let _graph: GraphFI;
 
+/**
+ * Initializes and returns an instance of PnP SPFI (SharePoint Fluent Interface).
+ * Ensures that the SPFI instance is set up with the provided SharePoint context.
+ *
+ * @param {WebPartContext} [context] - The SharePoint WebPart context.
+ * @returns {SPFI} - The initialized SPFI instance.
+ */
 export const getSp = (context?: WebPartContext): SPFI => {
   if (!!context) {
     _sp = spfi()
@@ -26,6 +33,13 @@ export const getSp = (context?: WebPartContext): SPFI => {
   return _sp;
 };
 
+/**
+ * Initializes and returns an instance of PnP GraphFI (Microsoft Graph Fluent Interface).
+ * Ensures that the GraphFI instance is set up with the provided SharePoint context.
+ *
+ * @param {WebPartContext} [context] - The SharePoint WebPart context.
+ * @returns {GraphFI} - The initialized GraphFI instance.
+ */
 export const getGraph = (context?: WebPartContext): GraphFI => {
   if (!!context) {
     _graph = graphfi()

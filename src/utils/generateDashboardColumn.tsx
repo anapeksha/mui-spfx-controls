@@ -7,11 +7,19 @@ import { IPeoplePickerProps, PeoplePicker } from '../components/PeoplePicker';
 import { IPeoplePickerEntity } from '../components/PeoplePicker/IPeoplePickerProps';
 import { PeopleService } from '../services/PeopleService';
 
+/**
+ * Extended properties for PeoplePicker used within the data grid.
+ */
 interface IWrapperPeoplePickerProps extends IPeoplePickerProps {
+  /** Query string to resolve user details */
   query: string;
+  /** Grid API instance for handling cell updates */
   api: GridApiCommunity;
 }
 
+/**
+ * Wrapper component for PeoplePicker, resolving user details based on query.
+ */
 const WrapperPeoplePicker: React.FC<IWrapperPeoplePickerProps> = ({
   api,
   context,
@@ -55,6 +63,15 @@ const WrapperPeoplePicker: React.FC<IWrapperPeoplePickerProps> = ({
   );
 };
 
+/**
+ * Generates a dashboard column configuration for use in MUI DataGrid.
+ *
+ * @param {WebPartContext} context - SharePoint WebPart context.
+ * @param {IFieldInfo} currentField - SharePoint field information.
+ * @param {boolean} editable - Whether the column is editable.
+ * @param {boolean} resizable - Whether the column is resizable.
+ * @returns {GridColDef} - Column definition for MUI DataGrid.
+ */
 export const generateDashboardColumn = (
   context: WebPartContext,
   currentField: IFieldInfo,

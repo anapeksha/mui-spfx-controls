@@ -10,12 +10,11 @@ import ListForm from '../../src/components/ListForm/ListForm';
 import { mockedContext } from '../mocks/context';
 
 describe('<ListForm />', () => {
-  let props: IListFormProps;
   const mockOnSave = jest.fn();
   const mockOnCancel = jest.fn();
   const mockListFields = ['Title', 'Status', 'AssignedTo', 'Created'];
 
-  props = {
+  const props: IListFormProps = {
     context: mockedContext,
     list: 'MockList',
     fields: mockListFields,
@@ -39,6 +38,10 @@ describe('<ListForm />', () => {
 
   /** Render column headers properly */
   it('Should render column headers', async () => {
+    await act(async () => {
+      render(<ListForm {...props} />);
+    });
+
     await act(async () => {
       expect(screen.getByText(mockListFields[0])).toBeInTheDocument();
       expect(screen.getByText(mockListFields[0])).toBeInTheDocument();

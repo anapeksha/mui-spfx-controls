@@ -13,6 +13,9 @@ import { ITabSchema } from '../../src/components/Dashboard/IDashboardProps';
 import { mockedContext } from '../mocks/context';
 import { mockedListItems } from '../mocks/ListService';
 
+/**
+ * Completed
+ */
 describe('<Dashboard />', () => {
   const searchText: string = 'Project Alpha';
   const mockedTabValue: ITabSchema[] = [
