@@ -64,7 +64,7 @@ class ListService {
         response.filter((value) =>
           fieldInternalNames
             ? this.checkCustomFieldType(value) &&
-              fieldInternalNames.includes(value.InternalName)
+              fieldInternalNames.indexOf(value.InternalName) !== -1
             : this.checkCustomFieldType(value)
         )
       );
@@ -190,7 +190,7 @@ class ListService {
     const processedRow: Record<string, any> = {};
     for (const key of Object.keys(newRow)) {
       const value = newRow[key];
-      if (!excludedFields.has(key) && !key.startsWith('@odata.')) {
+      if (!excludedFields.has(key) && key.indexOf('@odata.') !== -1) {
         if (value && typeof value === 'object' && 'EMail' in value) {
           const userId = await resolveUserId(value.EMail);
           if (userId) processedRow[key + 'Id'] = userId;
