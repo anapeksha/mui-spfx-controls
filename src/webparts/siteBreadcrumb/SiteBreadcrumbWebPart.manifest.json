@@ -17,7 +17,10 @@
       "description": {
         "default": "Breadcrumbs to visualize the current location within a SharePoint site and navigate easily"
       },
-      "officeFabricIconFontName": "Breadcrumb"
+      "officeFabricIconFontName": "Breadcrumb",
+      "properties": {
+        "separator": "/"
+      }
     }
   ]
 }
