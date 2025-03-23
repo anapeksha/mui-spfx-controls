@@ -1,5 +1,13 @@
 # Changelog
 
+## **v0.6.6** (Bug Fix Release)
+
+### **Bug Fixes & Improvements**
+
+- Removed caching from requests for complete breadcrumb data generation
+- Improved props and service comments
+- SiteBreadcrumb Webpart can now have separator element props
+
 ## **v0.6.5** (Bug Fix Release)
 
 ### **Bug Fixes & Improvements**
