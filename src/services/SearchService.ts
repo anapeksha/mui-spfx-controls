@@ -21,7 +21,7 @@ class SearchService {
    * Executes a search query against SharePoint.
    * @param {string} query - The search query string.
    * @param {number} searchLimit - The maximum number of search results to return.
-   * @returns {Promise<SearchResults>} - The search results.
+   * @returns {Promise<SearchResults>} The search results.
    */
   public async search(
     query: string,

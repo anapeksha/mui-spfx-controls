@@ -26,7 +26,7 @@ class ListService {
   /**
    * Checks if a field is visible and not hidden.
    * @param {IFieldInfo} field - The field information.
-   * @returns {boolean} - True if the field is not hidden, otherwise false.
+   * @returns {boolean} True if the field is not hidden, otherwise false.
    */
   private checkCustomFieldType(field: IFieldInfo): boolean {
     return !field.Hidden;
@@ -34,7 +34,7 @@ class ListService {
 
   /**
    * Retrieves the total item count of the list.
-   * @returns {Promise<number>} - The total number of items in the list.
+   * @returns {Promise<number>} The total number of items in the list.
    */
   private async getListSize(): Promise<number> {
     return this.list
@@ -44,7 +44,7 @@ class ListService {
 
   /**
    * Fetches all lists available in the SharePoint site.
-   * @returns {Promise<IListInfo[]>} - A list of SharePoint lists.
+   * @returns {Promise<IListInfo[]>} A list of SharePoint lists.
    */
   public async getLists(): Promise<IListInfo[]> {
     return this.sp.web.lists();
@@ -53,7 +53,7 @@ class ListService {
   /**
    * Retrieves fields from the specified list, optionally filtering by internal names.
    * @param {string[]} [fieldInternalNames] - Optional array of field internal names to filter.
-   * @returns {Promise<IFieldInfo[]>} - A list of field information objects.
+   * @returns {Promise<IFieldInfo[]>} A list of field information objects.
    */
   public async getListFields(
     fieldInternalNames?: string[]
@@ -76,7 +76,7 @@ class ListService {
    * @param {string} [filter] - Optional OData filter query.
    * @param {string} [orderBy] - Optional sorting field.
    * @param {number} [top] - Optional limit on number of records.
-   * @returns {Promise<any[]>} - The list items.
+   * @returns {Promise<any[]>} The list items.
    */
   public async getListItems(
     fields: IFieldInfo[],
@@ -127,8 +127,8 @@ class ListService {
   /**
    * Creates a new list item with specified values.
    * @param {Record<string, any>} value - The values for the new item.
-   * @returns {Promise<Record<string, any>>} - The created list item.
-   * @throws {Error} - If the user lacks AddListItems permission.
+   * @returns {Promise<Record<string, any>>} The created list item.
+   * @throws {Error} If the user lacks AddListItems permission.
    */
   public async createListItem(
     value: Record<string, any>
@@ -147,8 +147,8 @@ class ListService {
    * Updates an existing list item by ID.
    * @param {number} id - The ID of the list item.
    * @param {Record<string, any>} newRow - The updated values.
-   * @returns {Promise<void>} - Resolves when the update is successful.
-   * @throws {Error} - If the user lacks EditListItems permission.
+   * @returns {Promise<void>} Resolves when the update is successful.
+   * @throws {Error} If the user lacks EditListItems permission.
    */
   public async updateListItem(
     id: number,
