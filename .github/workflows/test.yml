@@ -20,10 +20,10 @@ jobs:
           node-version: '18.x'
           cache: 'npm'
       - name: Install dependencies
-        run: npm ci
+        run: npm install
       - name: Run gulp test
         run: npm run test
-      - name: Run unit uestt
+      - name: Run unit test
         run: npm run test:unit
       - name: Run coverage tests
         run: npm run test:coverage
