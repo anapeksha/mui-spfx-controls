@@ -55,31 +55,16 @@ interface IListItemPickerBaseProps {
 }
 
 /**
- * Properties for ListItemPicker when multiple values are selected.
- */
-interface ISingleValueProps extends IListItemPickerBaseProps {
-  /** Enables multiple selection */
-  multiple: true;
-  /** Default selected values */
-  defaultValue?: any[];
-  /** Callback triggered when selection changes */
-  onSelectionChange?: (value: any[]) => void;
-}
-
-/**
- * Properties for ListItemPicker when a single value is selected.
- */
-interface IMultiValueProps extends IListItemPickerBaseProps {
-  /** Disables multiple selection */
-  multiple?: false;
-  /** Default selected value */
-  defaultValue?: any;
-  /** Callback triggered when selection changes */
-  onSelectionChange?: (value: any) => void;
-}
-
-/**
  * Type definition for ListItemPicker props.
  * Supports both single and multiple selection modes.
  */
-export type IListItemPickerProps = ISingleValueProps | IMultiValueProps;
+export interface IListItemPickerProps extends IListItemPickerBaseProps {
+  /** Disables multiple selection */
+  multiple?: boolean;
+  /** Current selected value(s) */
+  value?: any;
+  /** Default selected value(s) */
+  defaultValue?: any;
+  /** Callback function triggered when selection changes */
+  onChange?: (value: any) => {};
+}
