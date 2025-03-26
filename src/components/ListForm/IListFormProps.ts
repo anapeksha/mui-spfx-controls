@@ -10,7 +10,7 @@ import {
  */
 interface IResponsiveFieldType {
   /**
-   * Size of the grid item, following MUI's GridProps['size'] type.
+   * Size of the grid item, following MUI's responsive GridProps['size'] type.
    */
   size: GridProps['size'];
 }
