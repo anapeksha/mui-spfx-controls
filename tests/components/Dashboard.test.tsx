@@ -56,6 +56,7 @@ describe('<Dashboard />', () => {
     context: mockedContext,
     list: mockListName,
     fields: mockedInternalNames,
+    tabValue: undefined,
   };
 
   /** Should render the dashboard component properly */

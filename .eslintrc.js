@@ -2,6 +2,7 @@ require('@rushstack/eslint-config/patch/modern-module-resolution');
 
 module.exports = {
   overrides: [
+    // build
     {
       files: ['**/src/**/*.ts', '**/src/**/*.tsx'],
       extends: ['@microsoft/eslint-config-spfx/lib/profiles/react'],
@@ -291,6 +292,7 @@ module.exports = {
         '@microsoft/spfx/pair-react-dom-render-unmount': 1,
       },
     },
+    //test
     {
       files: ['*.test.ts', '*.test.tsx', '**/tests/*.ts', '**/tests/*.tsx'],
       extends: ['@microsoft/eslint-config-spfx/lib/profiles/react'],
@@ -315,6 +317,7 @@ module.exports = {
         '@rushstack/hoist-jest-mock': 1,
       },
     },
+    // scripts
     {
       files: ['./*.mjs'],
       extends: ['@microsoft/eslint-config-spfx/lib/profiles/default'],

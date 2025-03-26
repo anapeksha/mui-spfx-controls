@@ -21,7 +21,7 @@ import {
 } from '@mui/x-data-grid';
 import { Logger } from '@pnp/logging';
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { ListService } from '../../services/ListService';
 import { generateDashboardColumn } from '../../utils/generateDashboardColumn';
 import { IDashboardProps, ITabSchema } from './IDashboardProps';
@@ -42,7 +42,7 @@ interface ICustomGridToolbarProps extends GridToolbarProps {
   onSearch: () => void;
 }
 
-const CustomGridToolbar = ({
+const CustomGridToolbar: FC<ICustomGridToolbarProps> = ({
   loading,
   columnAction,
   densityAction,
@@ -56,7 +56,7 @@ const CustomGridToolbar = ({
   onTabChange,
   onQueryChange,
   onSearch,
-}: ICustomGridToolbarProps): JSX.Element => {
+}) => {
   return (
     <Box display="flex" flexDirection="column" rowGap={1}>
       {searchAction ? (
@@ -221,8 +221,8 @@ const Dashboard: React.ForwardRefExoticComponent<IDashboardProps> =
                     generateDashboardColumn(
                       context,
                       value,
-                      !value.ReadOnlyField && editable ? true : false,
-                      resizable ? true : false
+                      !value.ReadOnlyField && editable,
+                      resizable
                     )
                   )
             );
