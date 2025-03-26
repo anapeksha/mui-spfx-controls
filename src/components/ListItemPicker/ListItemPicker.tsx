@@ -23,7 +23,6 @@ export const ListItemPicker: ForwardRefExoticComponent<IListItemPickerProps> =
         required,
         multiple,
         defaultValue,
-        onSelectionChange,
         searchSuggestionLimit,
         disabled,
         variant,
@@ -33,6 +32,7 @@ export const ListItemPicker: ForwardRefExoticComponent<IListItemPickerProps> =
         name,
         fullWidth,
         sx,
+        onChange,
       },
       ref: RefObject<HTMLDivElement>
     ) => {
@@ -82,9 +82,9 @@ export const ListItemPicker: ForwardRefExoticComponent<IListItemPickerProps> =
             LoadingComponent || <Skeleton width="100%" height={40} />
           }
           sx={sx}
-          onChange={(event, value: any[]) => {
-            if (onSelectionChange) {
-              onSelectionChange(value);
+          onChange={(event, value: any) => {
+            if (onChange) {
+              onChange(value);
             }
           }}
           onInputChange={(event, newValue) => setQuery(newValue)}
