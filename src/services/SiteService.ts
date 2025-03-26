@@ -5,7 +5,7 @@ import { ILinkItem } from '../components/SiteBreadcrumb/ISiteBreadcrumbProps';
 import { getSp } from '../config/pnp.config';
 
 export class SiteService {
-  private sp: SPFI;
+  private readonly sp: SPFI;
 
   /**
    * Initializes the SiteService instance.
@@ -30,7 +30,7 @@ export class SiteService {
     try {
       const webInfo = await web.select('Title', 'ServerRelativeUrl', 'Id')();
 
-      if (!webInfo || !webInfo.Title || !webInfo.ServerRelativeUrl) {
+      if (!webInfo?.Title || !webInfo?.ServerRelativeUrl) {
         return breadcrumbs;
       }
 

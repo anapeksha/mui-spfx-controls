@@ -9,7 +9,7 @@ import { generateImageUrl } from '../utils/generateImageUrl';
  * Service class for interacting with SharePoint People Picker.
  */
 class PeopleService {
-  private sp: SPFI;
+  private readonly sp: SPFI;
 
   /**
    * Initializes the PeopleService instance.
@@ -36,33 +36,38 @@ class PeopleService {
    * @param {WebPartContext} context - The SharePoint WebPart context.
    * @param {string} query - The search query string.
    * @param {number} [maximumSuggestions=25] - The maximum number of suggestions to return.
+   * @param {PrincipalSource} [principalSource=PrincipalSource.All] - The source from which to retrieve users.
+   * @param {PrincipalType} [principalType=PrincipalType.All] - The type of principals (users, groups, etc.) to include in the search.
    * @returns {Promise<IPeoplePickerEntity[]>} A list of matched people entities.
    */
   public async searchUser(
     context: WebPartContext,
     query: string,
-    maximumSuggestions?: number
+    maximumSuggestions?: number,
+    principalSource?: PrincipalSource,
+    principalType?: PrincipalType
   ): Promise<IPeoplePickerEntity[]> {
     const response = await this.sp.profiles.clientPeoplePickerSearchUser({
       AllowEmailAddresses: true,
       AllowMultipleEntities: false,
       AllUrlZones: false,
-      MaximumEntitySuggestions: maximumSuggestions || 25,
-      PrincipalSource: PrincipalSource.All,
-      PrincipalType: PrincipalType.All,
+      MaximumEntitySuggestions: maximumSuggestions ?? 25,
+      PrincipalSource: principalSource ?? PrincipalSource.All,
+      PrincipalType: principalType ?? PrincipalType.All,
       QueryString: query,
     });
 
-    response.filter((value) => this.restrictUnInvalidated(value));
-    return response.map((value) => {
-      let image = '';
-      if (value.Description && value.Description !== '') {
-        image = generateImageUrl(context, value.Description);
-      } else if (value.EntityData.Email && value.EntityData.Email !== '') {
-        image = generateImageUrl(context, value.EntityData.Email);
-      }
-      return { ...value, Image: image };
-    });
+    return response
+      .filter((value) => this.restrictUnInvalidated(value))
+      .map((value) => {
+        let image = '';
+        if (value.Description && value.Description !== '') {
+          image = generateImageUrl(context, value.Description);
+        } else if (value.EntityData.Email && value.EntityData.Email !== '') {
+          image = generateImageUrl(context, value.EntityData.Email);
+        }
+        return { ...value, Image: image };
+      });
   }
 
   /**

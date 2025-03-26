@@ -182,7 +182,7 @@ export const ListForm: React.ForwardRefExoticComponent<IListFormProps> =
                       }
                     >
                       {field.Choices?.map((choice, index) => (
-                        <MenuItem key={index} value={choice}>
+                        <MenuItem key={`${choice}-${index}`} value={choice}>
                           {choice}
                         </MenuItem>
                       ))}
@@ -218,7 +218,7 @@ export const ListForm: React.ForwardRefExoticComponent<IListFormProps> =
                       }}
                     >
                       {field.Choices?.map((choice, index) => (
-                        <MenuItem key={index} value={choice}>
+                        <MenuItem key={`${choice}-${index}`} value={choice}>
                           {choice}
                         </MenuItem>
                       ))}
@@ -319,18 +319,18 @@ export const ListForm: React.ForwardRefExoticComponent<IListFormProps> =
         }
       };
 
+      const calculatedPaperElevation = isNaN(Number(paperElevation))
+        ? 2
+        : paperElevation;
+
       return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <Card
             ref={ref}
             data-testid="mui-spfx-listform"
-            variant={paperVariant || 'outlined'}
+            variant={paperVariant ?? 'outlined'}
             elevation={
-              paperVariant === 'elevation'
-                ? isNaN(Number(paperElevation))
-                  ? 2
-                  : paperElevation
-                : 0
+              paperVariant === 'elevation' ? calculatedPaperElevation : 0
             }
             sx={{ p: 2 }}
           >

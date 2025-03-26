@@ -7,7 +7,7 @@ import { getSp } from '../config/pnp.config';
  * Service class for performing search queries in SharePoint.
  */
 class SearchService {
-  private sp: SPFI;
+  private readonly sp: SPFI;
 
   /**
    * Initializes the SearchService instance.

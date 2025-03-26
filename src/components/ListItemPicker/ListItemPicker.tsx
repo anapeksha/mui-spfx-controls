@@ -95,7 +95,7 @@ export const ListItemPicker: ForwardRefExoticComponent<IListItemPickerProps> =
               variant={variant}
               required={required}
               color={color}
-              error={error !== null ? true : false}
+              error={error !== null}
               helperText={error ? 'Something went wrong' : ''}
               label={label}
               fullWidth={fullWidth || true}

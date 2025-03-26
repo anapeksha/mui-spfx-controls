@@ -5,6 +5,7 @@ import {
   TextFieldProps,
   TextFieldVariants,
 } from '@mui/material';
+import { PrincipalSource, PrincipalType } from '@pnp/sp';
 import { IPeoplePickerEntity as IBasePeoplePickerEntity } from '@pnp/sp/profiles';
 import { ReactNode } from 'react';
 
@@ -42,6 +43,10 @@ interface IPeoplePickerBaseProps {
   searchSuggestionLimit?: number;
   /** Maximum number of people that can be selected */
   personSelectionLimit?: number;
+  /** The source from which people or groups are retrieved */
+  principalSource?: PrincipalSource;
+  /** Specifies the type of principal (user, security group, distribution list, etc.) to retrieve */
+  principalType?: PrincipalType;
   /** Whether the component is in a loading state */
   loading?: boolean;
   /** Whether the PeoplePicker is disabled */

@@ -68,15 +68,15 @@ const WrapperPeoplePicker: React.FC<IWrapperPeoplePickerProps> = ({
  *
  * @param {WebPartContext} context - SharePoint WebPart context.
  * @param {IFieldInfo} currentField - SharePoint field information.
- * @param {boolean} editable - Whether the column is editable.
- * @param {boolean} resizable - Whether the column is resizable.
+ * @param {boolean | undefined} editable - Whether the column is editable.
+ * @param {boolean | undefined} resizable - Whether the column is resizable.
  * @returns {GridColDef} - Column definition for MUI DataGrid.
  */
 export const generateDashboardColumn = (
   context: WebPartContext,
   currentField: IFieldInfo,
-  editable: boolean,
-  resizable: boolean
+  editable?: boolean,
+  resizable?: boolean
 ): GridColDef => {
   switch (currentField.FieldTypeKind) {
     case FieldTypes.User:
