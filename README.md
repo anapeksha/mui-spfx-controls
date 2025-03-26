@@ -3,6 +3,7 @@
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/anapeksha/mui-spfx-controls/blob/main/License)
 [![Publish](https://github.com/anapeksha/mui-spfx-controls/actions/workflows/publish.yml/badge.svg)](https://github.com/anapeksha/mui-spfx-controls/actions/workflows/publish.yml)
 [![Test](https://github.com/anapeksha/mui-spfx-controls/actions/workflows/test.yml/badge.svg)](https://github.com/anapeksha/mui-spfx-controls/actions/workflows/test.yml)
+[![SonarCloud](https://sonarcloud.io/api/project_badges/measure?project=mui-spfx-controls&metric=alert_status)](https://sonarcloud.io/project?id=mui-spfx-controls)
 
 This is a SharePoint Framework (SPFx) component library built using Material-UI (MUI). It provides reusable React components for building modern and visually appealing user interfaces in SharePoint.
 
