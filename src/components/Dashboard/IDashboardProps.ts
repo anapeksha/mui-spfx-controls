@@ -65,7 +65,7 @@ interface IDashboardNotTabbedProps extends IDashboardBaseProps {
   /** Disables tab functionality */
   tabAction?: false;
   /** No tab configuration when tab functionality is disabled */
-  tabValue?: undefined;
+  tabValue: undefined;
 }
 
 /**
