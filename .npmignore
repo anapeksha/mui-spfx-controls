@@ -25,6 +25,7 @@ gulpfile.mjs
 
 #sonarqube
 sonarqube-project.properties
+.sonarlint
 
 #logs
 *.log
