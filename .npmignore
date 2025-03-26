@@ -23,6 +23,9 @@ gulpfile.mjs
 .yo-rc.json
 .eslintrc.js
 
+#sonarqube
+sonarqube-project.properties
+
 #logs
 *.log
 

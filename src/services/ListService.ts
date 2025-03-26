@@ -10,8 +10,8 @@ import { getSp } from '../config/pnp.config';
  * Service class for interacting with SharePoint lists.
  */
 class ListService {
-  private sp: SPFI;
-  private list: IList;
+  private readonly sp: SPFI;
+  private readonly list: IList;
 
   /**
    * Initializes the ListService instance.
@@ -107,16 +107,16 @@ class ListService {
         ...(await this.list.items
           .select(...selectFields)
           .expand(...expandFields)
-          .filter(filter || '')
-          .orderBy(orderBy || '', false)
+          .filter(filter ?? '')
+          .orderBy(orderBy ?? '', false)
           .top(top)())
       );
     } else {
       for await (const items of this.list.items
         .select(...selectFields)
         .expand(...expandFields)
-        .filter(filter || '')
-        .orderBy(orderBy || '', false) as any) {
+        .filter(filter ?? '')
+        .orderBy(orderBy ?? '', false) as any) {
         if (totalItems.length >= totalCount) break;
         totalItems.push(...items);
       }

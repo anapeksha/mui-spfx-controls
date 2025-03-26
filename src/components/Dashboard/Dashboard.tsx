@@ -139,18 +139,19 @@ const CustomGridToolbar = ({
             onChange={(event, value) => onTabChange(value)}
             variant="scrollable"
           >
-            {tabValue &&
-              tabValue.map((value, index) => (
-                <Tab
-                  key={`${value.label}-${index}`}
-                  label={value.label}
-                  value={value}
-                  disabled={value.disabled || loading}
-                  wrapped={value.wrapped}
-                  icon={value.icon}
-                  iconPosition={value.iconPosition}
-                />
-              ))}
+            {tabValue
+              ? tabValue.map((value, index) => (
+                  <Tab
+                    key={`${value.label}-${index}`}
+                    label={value.label}
+                    value={value}
+                    disabled={value.disabled || loading}
+                    wrapped={value.wrapped}
+                    icon={value.icon}
+                    iconPosition={value.iconPosition}
+                  />
+                ))
+              : null}
           </Tabs>
         </GridToolbarContainer>
       ) : null}
@@ -208,8 +209,8 @@ const Dashboard: React.ForwardRefExoticComponent<IDashboardProps> =
                 tempColumns[index] = generateDashboardColumn(
                   context,
                   value,
-                  !value.ReadOnlyField && editable ? true : false,
-                  resizable ? true : false
+                  !value.ReadOnlyField && editable,
+                  resizable
                 );
               }
             });
@@ -230,8 +231,8 @@ const Dashboard: React.ForwardRefExoticComponent<IDashboardProps> =
                 generateDashboardColumn(
                   context,
                   value,
-                  !value.ReadOnlyField && editable ? true : false,
-                  resizable ? true : false
+                  !value.ReadOnlyField && editable,
+                  resizable
                 )
               )
             );
@@ -239,7 +240,7 @@ const Dashboard: React.ForwardRefExoticComponent<IDashboardProps> =
               .getListItems(response, '', 'Created')
               .then((itemResponse) => {
                 setLoading(false);
-                setRows(() =>
+                setRows(
                   currentTabValue
                     ? [...itemResponse].filter(
                         (value) =>

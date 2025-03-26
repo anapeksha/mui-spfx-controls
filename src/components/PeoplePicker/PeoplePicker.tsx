@@ -37,6 +37,8 @@ export const PeoplePicker: ForwardRefExoticComponent<IPeoplePickerProps> =
         tagVariant,
         color,
         tagColor,
+        principalSource,
+        principalType,
         LoadingComponent,
         name,
         fullWidth,
@@ -65,7 +67,9 @@ export const PeoplePicker: ForwardRefExoticComponent<IPeoplePickerProps> =
               const searchedUsers = await peopleService.searchUser(
                 context,
                 query,
-                searchSuggestionLimit
+                searchSuggestionLimit,
+                principalSource,
+                principalType
               );
               setSearchResults(searchedUsers);
             } catch (error) {
@@ -87,7 +91,7 @@ export const PeoplePicker: ForwardRefExoticComponent<IPeoplePickerProps> =
           {...props}
           ref={ref}
           data-testid="mui-spfx-peoplepicker"
-          fullWidth={fullWidth !== undefined ? fullWidth : true}
+          fullWidth={fullWidth ?? true}
           options={searchResults}
           getOptionLabel={(option: IPeoplePickerEntity) =>
             option?.DisplayText || ''
@@ -132,7 +136,7 @@ export const PeoplePicker: ForwardRefExoticComponent<IPeoplePickerProps> =
             return users.map((user: IPeoplePickerEntity, index) => (
               <Chip
                 {...getTagProps({ index })}
-                key={index}
+                key={user.Key}
                 color={tagColor}
                 variant={tagVariant}
                 avatar={<Avatar src={user.Image} />}
@@ -155,33 +159,32 @@ export const PeoplePicker: ForwardRefExoticComponent<IPeoplePickerProps> =
             </ListItem>
           )}
           renderInput={
-            renderInput
-              ? renderInput
-              : (params) => (
-                  <TextField
-                    {...params}
-                    name={name}
-                    variant={variant}
-                    required={required}
-                    color={color}
-                    error={error !== null ? true : false}
-                    helperText={error ? 'Something went wrong' : ''}
-                    label={label}
-                    slotProps={{
-                      input: {
-                        ...params.InputProps,
-                        endAdornment: (
-                          <React.Fragment>
-                            {props.loading ? (
-                              <CircularProgress color="inherit" size={20} />
-                            ) : null}
-                            {params.InputProps.endAdornment}
-                          </React.Fragment>
-                        ),
-                      },
-                    }}
-                  />
-                )
+            renderInput ||
+            ((params) => (
+              <TextField
+                {...params}
+                name={name}
+                variant={variant}
+                required={required}
+                color={color}
+                error={error !== null}
+                helperText={error ? 'Something went wrong' : ''}
+                label={label}
+                slotProps={{
+                  input: {
+                    ...params.InputProps,
+                    endAdornment: (
+                      <React.Fragment>
+                        {props.loading ? (
+                          <CircularProgress color="inherit" size={20} />
+                        ) : null}
+                        {params.InputProps.endAdornment}
+                      </React.Fragment>
+                    ),
+                  },
+                }}
+              />
+            ))
           }
         />
       );

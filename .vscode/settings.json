@@ -17,5 +17,9 @@
     "source.sortImports": "always",
     "source.organizeImports": "always",
     "source.addMissingImports.ts": "always"
+  },
+  "sonarlint.connectedMode.project": {
+    "connectionId": "anapeksha",
+    "projectKey": "mui-spfx-controls"
   }
 }
