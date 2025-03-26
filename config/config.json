@@ -61,13 +61,13 @@
   },
   "externals": {},
   "localizedResources": {
+    "PropertyControlStrings": "node_modules/@pnp/spfx-property-controls/lib/loc/{locale}.js",
     "PeoplePickerWebPartStrings": "lib/webparts/peoplePicker/loc/{locale}.js",
     "DashboardWebPartStrings": "lib/webparts/dashboard/loc/{locale}.js",
-    "PropertyControlStrings": "node_modules/@pnp/spfx-property-controls/lib/loc/{locale}.js",
     "ListFormWebPartStrings": "lib/webparts/listForm/loc/{locale}.js",
     "ListItemPickerWebPartStrings": "lib/webparts/listItemPicker/loc/{locale}.js",
     "SitePickerWebPartStrings": "lib/webparts/navigation/loc/{locale}.js",
-    "SearchBarWebPartStrings": "lib/webparts/searchBar/loc/{locale}.js",
+    "SearchBarWebPartStrings": "lib/webparts/searchbar/loc/{locale}.js",
     "SiteBreadcrumbWebPartStrings": "lib/webparts/siteBreadcrumb/loc/{locale}.js"
   }
 }
