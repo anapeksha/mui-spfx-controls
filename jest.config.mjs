@@ -22,7 +22,6 @@ export default {
     '\\.(css|scss)$': 'identity-obj-proxy',
   },
   modulePathIgnorePatterns: ['<rootDir>/lib/'],
-  collectCoverage: true,
   coverageDirectory: '<rootDir>/coverage',
   collectCoverageFrom: ['<rootDir>/src/components/**/*.tsx'],
   coverageReporters: ['json', 'lcov', 'text', 'clover'],
