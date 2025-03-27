@@ -23,157 +23,165 @@ npm install mui-spfx-controls --save
 
 ## Usage
 
-Once installed, you can import and use the components in your SPFx web part or extension. Alternatively, prebuilt webparts can be used after deploying solution to site's AppCatalog For example:
+Once installed, you can import and use the components in your SPFx web part or extension. Alternatively, prebuilt webparts can be used after deploying solution to site's AppCatalog. For example:
 
-```JSX
+```jsx
 import * as React from 'react';
-import * as ReactDom from "react-dom";
-import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
-import { PeoplePicker, IPeoplePickerProps } from 'mui-spfx-controls';
+import { CodeEditor } from 'mui-spfx-controls';
 
-export default class PeoplePickerWebPart extends BaseClientWebPart {
-  public render(): void {
-    const element: React.ReactElement<IPeoplePickerProps> = React.createElement(
-      PeoplePicker,
-      {
-        context: this.context,
-        label: "People",
-        size: "small",
-        disabled: false,
-        variant: "outlined",
-        tagVariant: "filled",
-        color: "primary",
-        tagColor: "secondary",
-      }
-    );
-    ReactDom.render(element, this.domElement);
-  }
-}
+const CodeEditorWebPart = () => {
+  return (
+    <CodeEditor
+      language="javascript"
+      theme="vs-dark"
+      value="// Start coding..."
+      options={{ fontSize: 14 }}
+    />
+  );
+};
+
+export default CodeEditorWebPart;
 ```
 
-```JSX
+```jsx
 import * as React from 'react';
-import * as ReactDom from "react-dom";
-import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
-import { Dashboard, IDashboardProps } from 'mui-spfx-controls';
+import { PeoplePicker } from 'mui-spfx-controls';
 
-export default class DashboardWebPart extends BaseClientWebPart {
-  public render(): void {
-    const element: React.ReactElement<IDashboardProps> = React.createElement(
-      Dashboard,
-      {
-        context: this.context,
-        list: "ListName",
-        fields: ["Field1", "Field2", "Field3", "Field4"],
-        columnAction: false,
-        exportAction: true,
-        tabAction: true,
-        densityAction: false,
-        searchAction: true,
-        editable: true,
-        resizable: true,
-        tabValue: [{fieldToMatch: "Field1", stringToMatch: "Test", label: "Tab1"}],
-        height: 750,
-      }
-    );
-    ReactDom.render(element, this.domElement);
-  }
-}
+const PeoplePickerWebPart = ({ context }) => {
+  return (
+    <PeoplePicker
+      context={context}
+      label="People"
+      size="small"
+      disabled={false}
+      variant="outlined"
+      tagVariant="filled"
+      color="primary"
+      tagColor="secondary"
+    />
+  );
+};
+
+export default PeoplePickerWebPart;
 ```
 
-```JSX
+```jsx
 import * as React from 'react';
-import * as ReactDom from "react-dom";
-import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
-import { ListForm, IListFormProps } from 'mui-spfx-controls';
+import { Dashboard } from 'mui-spfx-controls';
 
-export default class ListFormWebPart extends BaseClientWebPart {
-  public render(): void {
-    const element: React.ReactElement<IListFormProps> = React.createElement(
-      ListForm,
-      {
-        context: this.context,
-        list: "ListName",
-        fields: ["Field1", "Field2", "Field3", "Field4"],
-        paperVariant: "elevation",
-        paperElevation: 2,
-        inputVariant: "outlined",
-        inputSize: "medium",
-        fieldSpacing: 2,
-      }
-    );
-    ReactDom.render(element, this.domElement);
-  }
-}
+const DashboardWebPart = ({ context }) => {
+  return (
+    <Dashboard
+      context={context}
+      list="ListName"
+      fields={['Field1', 'Field2', 'Field3', 'Field4']}
+      columnAction={false}
+      exportAction={true}
+      tabAction={true}
+      densityAction={false}
+      searchAction={true}
+      editable={true}
+      resizable={true}
+      tabValue={[
+        { fieldToMatch: 'Field1', stringToMatch: 'Test', label: 'Tab1' },
+      ]}
+      height={750}
+    />
+  );
+};
+
+export default DashboardWebPart;
 ```
 
-```JSX
+```jsx
 import * as React from 'react';
-import * as ReactDom from "react-dom";
-import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
-import { ListItemPicker, IListItemPickerProps } from 'mui-spfx-controls';
+import { ListForm } from 'mui-spfx-controls';
 
-export default class ListFormWebPart extends BaseClientWebPart {
-  public render(): void {
-    const element: React.ReactElement<IListFormProps> = React.createElement(
-      ListItemPicker,
-      {
-        context: this.context,
-        list: "ListName",
-        fields: ["Field1", "Field2", "Field3", "Field4"],
-        displayField: "Title",
-        label: "List Items",
-        searchSuggestionLimit: 10,
-        multiple: true,
-        variant: "outlined",
-        size: "medium",
-      }
-    );
-    ReactDom.render(element, this.domElement);
-  }
-}
+const ListFormWebPart = ({ context }) => {
+  return (
+    <ListForm
+      context={context}
+      list="ListName"
+      fields={['Field1', 'Field2', 'Field3', 'Field4']}
+      paperVariant="elevation"
+      paperElevation={2}
+      inputVariant="outlined"
+      inputSize="medium"
+      fieldSpacing={2}
+    />
+  );
+};
+
+export default ListFormWebPart;
 ```
 
-```JSX
+```jsx
 import * as React from 'react';
-import * as ReactDom from "react-dom";
-import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
-import { Navigation, INavigationProps } from 'mui-spfx-controls';
+import { ListItemPicker } from 'mui-spfx-controls';
 
-export default class NavigationWebPart extends BaseClientWebPart {
-  public render(): void {
-    const element: React.ReactElement<INavigationProps> = React.createElement(
-      Navigation,
-      {
-        items: [{id: 'iron_man', label: 'Iron Man', children: [{ id: 'iron_man_1', label: 'Iron Man (2008)', link: 'https://www.imdb.com/title/tt0371746/' }]}],
-      }
-    );
-    ReactDom.render(element, this.domElement);
-  }
-}
+const ListItemPickerWebPart = ({ context }) => {
+  return (
+    <ListItemPicker
+      context={context}
+      list="ListName"
+      fields={['Field1', 'Field2', 'Field3', 'Field4']}
+      displayField="Title"
+      label="List Items"
+      searchSuggestionLimit={10}
+      multiple={true}
+      variant="outlined"
+      size="medium"
+    />
+  );
+};
+
+export default ListItemPickerWebPart;
 ```
 
-```JSX
+```jsx
 import * as React from 'react';
-import * as ReactDom from "react-dom";
-import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
-import { SearchBar, ISearchBarProps } from 'mui-spfx-controls';
+import { Navigation } from 'mui-spfx-controls';
 
-export default class SearchBarWebPart extends BaseClientWebPart {
-  public render(): void {
-    const element: React.ReactElement<ISearchBarProps> = React.createElement(
-      SearchBar,
-      {
-        context: this.context,
-        label: "Search",
-        size: "small",
-        scope: "https://acme.sharepoint.com/sites/include",
-        excludedScope: "https://acme.sharepoint.com/sites/exclude",
-      }
-    );
-    ReactDom.render(element, this.domElement);
-  }
-}
+const NavigationWebPart = () => {
+  return (
+    <Navigation
+      items={[
+        {
+          id: 'iron_man',
+          label: 'Iron Man',
+          children: [
+            {
+              id: 'iron_man_1',
+              label: 'Iron Man (2008)',
+              link: 'https://www.imdb.com/title/tt0371746/',
+            },
+          ],
+        },
+      ]}
+    />
+  );
+};
+
+export default NavigationWebPart;
+```
+
+```jsx
+import * as React from 'react';
+import { SearchBar } from 'mui-spfx-controls';
+
+const SearchBarWebPart = ({ context }) => {
+  return (
+    <SearchBar
+      context={context}
+      label="Search"
+      size="small"
+      scope="https://acme.sharepoint.com/sites/include"
+      excludedScope="https://acme.sharepoint.com/sites/exclude"
+    />
+  );
+};
+
+export default SearchBarWebPart;
 ```
 
 ## Components
@@ -283,6 +291,14 @@ A search bar component with MUI library integration
 - scope (optional): Search scope (URL)
 - excludedScope (optional): Search scope to exclude (URL)
 - sx (optional): MUI's sx prop
+
+### CodeEditor
+
+A code editor component powered by Monaco Editor with MUI integration.
+
+#### Props
+
+- renderControls (optional): Render controls for the editor
 
 ## Development
 

@@ -40,6 +40,7 @@ module.exports = {
         // Rationale to disable: although this is a recommended rule, it is up to dev to select coding style.
         // Set to 1 (warning) or 2 (error) to enable.
         '@typescript-eslint/explicit-member-accessibility': 0,
+        '@typescript-eslint/no-duplicate-enum-values': 0,
         // STANDARDIZED BY:   @typescript-eslint\eslint-plugin\dist\configs\recommended.json
         '@typescript-eslint/no-array-constructor': 1,
         // STANDARDIZED BY:   @typescript-eslint\eslint-plugin\dist\configs\recommended.json
