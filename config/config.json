@@ -57,6 +57,14 @@
           "manifest": "./src/webparts/siteBreadcrumb/SiteBreadcrumbWebPart.manifest.json"
         }
       ]
+    },
+    "code-editor-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/codeEditor/CodeEditorWebPart.js",
+          "manifest": "./src/webparts/codeEditor/CodeEditorWebPart.manifest.json"
+        }
+      ]
     }
   },
   "externals": {},
@@ -68,6 +76,7 @@
     "ListItemPickerWebPartStrings": "lib/webparts/listItemPicker/loc/{locale}.js",
     "SitePickerWebPartStrings": "lib/webparts/navigation/loc/{locale}.js",
     "SearchBarWebPartStrings": "lib/webparts/searchbar/loc/{locale}.js",
-    "SiteBreadcrumbWebPartStrings": "lib/webparts/siteBreadcrumb/loc/{locale}.js"
+    "SiteBreadcrumbWebPartStrings": "lib/webparts/siteBreadcrumb/loc/{locale}.js",
+    "CodeEditorWebPartStrings": "lib/webparts/codeEditor/loc/{locale}.js"
   }
 }
