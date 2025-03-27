@@ -178,12 +178,7 @@ const CodeEditor: ForwardRefExoticComponent<ICodeEditorProps> = forwardRef(
             />
           </Box>
         ) : null}
-        <Editor
-          value={value}
-          language={language}
-          options={options}
-          onChange={onChange}
-        />
+        <Editor {...props} language={language} options={options} />
       </Box>
     );
   }
