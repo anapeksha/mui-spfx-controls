@@ -1,5 +1,6 @@
 import { WebPartContext } from '@microsoft/sp-webpart-base';
 import { graphfi, GraphFI, SPFx as GraphSPFx } from '@pnp/graph';
+import '@pnp/graph/users';
 import { BrowserFetchWithRetry } from '@pnp/queryable';
 import { spfi, SPFI, SPFx as SpSPFx } from '@pnp/sp';
 import '@pnp/sp/batching';
