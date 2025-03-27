@@ -55,6 +55,11 @@
       "import": "./lib/components/SearchBar/index.js",
       "require": "./lib/components/SearchBar/index.js",
       "types": "./lib/components/SearchBar/index.d.ts"
+    },
+    "./CodeEditor": {
+      "import": "./lib/components/CodeEditor/index.js",
+      "require": "./lib/components/CodeEditor/index.js",
+      "types": "./lib/components/CodeEditor/index.d.ts"
     }
   },
   "author": {
