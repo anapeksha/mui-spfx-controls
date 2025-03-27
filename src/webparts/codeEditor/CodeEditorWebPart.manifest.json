@@ -3,26 +3,24 @@
   "id": "4601b4b0-6219-41f0-a532-072e39e62ee9",
   "alias": "CodeEditorWebPart",
   "componentType": "WebPart",
-
-  // The "*" signifies that the version should be taken from the package.json
   "version": "*",
   "manifestVersion": 2,
-
-  // If true, the component can only be installed on sites where Custom Script is allowed.
-  // Components that allow authors to embed arbitrary script code should set this to true.
-  // https://support.office.com/en-us/article/Turn-scripting-capabilities-on-or-off-1f2c515f-5d7e-448a-9fd7-835da935584f
   "requiresCustomScript": false,
-  "supportedHosts": ["SharePointWebPart", "TeamsPersonalApp", "TeamsTab", "SharePointFullPage"],
+  "supportedHosts": ["SharePointWebPart", "SharePointFullPage"],
   "supportsThemeVariants": true,
 
-  "preconfiguredEntries": [{
-    "groupId": "5c03119e-3074-46fd-976b-c60198311f70", // Advanced
-    "group": { "default": "Advanced" },
-    "title": { "default": "CodeEditor" },
-    "description": { "default": "CodeEditor description" },
-    "officeFabricIconFontName": "Page",
-    "properties": {
-      "description": "CodeEditor"
+  "preconfiguredEntries": [
+    {
+      "groupId": "5c03119e-3074-46fd-976b-c60198311f70",
+      "group": { "default": "Advanced" },
+      "title": { "default": "MUI Code Editor" },
+      "description": {
+        "default": "A customizable Monaco-based code editor for MUI with dynamic settings and integrations."
+      },
+      "officeFabricIconFontName": "CodeEdit",
+      "properties": {
+        "renderControls": true
+      }
     }
-  }]
+  ]
 }
