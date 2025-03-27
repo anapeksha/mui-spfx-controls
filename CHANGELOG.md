@@ -1,22 +1,24 @@
 # Changelog
 
+## **v0.7.1** (Bug Fix Release)
+
+- Fixed an export problem with the library for CodeEditor
+
 ## **v0.7.0** (Feature & Improvement Release)
 
 - Added `CodeEditor` component with support for Monaco Editor.
 - Introduced props for customizing word wrap, line numbers, minimap, and font size dynamically.
 - Updated all component examples to use functional components with React hooks.
 
-## Enhancements
+### Enhancements
 
-- Improved documentation for `searchUser`, `principleSource`, and `principleType`.
 - Added SonarQube integration with GitHub Actions.
 - Enhanced Jest coverage reporting and integrated with SonarQube.
 
-## Bug Fixes
+### Bug Fixes
 
 - Fixed an issue where font size in `CodeEditor` was not updating dynamically.
 - Resolved an endless loop in `SiteService` when fetching breadcrumb data.
-- Fixed eslint error related to `@typescript-eslint/no-duplicate-enum-values`.
 
 ## **v0.6.6** (Bug Fix Release)
 
