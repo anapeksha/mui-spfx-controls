@@ -1,5 +1,9 @@
 # Changelog
 
+## **v0.7.1** (Bug Fix Release)
+
+- Fixed an export problem with the library for CodeEditor
+
 ## **v0.7.0** (Feature & Improvement Release)
 
 - Added `CodeEditor` component with support for Monaco Editor.
