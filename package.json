@@ -2,7 +2,7 @@
   "$schema": "https://json.schemastore.org/package",
   "name": "mui-spfx-controls",
   "description": "SPFx component library built with MUI",
-  "version": "0.6.6",
+  "version": "0.7.0",
   "license": "MIT",
   "engines": {
     "node": ">=16.13.0 <17.0.0 || >=18.17.1 <19.0.0"
@@ -55,6 +55,11 @@
       "import": "./lib/components/SearchBar/index.js",
       "require": "./lib/components/SearchBar/index.js",
       "types": "./lib/components/SearchBar/index.d.ts"
+    },
+    "./CodeEditor": {
+      "import": "./lib/components/CodeEditor/index.js",
+      "require": "./lib/components/CodeEditor/index.js",
+      "types": "./lib/components/CodeEditor/index.d.ts"
     }
   },
   "author": {
