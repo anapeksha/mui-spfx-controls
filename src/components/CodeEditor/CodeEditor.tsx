@@ -85,6 +85,7 @@ const CodeEditor: ForwardRefExoticComponent<ICodeEditorProps> = forwardRef(
 
     const options = useMemo(() => {
       return {
+        language,
         theme,
         fontSize,
         wordWrap,
@@ -92,7 +93,7 @@ const CodeEditor: ForwardRefExoticComponent<ICodeEditorProps> = forwardRef(
         minimap,
         tabSize,
       };
-    }, [theme, fontSize, wordWrap, lineNumbers, minimap, tabSize]);
+    }, [language, theme, fontSize, wordWrap, lineNumbers, minimap, tabSize]);
 
     return (
       <Paper
