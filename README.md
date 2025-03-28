@@ -36,6 +36,21 @@ const CodeEditorWebPart = () => {
 export default CodeEditorWebPart;
 ```
 
+![Code Editor](https://github.com/anapeksha/mui-spfx-controls/blob/main/assets/code-editor.png?raw=true)
+
+```jsx
+import * as React from 'react';
+import { SiteBreadcrumb } from 'mui-spfx-controls';
+
+const SiteBreadcrumbWebPart = ({ context }) => {
+  return <SiteBreadcrumb context={context} />;
+};
+
+export default SiteBreadcrumbWebPart;
+```
+
+![Site Breadcrumb](https://github.com/anapeksha/mui-spfx-controls/blob/main/assets/site-breadcrumb.png?raw=true)
+
 ```jsx
 import * as React from 'react';
 import { PeoplePicker } from 'mui-spfx-controls';
@@ -57,6 +72,8 @@ const PeoplePickerWebPart = ({ context }) => {
 
 export default PeoplePickerWebPart;
 ```
+
+![People Picker](https://github.com/anapeksha/mui-spfx-controls/blob/main/assets/people-picker.png?raw=true)
 
 ```jsx
 import * as React from 'react';
@@ -86,6 +103,8 @@ const DashboardWebPart = ({ context }) => {
 export default DashboardWebPart;
 ```
 
+![Dashboard](https://github.com/anapeksha/mui-spfx-controls/blob/main/assets/dashboard.png?raw=true)
+
 ```jsx
 import * as React from 'react';
 import { ListForm } from 'mui-spfx-controls';
@@ -107,6 +126,8 @@ const ListFormWebPart = ({ context }) => {
 
 export default ListFormWebPart;
 ```
+
+![List Form](https://github.com/anapeksha/mui-spfx-controls/blob/main/assets/list-form.png?raw=true)
 
 ```jsx
 import * as React from 'react';
@@ -130,6 +151,8 @@ const ListItemPickerWebPart = ({ context }) => {
 
 export default ListItemPickerWebPart;
 ```
+
+![List Item Picker](https://github.com/anapeksha/mui-spfx-controls/blob/main/assets/list-item-picker.png?raw=true)
 
 ```jsx
 import * as React from 'react';
@@ -158,6 +181,8 @@ const NavigationWebPart = () => {
 export default NavigationWebPart;
 ```
 
+![Navigation](https://github.com/anapeksha/mui-spfx-controls/blob/main/assets/navigation.png?raw=true)
+
 ```jsx
 import * as React from 'react';
 import { SearchBar } from 'mui-spfx-controls';
@@ -176,6 +201,8 @@ const SearchBarWebPart = ({ context }) => {
 
 export default SearchBarWebPart;
 ```
+
+![Searchbar](https://github.com/anapeksha/mui-spfx-controls/blob/main/assets/searchbar.png?raw=true)
 
 ## Components
 
