@@ -296,7 +296,7 @@ A Navigation component with MUI integration using MUI TreeView
 - viewProps (optional): Props for Tree View
 - sx (optional): MUI's sx prop
 
-### SearchBar
+### Searchbar
 
 A search bar component with MUI library integration
 
@@ -312,7 +312,15 @@ A search bar component with MUI library integration
 - excludedScope (optional): Search scope to exclude (URL)
 - sx (optional): MUI's sx prop
 
-### CodeEditor
+### Site Breadcrumb
+
+A breadcrumb component for nested multi level deep SharePoint sites.
+
+#### Props
+
+- context (required): SP context
+
+### Code Editor
 
 A code editor component powered by Monaco Editor with MUI integration.
 
