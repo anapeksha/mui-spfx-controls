@@ -56,6 +56,11 @@
       "require": "./lib/components/SearchBar/index.js",
       "types": "./lib/components/SearchBar/index.d.ts"
     },
+    "./SiteBreadcrumb": {
+      "import": "./lib/components/SiteBreadcrumb/index.js",
+      "require": "./lib/components/SiteBreadcrumb/index.js",
+      "types": "./lib/components/SiteBreadcrumb/index.d.ts"
+    },
     "./CodeEditor": {
       "import": "./lib/components/CodeEditor/index.js",
       "require": "./lib/components/CodeEditor/index.js",
