@@ -342,6 +342,8 @@ const SearchBarWebPart = ({ context }) => {
 export default SearchBarWebPart;
 ```
 
+---
+
 ## Development
 
 Run the solution in development mode:
