@@ -30,14 +30,7 @@ import * as React from 'react';
 import { CodeEditor } from 'mui-spfx-controls';
 
 const CodeEditorWebPart = () => {
-  return (
-    <CodeEditor
-      language="javascript"
-      theme="vs-dark"
-      value="// Start coding..."
-      options={{ fontSize: 14 }}
-    />
-  );
+  return <CodeEditor renderControls={true} />;
 };
 
 export default CodeEditorWebPart;
