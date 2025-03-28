@@ -20,7 +20,7 @@ class UserService {
 
   /**
    * Fetches current user details from Microsoft Graph.
-   * @returns {Promise<User>} A promise resolving to the user profile details.
+   * @returns {Promise<User>} A promise resolving to current user profile details.
    * @throws {Error} - Throws an error if the request fails due to insufficient permissions.
    * @example
    * const user = await profileService.getUser('john.doe@example.com');
