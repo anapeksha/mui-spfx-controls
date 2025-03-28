@@ -25,6 +25,16 @@ npm install mui-spfx-controls --save
 
 Once installed, you can import and use the components in your SPFx web part or extension. Alternatively, prebuilt webparts can be used after deploying solution to site's AppCatalog. For example:
 
+### Code Editor
+
+![Code Editor](https://github.com/anapeksha/mui-spfx-controls/blob/main/assets/code-editor.png?raw=true)
+
+A code editor component powered by Monaco Editor with MUI integration.
+
+#### Props
+
+- renderControls (optional): Render controls for the editor
+
 ```jsx
 import * as React from 'react';
 import { CodeEditor } from 'mui-spfx-controls';
@@ -36,7 +46,19 @@ const CodeEditorWebPart = () => {
 export default CodeEditorWebPart;
 ```
 
-## ![Code Editor](https://github.com/anapeksha/mui-spfx-controls/blob/main/assets/code-editor.png?raw=true)
+---
+
+### Site Breadcrumb
+
+![Site Breadcrumb](https://github.com/anapeksha/mui-spfx-controls/blob/main/assets/site-breadcrumb.png?raw=true)
+
+### Site Breadcrumb
+
+A breadcrumb component for nested multi level deep SharePoint sites.
+
+#### Props
+
+- context (required): SP context
 
 ```jsx
 import * as React from 'react';
@@ -49,7 +71,30 @@ const SiteBreadcrumbWebPart = ({ context }) => {
 export default SiteBreadcrumbWebPart;
 ```
 
-## ![Site Breadcrumb](https://github.com/anapeksha/mui-spfx-controls/blob/main/assets/site-breadcrumb.png?raw=true)
+---
+
+### PeoplePicker
+
+![People Picker](https://github.com/anapeksha/mui-spfx-controls/blob/main/assets/people-picker.png?raw=true)
+
+A SharePoint people picker component with MUI library integration
+
+#### Props
+
+- context (required): SP context
+- label (required): Textfield label
+- onSelectionChange (optional): Get selection value updates
+- searchSuggestionLimit (optional): number of suggestions to provide
+- multiple (optional): single/multi select
+- disabled (optional): Is component disabled
+- variant (optional): Textfield variant ('standard', 'outlined', 'filled')
+- tagVariant (optional): Chip variant ('filled', 'outlined')
+- color (optional): Button color, e.g., "primary" or "secondary"
+- tagColor (optional): Chip color, e.g., "default" or "secondary"
+- size (optional): Size of component
+- LoadingComponent (optional): A loading component
+- renderInput (optional): Render a custom input component
+- sx (optional): MUI's sx prop
 
 ```jsx
 import * as React from 'react';
@@ -73,7 +118,30 @@ const PeoplePickerWebPart = ({ context }) => {
 export default PeoplePickerWebPart;
 ```
 
-## ![People Picker](https://github.com/anapeksha/mui-spfx-controls/blob/main/assets/people-picker.png?raw=true)
+---
+
+### Dashboard
+
+![Dashboard](https://github.com/anapeksha/mui-spfx-controls/blob/main/assets/dashboard.png?raw=true)
+
+A dashboard component with MUI Data Grid
+
+#### Props
+
+- context (required): SP context
+- list (required): SharePoint list to pull data from
+- fields (required): Internal Name of fields to display in dashboard
+- columnAction (optional): Enable/Disable column on/off feature
+- densityAction (optional): Enable/Disable column density
+- filterAction (optional): Enable/Disable filtering
+- exportAction (optional): Enable/Disable export functionality
+- searchAction (optional): Enable/Disable search functionality
+- tabAction (optional): Enable/Disable tab feature
+- tabValue (required if tabAction is true): Array object for Tabs
+- editable (optional): Enable/Disable editing feature
+- resizable (optional): Enable/Disable column resizing
+- height (optional): Absolute or relative container height
+- sx (optional): MUI's sx prop
 
 ```jsx
 import * as React from 'react';
@@ -103,7 +171,24 @@ const DashboardWebPart = ({ context }) => {
 export default DashboardWebPart;
 ```
 
-## ![Dashboard](https://github.com/anapeksha/mui-spfx-controls/blob/main/assets/dashboard.png?raw=true)
+---
+
+### List Form
+
+![List Form](https://github.com/anapeksha/mui-spfx-controls/blob/main/assets/list-form.png?raw=true)
+
+A List Form component with MUI TextFields and Pickers to create form from lists
+
+#### Props
+
+- context (required): SP context
+- list (required): SharePoint list to pull data from
+- fields (required): Internal Name of fields to display in dashboard
+- paperVariant (optional): Variant of the paper component ('outlined', 'elevation'),
+- paperElevation: Elevation of the paper component,
+- inputVariant: Textfield variant ('standard', 'outlined', 'filled'),
+- inputSize (optional): Textfield size ('small', 'medium'),
+- fieldSpacing (optional): Spacing between fields,
 
 ```jsx
 import * as React from 'react';
@@ -127,7 +212,30 @@ const ListFormWebPart = ({ context }) => {
 export default ListFormWebPart;
 ```
 
-## ![List Form](https://github.com/anapeksha/mui-spfx-controls/blob/main/assets/list-form.png?raw=true)
+---
+
+### List Item Picker
+
+![List Item Picker](https://github.com/anapeksha/mui-spfx-controls/blob/main/assets/list-item-picker.png?raw=true)
+
+A List Item Picker component with MUI integration
+
+#### Props
+
+- context (required): SP context
+- list (required): SharePoint list to pull data from
+- fields (required): Internal Name of fields to include in the results
+- displayField (required): Internal Name of the field to display in dropdown
+- label (required): Textfield label
+- onSelectionChange (optional): Get selection value updates
+- multiple (optional): single/multi select
+- searchSuggestionLimit (optional): number of suggestions to provide
+- disabled (optional): Is component disabled
+- variant (optional): Textfield variant ('standard', 'outlined', 'filled')
+- size (optional): Size of component
+- LoadingComponent (optional): A loading component
+- color (optional): Button color, e.g., "primary" or "secondary"
+- sx (optional): MUI's sx prop
 
 ```jsx
 import * as React from 'react';
@@ -152,7 +260,21 @@ const ListItemPickerWebPart = ({ context }) => {
 export default ListItemPickerWebPart;
 ```
 
-## ![List Item Picker](https://github.com/anapeksha/mui-spfx-controls/blob/main/assets/list-item-picker.png?raw=true)
+---
+
+### Navigation
+
+![Navigation](https://github.com/anapeksha/mui-spfx-controls/blob/main/assets/navigation.png?raw=true)
+
+A Navigation component with MUI integration using MUI TreeView
+
+#### Props
+
+- context (required): SP context
+- items (required): Array object to dynamically create the navigation tree
+- itemProps (optional): Props for Tree Item
+- viewProps (optional): Props for Tree View
+- sx (optional): MUI's sx prop
 
 ```jsx
 import * as React from 'react';
@@ -181,7 +303,25 @@ const NavigationWebPart = () => {
 export default NavigationWebPart;
 ```
 
-## ![Navigation](https://github.com/anapeksha/mui-spfx-controls/blob/main/assets/navigation.png?raw=true)
+---
+
+### Searchbar
+
+![Searchbar](https://github.com/anapeksha/mui-spfx-controls/blob/main/assets/searchbar.png?raw=true)
+
+A search bar component with MUI library integration
+
+#### Props
+
+- context (required): SP context
+- label (optional): Textfield label
+- onSearchResultSelect (optional): Get selection value updates
+- variant (optional): Textfield variant ('standard', 'outlined', 'filled')
+- size (optional): Size of component
+- color (optional): Button color, e.g., "primary" or "secondary"
+- scope (optional): Search scope (URL)
+- excludedScope (optional): Search scope to exclude (URL)
+- sx (optional): MUI's sx prop
 
 ```jsx
 import * as React from 'react';
@@ -201,132 +341,6 @@ const SearchBarWebPart = ({ context }) => {
 
 export default SearchBarWebPart;
 ```
-
-## ![Searchbar](https://github.com/anapeksha/mui-spfx-controls/blob/main/assets/searchbar.png?raw=true)
-
-## Components
-
-### PeoplePicker
-
-A SharePoint people picker component with MUI library integration
-
-#### Props
-
-- context (required): SP context
-- label (required): Textfield label
-- onSelectionChange (optional): Get selection value updates
-- searchSuggestionLimit (optional): number of suggestions to provide
-- multiple (optional): single/multi select
-- disabled (optional): Is component disabled
-- variant (optional): Textfield variant ('standard', 'outlined', 'filled')
-- tagVariant (optional): Chip variant ('filled', 'outlined')
-- color (optional): Button color, e.g., "primary" or "secondary"
-- tagColor (optional): Chip color, e.g., "default" or "secondary"
-- size (optional): Size of component
-- LoadingComponent (optional): A loading component
-- renderInput (optional): Render a custom input component
-- sx (optional): MUI's sx prop
-
-### Dashboard
-
-A dashboard component with MUI Data Grid
-
-#### Props
-
-- context (required): SP context
-- list (required): SharePoint list to pull data from
-- fields (required): Internal Name of fields to display in dashboard
-- columnAction (optional): Enable/Disable column on/off feature
-- densityAction (optional): Enable/Disable column density
-- filterAction (optional): Enable/Disable filtering
-- exportAction (optional): Enable/Disable export functionality
-- searchAction (optional): Enable/Disable search functionality
-- tabAction (optional): Enable/Disable tab feature
-- tabValue (required if tabAction is true): Array object for Tabs
-- editable (optional): Enable/Disable editing feature
-- resizable (optional): Enable/Disable column resizing
-- height (optional): Absolute or relative container height
-- sx (optional): MUI's sx prop
-
-### List Form
-
-A List Form component with MUI TextFields and Pickers to create form from lists
-
-#### Props
-
-- context (required): SP context
-- list (required): SharePoint list to pull data from
-- fields (required): Internal Name of fields to display in dashboard
-- paperVariant (optional): Variant of the paper component ('outlined', 'elevation'),
-- paperElevation: Elevation of the paper component,
-- inputVariant: Textfield variant ('standard', 'outlined', 'filled'),
-- inputSize (optional): Textfield size ('small', 'medium'),
-- fieldSpacing (optional): Spacing between fields,
-
-### List Item Picker
-
-A List Item Picker component with MUI integration
-
-#### Props
-
-- context (required): SP context
-- list (required): SharePoint list to pull data from
-- fields (required): Internal Name of fields to include in the results
-- displayField (required): Internal Name of the field to display in dropdown
-- label (required): Textfield label
-- onSelectionChange (optional): Get selection value updates
-- multiple (optional): single/multi select
-- searchSuggestionLimit (optional): number of suggestions to provide
-- disabled (optional): Is component disabled
-- variant (optional): Textfield variant ('standard', 'outlined', 'filled')
-- size (optional): Size of component
-- LoadingComponent (optional): A loading component
-- color (optional): Button color, e.g., "primary" or "secondary"
-- sx (optional): MUI's sx prop
-
-### Navigation
-
-A Navigation component with MUI integration using MUI TreeView
-
-#### Props
-
-- context (required): SP context
-- items (required): Array object to dynamically create the navigation tree
-- itemProps (optional): Props for Tree Item
-- viewProps (optional): Props for Tree View
-- sx (optional): MUI's sx prop
-
-### Searchbar
-
-A search bar component with MUI library integration
-
-#### Props
-
-- context (required): SP context
-- label (optional): Textfield label
-- onSearchResultSelect (optional): Get selection value updates
-- variant (optional): Textfield variant ('standard', 'outlined', 'filled')
-- size (optional): Size of component
-- color (optional): Button color, e.g., "primary" or "secondary"
-- scope (optional): Search scope (URL)
-- excludedScope (optional): Search scope to exclude (URL)
-- sx (optional): MUI's sx prop
-
-### Site Breadcrumb
-
-A breadcrumb component for nested multi level deep SharePoint sites.
-
-#### Props
-
-- context (required): SP context
-
-### Code Editor
-
-A code editor component powered by Monaco Editor with MUI integration.
-
-#### Props
-
-- renderControls (optional): Render controls for the editor
 
 ## Development
 
