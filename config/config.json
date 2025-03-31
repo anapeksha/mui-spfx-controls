@@ -65,6 +65,14 @@
           "manifest": "./src/webparts/codeEditor/CodeEditorWebPart.manifest.json"
         }
       ]
+    },
+    "explorer-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/explorer/ExplorerWebPart.js",
+          "manifest": "./src/webparts/explorer/ExplorerWebPart.manifest.json"
+        }
+      ]
     }
   },
   "externals": {},
@@ -77,6 +85,7 @@
     "SitePickerWebPartStrings": "lib/webparts/navigation/loc/{locale}.js",
     "SearchBarWebPartStrings": "lib/webparts/searchbar/loc/{locale}.js",
     "SiteBreadcrumbWebPartStrings": "lib/webparts/siteBreadcrumb/loc/{locale}.js",
-    "CodeEditorWebPartStrings": "lib/webparts/codeEditor/loc/{locale}.js"
+    "CodeEditorWebPartStrings": "lib/webparts/codeEditor/loc/{locale}.js",
+    "ExplorerWebPartStrings": "lib/webparts/explorer/loc/{locale}.js"
   }
 }
