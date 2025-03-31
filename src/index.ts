@@ -13,3 +13,5 @@ export * from './components/Searchbar';
 export * from './components/SiteBreadcrumb';
 
 export * from './components/CodeEditor';
+
+export * from './components/Explorer';

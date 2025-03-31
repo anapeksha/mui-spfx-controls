@@ -65,6 +65,11 @@
       "import": "./lib/components/CodeEditor/index.js",
       "require": "./lib/components/CodeEditor/index.js",
       "types": "./lib/components/CodeEditor/index.d.ts"
+    },
+    "./Explorer": {
+      "import": "./lib/components/Explorer/index.js",
+      "require": "./lib/components/Explorer/index.js",
+      "types": "./lib/components/Explorer/index.d.ts"
     }
   },
   "author": {
@@ -111,6 +116,7 @@
     "dayjs": "^1.11.13",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "react-file-icon": "^1.6.0",
     "tslib": "^2.3.1"
   },
   "devDependencies": {
@@ -127,6 +133,7 @@
     "@types/jest": "^29.5.14",
     "@types/react": "^17.0.45",
     "@types/react-dom": "^17.0.17",
+    "@types/react-file-icon": "^1.0.4",
     "@types/webpack-bundle-analyzer": "^4.7.0",
     "@types/webpack-env": "~1.15.2",
     "ajv": "^6.12.6",

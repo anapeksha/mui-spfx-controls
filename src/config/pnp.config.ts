@@ -5,6 +5,7 @@ import { BrowserFetchWithRetry } from '@pnp/queryable';
 import { spfi, SPFI, SPFx as SpSPFx } from '@pnp/sp';
 import '@pnp/sp/batching';
 import '@pnp/sp/fields';
+import '@pnp/sp/folders';
 import '@pnp/sp/items';
 import '@pnp/sp/lists';
 import '@pnp/sp/profiles';
