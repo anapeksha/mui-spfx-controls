@@ -11,6 +11,7 @@ export enum Permission {
   Add = 'Add',
   Edit = 'Edit',
   Delete = 'Delete',
+  ManagePermissions = 'ManagePermissions',
 }
 
 /**
@@ -34,41 +35,42 @@ class LibraryService {
    * @returns {Promise<Permission[]>} A promise that resolves to an array of the user's effective permissions.
    */
   public async getEffectivePermissions(id: string): Promise<Permission[]> {
-    try {
-      const permissions = await this.sp.web.lists
-        .getById(id)
-        .getCurrentUserEffectivePermissions();
+    const permissions = await this.sp.web.lists
+      .getById(id)
+      .getCurrentUserEffectivePermissions();
 
-      const userPermissions: Permission[] = [];
+    const userPermissions: Permission[] = [];
 
-      if (
-        this.sp.web.hasPermissions(permissions, PermissionKind.ViewListItems)
-      ) {
-        userPermissions.push(Permission.View);
-      }
-      if (
-        this.sp.web.hasPermissions(permissions, PermissionKind.AddListItems)
-      ) {
-        userPermissions.push(Permission.Add);
-      }
-      if (
-        this.sp.web.hasPermissions(permissions, PermissionKind.EditListItems)
-      ) {
-        userPermissions.push(Permission.Edit);
-      }
-      if (
-        this.sp.web.hasPermissions(permissions, PermissionKind.DeleteListItems)
-      ) {
-        userPermissions.push(Permission.Delete);
-      }
-
-      return userPermissions;
-    } catch (error) {
-      console.error('Error fetching effective permissions:', error);
-      return [];
+    if (this.sp.web.hasPermissions(permissions, PermissionKind.ViewListItems)) {
+      userPermissions.push(Permission.View);
     }
+    if (this.sp.web.hasPermissions(permissions, PermissionKind.AddListItems)) {
+      userPermissions.push(Permission.Add);
+    }
+    if (this.sp.web.hasPermissions(permissions, PermissionKind.EditListItems)) {
+      userPermissions.push(Permission.Edit);
+    }
+    if (
+      this.sp.web.hasPermissions(permissions, PermissionKind.DeleteListItems)
+    ) {
+      userPermissions.push(Permission.Delete);
+    }
+    if (
+      this.sp.web.hasPermissions(permissions, PermissionKind.ManagePermissions)
+    ) {
+      userPermissions.push(Permission.ManagePermissions);
+    }
+
+    return userPermissions;
   }
 
+  /**
+   * Creates a new folder inside the specified SharePoint document library path.
+   *
+   * @param {string} path - The server-relative path of the parent folder where the new folder should be created.
+   * @param {string} name - The name of the new folder.
+   * @returns {Promise<IFolder>} A promise that resolves to the created folder object.
+   */
   public async createNewFolder(path: string, name: string): Promise<IFolder> {
     const libraryRoot = this.sp.web.getFolderByServerRelativePath(path);
     return await libraryRoot.addSubFolderUsingPath(name);
@@ -80,25 +82,20 @@ class LibraryService {
    * @returns {Promise<any[]>} A list of items (folders & files).
    */
   public async getLibraryItems(path: string): Promise<any[]> {
-    try {
-      const libraryRoot = this.sp.web.getFolderByServerRelativePath(path);
-      const files = await libraryRoot.files.select('*')();
-      const folders = await libraryRoot.folders.select('*')();
+    const libraryRoot = this.sp.web.getFolderByServerRelativePath(path);
+    const files = await libraryRoot.files.select('*')();
+    const folders = await libraryRoot.folders.select('*')();
 
-      return [
-        ...folders.map((folder) => ({ ...folder, Type: 'folder' })),
-        ...files.map((file) => ({
-          ...file,
-          Type: 'file',
-          Extension: file.Name.includes('.')
-            ? file.Name.split('.').pop()
-            : 'unknown',
-        })),
-      ];
-    } catch (error) {
-      console.error('Error fetching document library items:', error);
-      return [];
-    }
+    return [
+      ...folders.map((folder) => ({ ...folder, Type: 'folder' })),
+      ...files.map((file) => ({
+        ...file,
+        Type: 'file',
+        Extension: file.Name.includes('.')
+          ? file.Name.split('.').pop()
+          : 'unknown',
+      })),
+    ];
   }
 }
 
