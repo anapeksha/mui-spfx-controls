@@ -1,4 +1,5 @@
 import {
+  Add,
   Folder,
   Grid3x3,
   Home,
@@ -8,12 +9,14 @@ import {
 import {
   Box,
   Breadcrumbs,
+  Button,
   Card,
   CardActionArea,
   CardContent,
   CircularProgress,
   Divider,
   Grid2 as Grid,
+  InputBase,
   Link,
   List,
   ListItemButton,
@@ -27,23 +30,37 @@ import {
   Typography,
 } from '@mui/material';
 import dayjs from 'dayjs';
+import advancedFormat from 'dayjs/plugin/advancedFormat';
 import React, {
+  ChangeEventHandler,
   FC,
   forwardRef,
+  ForwardRefExoticComponent,
   MouseEventHandler,
   RefObject,
   useEffect,
   useState,
 } from 'react';
 import { DefaultExtensionType, defaultStyles, FileIcon } from 'react-file-icon';
-import { LibraryService } from '../../services/LibraryService';
+import { LibraryService, Permission } from '../../services/LibraryService';
 import { IExplorerProps } from './IExplorerProps';
+
+dayjs.extend(advancedFormat);
 
 type DisplayType = 'grid' | 'list';
 
 interface IToolbarProps {
   displayType: DisplayType;
+  permissions: Permission[];
+  onNewFolderCreate: () => void;
   onDisplayTypeChange: (displayType: DisplayType) => void;
+}
+
+interface INewFolderProps {
+  displayType: DisplayType;
+  value: string;
+  onChange: ChangeEventHandler<HTMLInputElement>;
+  onCancel: () => void;
 }
 
 interface IBreadcrumbData {
@@ -51,8 +68,17 @@ interface IBreadcrumbData {
   ServerRelativeUrl: string;
 }
 
+interface ICreateNewFolderData {
+  open: boolean;
+  value: string;
+}
+
 interface IViewProps {
   items: any[];
+  newFolder: ICreateNewFolderData;
+  onNewFolderNameChange: (newName: string) => void;
+  onNewFolderDismiss: () => void;
+  onNewFolderSave: () => void;
   onFolderClick: (item: IBreadcrumbData) => void;
   onFileClick: (item: IBreadcrumbData) => void;
 }
@@ -61,10 +87,65 @@ interface IItemDefaultProps {
   onClick?: MouseEventHandler<HTMLElement>;
 }
 
-const Toolbar: FC<IToolbarProps> = ({ displayType, onDisplayTypeChange }) => {
+const NewFolder: FC<INewFolderProps> = ({
+  displayType,
+  value,
+  onChange,
+  onCancel,
+}) => {
+  return (
+    <>
+      {displayType === 'grid' ? (
+        <Grid>
+          <Card
+            variant="outlined"
+            sx={{ width: 150, borderWidth: 2, borderColor: 'primary.main' }}
+            onBlur={(event) => {
+              event.preventDefault();
+              onCancel();
+            }}
+          >
+            <CardContent sx={{ textAlign: 'center' }}>
+              <Folder fontSize="large" color="primary" />
+              <InputBase value={value} onChange={onChange} autoFocus />
+            </CardContent>
+          </Card>
+        </Grid>
+      ) : null}
+      {displayType === 'list' ? (
+        <ListItemButton
+          disableRipple
+          selected
+          onBlur={(event) => {
+            event.preventDefault();
+            onCancel();
+          }}
+        >
+          <ListItemIcon>
+            <Folder color="primary" />
+          </ListItemIcon>
+          <InputBase value={value} onChange={onChange} fullWidth autoFocus />
+        </ListItemButton>
+      ) : null}
+    </>
+  );
+};
+
+const Toolbar: FC<IToolbarProps> = ({
+  displayType,
+  permissions,
+  onNewFolderCreate,
+  onDisplayTypeChange,
+}) => {
   return (
     <Stack direction="row" spacing={1}>
+      {permissions.includes(Permission.Add) ? (
+        <Button startIcon={<Add />} size="small" onClick={onNewFolderCreate}>
+          New Folder
+        </Button>
+      ) : null}
       <ToggleButtonGroup
+        size="small"
         aria-label="display-type"
         value={displayType}
         exclusive
@@ -81,9 +162,25 @@ const Toolbar: FC<IToolbarProps> = ({ displayType, onDisplayTypeChange }) => {
   );
 };
 
-const GridView: FC<IViewProps> = ({ items, onFolderClick, onFileClick }) => {
+const GridView: FC<IViewProps> = ({
+  items,
+  newFolder,
+  onNewFolderSave,
+  onNewFolderDismiss,
+  onNewFolderNameChange,
+  onFolderClick,
+  onFileClick,
+}) => {
   return (
-    <Grid container spacing={1} width="100%">
+    <Grid container spacing={1} width="100%" overflow="auto">
+      {newFolder.open ? (
+        <NewFolder
+          displayType="grid"
+          value={newFolder.value}
+          onChange={(event) => onNewFolderNameChange(event.target.value)}
+          onCancel={onNewFolderDismiss}
+        />
+      ) : null}
       {items.map((item) => {
         let props: IItemDefaultProps = {
           onClick: undefined,
@@ -113,7 +210,7 @@ const GridView: FC<IViewProps> = ({ items, onFolderClick, onFileClick }) => {
 
         const renderIcon = (): JSX.Element => {
           return item.Extension !== 'unknown' ? (
-            <SvgIcon color="primary">
+            <SvgIcon fontSize="large">
               <FileIcon
                 extension={item.Extension}
                 type="vector"
@@ -146,7 +243,7 @@ const GridView: FC<IViewProps> = ({ items, onFolderClick, onFileClick }) => {
                     {item.Name}
                   </Typography>
                   <Typography variant="body2" color="textSecondary">
-                    {dayjs(item.TimeLastModified).format('DD MMMM')}
+                    {dayjs(item.TimeLastModified).format('Do MMMM')}
                   </Typography>
                 </CardContent>
               </CardActionArea>
@@ -158,9 +255,29 @@ const GridView: FC<IViewProps> = ({ items, onFolderClick, onFileClick }) => {
   );
 };
 
-const ListView: FC<IViewProps> = ({ items, onFolderClick, onFileClick }) => {
+const ListView: FC<IViewProps> = ({
+  items,
+  newFolder,
+  onNewFolderSave,
+  onNewFolderDismiss,
+  onNewFolderNameChange,
+  onFolderClick,
+  onFileClick,
+}) => {
   return (
-    <List>
+    <List
+      sx={{
+        overflow: 'auto',
+      }}
+    >
+      {newFolder.open ? (
+        <NewFolder
+          displayType="list"
+          value={newFolder.value}
+          onChange={(event) => onNewFolderNameChange(event.target.value)}
+          onCancel={onNewFolderDismiss}
+        />
+      ) : null}
       {items.map((item) => {
         let props: IItemDefaultProps = {
           onClick: undefined,
@@ -187,6 +304,7 @@ const ListView: FC<IViewProps> = ({ items, onFolderClick, onFileClick }) => {
               }),
           };
         }
+
         const renderIcon = (): JSX.Element => {
           return item.Extension !== 'unknown' ? (
             <SvgIcon>
@@ -200,6 +318,7 @@ const ListView: FC<IViewProps> = ({ items, onFolderClick, onFileClick }) => {
             <InsertDriveFile color="primary" />
           );
         };
+
         return (
           <ListItemButton key={item.UniqueId} {...props} disableRipple>
             <ListItemIcon>
@@ -208,7 +327,7 @@ const ListView: FC<IViewProps> = ({ items, onFolderClick, onFileClick }) => {
             </ListItemIcon>
             <ListItemText
               primary={item.Name}
-              secondary={dayjs(item.TimeLastModified).format('DD MMMM')}
+              secondary={dayjs(item.TimeLastModified).format('Do MMMM')}
             />
           </ListItemButton>
         );
@@ -217,14 +336,25 @@ const ListView: FC<IViewProps> = ({ items, onFolderClick, onFileClick }) => {
   );
 };
 
-const Explorer: FC<IExplorerProps> = forwardRef(
-  ({ context, library, height }, ref: RefObject<HTMLDivElement>) => {
-    const [displayType, setDisplayType] = useState<DisplayType>('grid');
+const Explorer: ForwardRefExoticComponent<IExplorerProps> = forwardRef(
+  (
+    { context, library, defaultDisplayType, height, onFileOpen },
+    ref: RefObject<HTMLDivElement>
+  ) => {
+    const [displayType, setDisplayType] = useState<DisplayType>(
+      defaultDisplayType || 'grid'
+    );
     const [items, setItems] = useState<any[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     const [breadcrumbData, setBreadcrumbData] = useState<IBreadcrumbData[]>([]);
+    const [permissions, setPermissions] = useState<Permission[]>([]);
     const [initial, setInitial] = useState(true);
+    const [createNewFolder, setCreateNewFolder] =
+      useState<ICreateNewFolderData>({
+        open: false,
+        value: '',
+      });
     const libraryService = new LibraryService(context);
 
     const fetchItems = async (libraryUrl: string): Promise<void> => {
@@ -251,8 +381,25 @@ const Explorer: FC<IExplorerProps> = forwardRef(
       }
     };
 
+    const fetchPermissions = async (): Promise<void> => {
+      setLoading(true);
+      try {
+        const tempPermissions = await libraryService.getEffectivePermissions(
+          library.id
+        );
+        setPermissions(tempPermissions);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     const handleDisplayTypeChange = (newValue: DisplayType): void => {
-      setDisplayType(newValue);
+      if (newValue) {
+        setDisplayType(newValue);
+        setCreateNewFolder({ ...createNewFolder, open: false, value: '' });
+      }
     };
 
     const handleFolderClick = (item: IBreadcrumbData): void => {
@@ -274,15 +421,33 @@ const Explorer: FC<IExplorerProps> = forwardRef(
       setBreadcrumbData(tempBreadcrumbData);
     };
 
+    const handleNewFolderClick = (): void => {
+      setCreateNewFolder({ ...createNewFolder, open: true, value: '' });
+    };
+
+    const handleNewFolderNameChange = (newName: string): void => {
+      setCreateNewFolder({ ...createNewFolder, value: newName });
+    };
+
+    const handleNewFolderDismiss = (): void => {
+      setCreateNewFolder({ ...createNewFolder, open: false, value: '' });
+    };
+
     useEffect(() => {
-      fetchItems(library.url as string);
+      Promise.all([fetchPermissions(), fetchItems(library.url as string)]);
     }, [library]);
+
+    const errorOrLoading = error || loading;
+    const itemsHaveValue = items && items.length !== 0;
+    const itemsDoNotHaveValue = items && items.length === 0;
 
     return (
       <Paper ref={ref} variant="outlined">
         <Stack flexDirection="column" spacing={2} padding={2}>
           <Toolbar
             displayType={displayType}
+            permissions={permissions}
+            onNewFolderCreate={handleNewFolderClick}
             onDisplayTypeChange={handleDisplayTypeChange}
           />
           <Divider />
@@ -336,7 +501,7 @@ const Explorer: FC<IExplorerProps> = forwardRef(
                   alignItems: 'center',
                 }}
               >
-                <CircularProgress />
+                <CircularProgress thickness={4} />
               </Box>
             ) : null}
             {error ? (
@@ -354,29 +519,29 @@ const Explorer: FC<IExplorerProps> = forwardRef(
                 </Typography>
               </Box>
             ) : null}
-            {!loading &&
-            !error &&
-            displayType === 'grid' &&
-            items &&
-            items.length !== 0 ? (
+            {!errorOrLoading && itemsHaveValue && displayType === 'grid' ? (
               <GridView
                 items={items}
+                newFolder={createNewFolder}
+                onNewFolderSave={() => {}}
+                onNewFolderDismiss={handleNewFolderDismiss}
+                onNewFolderNameChange={handleNewFolderNameChange}
                 onFolderClick={handleFolderClick}
                 onFileClick={handleFileClick}
               />
             ) : null}
-            {!loading &&
-            !error &&
-            displayType === 'list' &&
-            items &&
-            items.length !== 0 ? (
+            {!errorOrLoading && itemsHaveValue && displayType === 'list' ? (
               <ListView
                 items={items}
+                newFolder={createNewFolder}
+                onNewFolderSave={() => {}}
+                onNewFolderDismiss={handleNewFolderDismiss}
+                onNewFolderNameChange={handleNewFolderNameChange}
                 onFolderClick={handleFolderClick}
                 onFileClick={handleFileClick}
               />
             ) : null}
-            {!loading && !error && items && items.length === 0 ? (
+            {!errorOrLoading && itemsDoNotHaveValue ? (
               <Box
                 sx={{
                   display: 'flex',

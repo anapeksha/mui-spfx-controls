@@ -1,5 +1,8 @@
 import { Version } from '@microsoft/sp-core-library';
-import { type IPropertyPaneConfiguration } from '@microsoft/sp-property-pane';
+import {
+  PropertyPaneDropdown,
+  type IPropertyPaneConfiguration,
+} from '@microsoft/sp-property-pane';
 import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 import {
   IPropertyFieldList,
@@ -15,6 +18,7 @@ import ExplorerDisplay from './ExplorerDisplay';
 
 export interface IExplorerWebPartProps {
   library: IPropertyFieldList;
+  displayType: 'grid' | 'list';
 }
 
 export default class ExplorerWebPart extends BaseClientSideWebPart<IExplorerWebPartProps> {
@@ -24,6 +28,7 @@ export default class ExplorerWebPart extends BaseClientSideWebPart<IExplorerWebP
       {
         context: this.context,
         library: this.properties.library,
+        defaultDisplayType: this.properties.displayType,
       }
     );
 
@@ -74,6 +79,20 @@ export default class ExplorerWebPart extends BaseClientSideWebPart<IExplorerWebP
                   context: this.context,
                   deferredValidationTime: 0,
                   key: 'listPickerFieldId',
+                }),
+                PropertyPaneDropdown('displayType', {
+                  label: 'Select the display type',
+                  selectedKey: 'grid',
+                  options: [
+                    {
+                      key: 'list',
+                      text: 'list',
+                    },
+                    {
+                      key: 'grid',
+                      text: 'grid',
+                    },
+                  ],
                 }),
               ],
             },
