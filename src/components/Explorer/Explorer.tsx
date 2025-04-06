@@ -1,12 +1,10 @@
 import {
   Add,
-  Delete,
   Folder,
   Grid3x3,
   Home,
   InsertDriveFile,
   List as ListIcon,
-  PermIdentity,
 } from '@mui/icons-material';
 import {
   Box,
@@ -18,15 +16,13 @@ import {
   CircularProgress,
   Divider,
   Fade,
-  Grid2 as Grid,
+  Grid,
   InputBase,
   Link,
   List,
   ListItemButton,
   ListItemIcon,
   ListItemText,
-  Menu,
-  MenuItem,
   Paper,
   Stack,
   SvgIcon,
@@ -81,12 +77,6 @@ interface ICreateNewFolderData {
 
 interface IItemDefaultProps {
   onClick?: MouseEventHandler<HTMLElement>;
-}
-
-interface IMenuState {
-  open: boolean;
-  element: Element | null;
-  value: { Id: string; ServerRelativeUrl: string };
 }
 
 const Toolbar: FC<IToolbarProps> = ({
@@ -214,11 +204,6 @@ const Explorer: ForwardRefExoticComponent<IExplorerProps> = forwardRef(
         open: false,
         value: '',
       });
-    const [currentFolder, setCurrentFolder] = useState<IMenuState>({
-      open: false,
-      element: null,
-      value: { Id: '', ServerRelativeUrl: '' },
-    });
     const libraryService = new LibraryService(context);
 
     const fetchItems = async (libraryUrl: string): Promise<void> => {
@@ -334,52 +319,16 @@ const Explorer: ForwardRefExoticComponent<IExplorerProps> = forwardRef(
       }, 300);
     };
 
-    const handleOpenPermission = (): void => {
-      const permissionsUrl = `${context.pageContext.web.absoluteUrl}/_layouts/15/user.aspx?obj=${library.id},doclib&List=${library.id}"`;
-      window.open(permissionsUrl);
-      setCurrentFolder({
-        open: false,
-        element: null,
-        value: { Id: '', ServerRelativeUrl: '' },
-      });
-    };
-
     useEffect(() => {
       Promise.all([fetchPermissions(), fetchItems(library.url as string)]);
     }, [library]);
 
-    const errorOrLoading = error || loading;
+    const errorOrLoading = error ?? loading;
     const itemsHaveValue = items && items.length !== 0;
     const itemsDoNotHaveValue = !loading && items && items.length === 0;
 
     return (
       <Paper ref={ref} variant="outlined">
-        <Menu
-          anchorEl={currentFolder.element}
-          open={currentFolder.open}
-          onClose={() => {
-            setCurrentFolder({
-              open: false,
-              element: null,
-              value: { Id: '', ServerRelativeUrl: '' },
-            });
-          }}
-        >
-          {permissions.includes(Permission.ManagePermissions) ? (
-            <MenuItem onClick={handleOpenPermission}>
-              <ListItemIcon>
-                <PermIdentity />
-              </ListItemIcon>
-              <ListItemText>Permissions</ListItemText>
-            </MenuItem>
-          ) : null}
-          <MenuItem>
-            <ListItemIcon>
-              <Delete />
-            </ListItemIcon>
-            <ListItemText>Delete</ListItemText>
-          </MenuItem>
-        </Menu>
         <Stack flexDirection="column" spacing={2} padding={2}>
           <Toolbar
             displayType={displayType}
@@ -513,21 +462,7 @@ const Explorer: ForwardRefExoticComponent<IExplorerProps> = forwardRef(
                   };
 
                   return (
-                    <Grid
-                      key={item.Name}
-                      onContextMenu={(event) => {
-                        event.preventDefault();
-                        setCurrentFolder({
-                          open: true,
-                          element: event.currentTarget,
-                          value: {
-                            Id: item.UniqueId,
-                            ServerRelativeUrl: item.ServerRelativeUrl,
-                          },
-                        });
-                        console.log(event.currentTarget, currentFolder);
-                      }}
-                    >
+                    <Grid key={item.Name}>
                       <Card variant="outlined" sx={{ width: 150 }}>
                         <CardActionArea {...props}>
                           <CardContent sx={{ textAlign: 'center' }}>
