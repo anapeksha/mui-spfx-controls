@@ -1,9 +1,5 @@
 import { WebPartContext } from '@microsoft/sp-webpart-base';
-import {
-  Grid2Props as GridProps,
-  PaperProps,
-  TextFieldProps,
-} from '@mui/material';
+import { GridProps, PaperProps, TextFieldProps } from '@mui/material';
 
 /**
  * Defines the responsive field type used for grid-based layouts.

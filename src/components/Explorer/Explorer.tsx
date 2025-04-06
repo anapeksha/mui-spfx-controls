@@ -1,4 +1,5 @@
 import {
+  Add,
   Folder,
   Grid3x3,
   Home,
@@ -8,12 +9,15 @@ import {
 import {
   Box,
   Breadcrumbs,
+  Button,
   Card,
   CardActionArea,
   CardContent,
   CircularProgress,
   Divider,
-  Grid2 as Grid,
+  Fade,
+  Grid,
+  InputBase,
   Link,
   List,
   ListItemButton,
@@ -27,23 +31,38 @@ import {
   Typography,
 } from '@mui/material';
 import dayjs from 'dayjs';
+import advancedFormat from 'dayjs/plugin/advancedFormat';
 import React, {
+  ChangeEventHandler,
   FC,
   forwardRef,
+  ForwardRefExoticComponent,
   MouseEventHandler,
   RefObject,
   useEffect,
   useState,
 } from 'react';
 import { DefaultExtensionType, defaultStyles, FileIcon } from 'react-file-icon';
-import { LibraryService } from '../../services/LibraryService';
+import { LibraryService, Permission } from '../../services/LibraryService';
 import { IExplorerProps } from './IExplorerProps';
+
+dayjs.extend(advancedFormat);
 
 type DisplayType = 'grid' | 'list';
 
 interface IToolbarProps {
   displayType: DisplayType;
+  permissions: Permission[];
+  onNewFolderCreate: () => void;
   onDisplayTypeChange: (displayType: DisplayType) => void;
+}
+
+interface INewFolderProps {
+  displayType: DisplayType;
+  value: string;
+  onChange: ChangeEventHandler<HTMLInputElement>;
+  onCancel: () => void;
+  onSave: () => void;
 }
 
 interface IBreadcrumbData {
@@ -51,20 +70,30 @@ interface IBreadcrumbData {
   ServerRelativeUrl: string;
 }
 
-interface IViewProps {
-  items: any[];
-  onFolderClick: (item: IBreadcrumbData) => void;
-  onFileClick: (item: IBreadcrumbData) => void;
+interface ICreateNewFolderData {
+  open: boolean;
+  value: string;
 }
 
 interface IItemDefaultProps {
   onClick?: MouseEventHandler<HTMLElement>;
 }
 
-const Toolbar: FC<IToolbarProps> = ({ displayType, onDisplayTypeChange }) => {
+const Toolbar: FC<IToolbarProps> = ({
+  displayType,
+  permissions,
+  onNewFolderCreate,
+  onDisplayTypeChange,
+}) => {
   return (
     <Stack direction="row" spacing={1}>
+      {permissions.includes(Permission.Add) ? (
+        <Button startIcon={<Add />} size="small" onClick={onNewFolderCreate}>
+          New Folder
+        </Button>
+      ) : null}
       <ToggleButtonGroup
+        size="small"
         aria-label="display-type"
         value={displayType}
         exclusive
@@ -81,150 +110,100 @@ const Toolbar: FC<IToolbarProps> = ({ displayType, onDisplayTypeChange }) => {
   );
 };
 
-const GridView: FC<IViewProps> = ({ items, onFolderClick, onFileClick }) => {
+const NewFolder: FC<INewFolderProps> = ({
+  displayType,
+  value,
+  onChange,
+  onCancel,
+  onSave,
+}) => {
   return (
-    <Grid container spacing={1} width="100%">
-      {items.map((item) => {
-        let props: IItemDefaultProps = {
-          onClick: undefined,
-        };
-
-        if (item.Type === 'folder') {
-          props = {
-            ...props,
-            onClick: () =>
-              onFolderClick({
-                Name: item.Name,
-                ServerRelativeUrl: item.ServerRelativeUrl,
-              }),
-          };
-        }
-
-        if (item.Type === 'file') {
-          props = {
-            ...props,
-            onClick: () =>
-              onFileClick({
-                Name: item.Name,
-                ServerRelativeUrl: item.ServerRelativeUrl,
-              }),
-          };
-        }
-
-        const renderIcon = (): JSX.Element => {
-          return item.Extension !== 'unknown' ? (
-            <SvgIcon color="primary">
-              <FileIcon
-                extension={item.Extension}
-                type="vector"
-                {...defaultStyles[item.Extension as DefaultExtensionType]}
-              />
-            </SvgIcon>
-          ) : (
-            <InsertDriveFile color="primary" />
-          );
-        };
-
-        return (
-          <Grid key={item.Name}>
-            <Card variant="outlined" sx={{ width: 150 }}>
-              <CardActionArea {...props}>
-                <CardContent sx={{ textAlign: 'center' }}>
-                  {item.Type === 'folder' ? (
-                    <Folder fontSize="large" color="primary" />
-                  ) : null}
-                  {item.Type === 'file' ? renderIcon() : null}
-                  <Typography
-                    noWrap
-                    sx={{
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis',
-                      whiteSpace: 'nowrap',
-                      width: '100%',
-                    }}
-                  >
-                    {item.Name}
-                  </Typography>
-                  <Typography variant="body2" color="textSecondary">
-                    {dayjs(item.TimeLastModified).format('DD MMMM')}
-                  </Typography>
-                </CardContent>
-              </CardActionArea>
+    <>
+      {displayType === 'grid' ? (
+        <Fade in timeout={300}>
+          <Grid>
+            <Card
+              variant="outlined"
+              sx={{ width: 150, borderWidth: 2, borderColor: 'primary.main' }}
+              onBlur={(event) => {
+                onCancel();
+              }}
+            >
+              <CardContent sx={{ textAlign: 'center' }}>
+                <Folder fontSize="large" color="primary" />
+                <InputBase
+                  value={value}
+                  onChange={onChange}
+                  onKeyDown={(event) => {
+                    if (event.key === 'Enter') {
+                      onSave();
+                    }
+                    if (event.key === 'Escape') {
+                      onCancel();
+                    }
+                  }}
+                  autoFocus
+                  fullWidth
+                />
+              </CardContent>
             </Card>
           </Grid>
-        );
-      })}
-    </Grid>
-  );
-};
-
-const ListView: FC<IViewProps> = ({ items, onFolderClick, onFileClick }) => {
-  return (
-    <List>
-      {items.map((item) => {
-        let props: IItemDefaultProps = {
-          onClick: undefined,
-        };
-
-        if (item.Type === 'folder') {
-          props = {
-            ...props,
-            onClick: () =>
-              onFolderClick({
-                Name: item.Name,
-                ServerRelativeUrl: item.ServerRelativeUrl,
-              }),
-          };
-        }
-
-        if (item.Type === 'file') {
-          props = {
-            ...props,
-            onClick: () =>
-              onFileClick({
-                Name: item.Name,
-                ServerRelativeUrl: item.ServerRelativeUrl,
-              }),
-          };
-        }
-        const renderIcon = (): JSX.Element => {
-          return item.Extension !== 'unknown' ? (
-            <SvgIcon>
-              <FileIcon
-                extension={item.Extension}
-                type="vector"
-                {...defaultStyles[item.Extension as DefaultExtensionType]}
-              />
-            </SvgIcon>
-          ) : (
-            <InsertDriveFile color="primary" />
-          );
-        };
-        return (
-          <ListItemButton key={item.UniqueId} {...props} disableRipple>
+        </Fade>
+      ) : null}
+      {displayType === 'list' ? (
+        <Fade in timeout={300}>
+          <ListItemButton
+            disableRipple
+            selected
+            onBlur={(event) => {
+              event.preventDefault();
+              onCancel();
+            }}
+          >
             <ListItemIcon>
-              {item.Type === 'folder' ? <Folder color="primary" /> : null}
-              {item.Type === 'file' ? renderIcon() : null}
+              <Folder color="primary" />
             </ListItemIcon>
-            <ListItemText
-              primary={item.Name}
-              secondary={dayjs(item.TimeLastModified).format('DD MMMM')}
+            <InputBase
+              value={value}
+              onChange={onChange}
+              onKeyDown={(event) => {
+                if (event.key === 'Enter') {
+                  onSave();
+                }
+                if (event.key === 'Escape') {
+                  onCancel();
+                }
+              }}
+              fullWidth
+              autoFocus
             />
           </ListItemButton>
-        );
-      })}
-    </List>
+        </Fade>
+      ) : null}
+    </>
   );
 };
 
-const Explorer: FC<IExplorerProps> = forwardRef(
-  ({ context, library, height }, ref: RefObject<HTMLDivElement>) => {
-    const [displayType, setDisplayType] = useState<DisplayType>('grid');
+const Explorer: ForwardRefExoticComponent<IExplorerProps> = forwardRef(
+  (
+    { context, library, defaultDisplayType, height, onFileOpen },
+    ref: RefObject<HTMLDivElement>
+  ) => {
+    const [displayType, setDisplayType] = useState<DisplayType>(
+      defaultDisplayType || 'grid'
+    );
     const [items, setItems] = useState<any[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     const [breadcrumbData, setBreadcrumbData] = useState<IBreadcrumbData[]>([]);
+    const [permissions, setPermissions] = useState<Permission[]>([]);
     const [initial, setInitial] = useState(true);
+    const [isFadingOut, setIsFadingOut] = useState(false);
+    const [createNewFolder, setCreateNewFolder] =
+      useState<ICreateNewFolderData>({
+        open: false,
+        value: '',
+      });
     const libraryService = new LibraryService(context);
 
     const fetchItems = async (libraryUrl: string): Promise<void> => {
@@ -232,7 +211,6 @@ const Explorer: FC<IExplorerProps> = forwardRef(
       try {
         const items = await libraryService.getLibraryItems(libraryUrl);
         setItems(items);
-        console.log(items);
         if (initial) {
           setBreadcrumbData([
             ...breadcrumbData,
@@ -251,8 +229,43 @@ const Explorer: FC<IExplorerProps> = forwardRef(
       }
     };
 
+    const fetchPermissions = async (): Promise<void> => {
+      setLoading(true);
+      try {
+        const tempPermissions = await libraryService.getEffectivePermissions(
+          library.id
+        );
+        setPermissions(tempPermissions);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    const createFolder = async (): Promise<void> => {
+      setLoading(true);
+      setIsFadingOut(true);
+      try {
+        await libraryService.createNewFolder(
+          breadcrumbData[breadcrumbData.length - 1].ServerRelativeUrl,
+          createNewFolder.value
+        );
+        await fetchItems(
+          breadcrumbData[breadcrumbData.length - 1].ServerRelativeUrl
+        );
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     const handleDisplayTypeChange = (newValue: DisplayType): void => {
-      setDisplayType(newValue);
+      if (newValue) {
+        setDisplayType(newValue);
+        setCreateNewFolder({ ...createNewFolder, open: false, value: '' });
+      }
     };
 
     const handleFolderClick = (item: IBreadcrumbData): void => {
@@ -274,15 +287,53 @@ const Explorer: FC<IExplorerProps> = forwardRef(
       setBreadcrumbData(tempBreadcrumbData);
     };
 
+    const handleNewFolderClick = (): void => {
+      if (isFadingOut) {
+        setCreateNewFolder((prevValue) => ({
+          open: false,
+          value: '',
+        }));
+      } else {
+        setCreateNewFolder((prevValue) => ({
+          open: !prevValue.open,
+          value: '',
+        }));
+      }
+    };
+
+    const handleNewFolderNameChange = (newName: string): void => {
+      setCreateNewFolder({ ...createNewFolder, value: newName });
+    };
+
+    const handleNewFolderSave = (): void => {
+      createFolder();
+      setIsFadingOut(false);
+      setCreateNewFolder({ ...createNewFolder, open: false, value: '' });
+    };
+
+    const handleNewFolderDismiss = (): void => {
+      setIsFadingOut(true);
+      setTimeout(() => {
+        setCreateNewFolder({ open: false, value: '' });
+        setIsFadingOut(false);
+      }, 300);
+    };
+
     useEffect(() => {
-      fetchItems(library.url as string);
+      Promise.all([fetchPermissions(), fetchItems(library.url as string)]);
     }, [library]);
+
+    const errorOrLoading = error ?? loading;
+    const itemsHaveValue = items && items.length !== 0;
+    const itemsDoNotHaveValue = !loading && items && items.length === 0;
 
     return (
       <Paper ref={ref} variant="outlined">
         <Stack flexDirection="column" spacing={2} padding={2}>
           <Toolbar
             displayType={displayType}
+            permissions={permissions}
+            onNewFolderCreate={handleNewFolderClick}
             onDisplayTypeChange={handleDisplayTypeChange}
           />
           <Divider />
@@ -336,7 +387,7 @@ const Explorer: FC<IExplorerProps> = forwardRef(
                   alignItems: 'center',
                 }}
               >
-                <CircularProgress />
+                <CircularProgress thickness={4} />
               </Box>
             ) : null}
             {error ? (
@@ -354,29 +405,177 @@ const Explorer: FC<IExplorerProps> = forwardRef(
                 </Typography>
               </Box>
             ) : null}
-            {!loading &&
-            !error &&
-            displayType === 'grid' &&
-            items &&
-            items.length !== 0 ? (
-              <GridView
-                items={items}
-                onFolderClick={handleFolderClick}
-                onFileClick={handleFileClick}
-              />
+            {!errorOrLoading && itemsHaveValue && displayType === 'grid' ? (
+              <Grid container spacing={1} width="100%" overflow="auto">
+                {createNewFolder.open && !isFadingOut ? (
+                  <NewFolder
+                    displayType="grid"
+                    value={createNewFolder.value}
+                    onChange={(event) =>
+                      handleNewFolderNameChange(event.target.value)
+                    }
+                    onSave={handleNewFolderSave}
+                    onCancel={handleNewFolderDismiss}
+                  />
+                ) : null}
+                {items.map((item) => {
+                  let props: IItemDefaultProps = {
+                    onClick: undefined,
+                  };
+
+                  if (item.Type === 'folder') {
+                    props = {
+                      ...props,
+                      onClick: () =>
+                        handleFolderClick({
+                          Name: item.Name,
+                          ServerRelativeUrl: item.ServerRelativeUrl,
+                        }),
+                    };
+                  }
+
+                  if (item.Type === 'file') {
+                    props = {
+                      ...props,
+                      onClick: () =>
+                        handleFileClick({
+                          Name: item.Name,
+                          ServerRelativeUrl: item.ServerRelativeUrl,
+                        }),
+                    };
+                  }
+
+                  const renderIcon = (): JSX.Element => {
+                    return item.Extension !== 'unknown' ? (
+                      <SvgIcon fontSize="large">
+                        <FileIcon
+                          extension={item.Extension}
+                          type="vector"
+                          {...defaultStyles[
+                            item.Extension as DefaultExtensionType
+                          ]}
+                        />
+                      </SvgIcon>
+                    ) : (
+                      <InsertDriveFile color="primary" />
+                    );
+                  };
+
+                  return (
+                    <Grid key={item.Name}>
+                      <Card variant="outlined" sx={{ width: 150 }}>
+                        <CardActionArea {...props}>
+                          <CardContent sx={{ textAlign: 'center' }}>
+                            {item.Type === 'folder' ? (
+                              <Folder fontSize="large" color="primary" />
+                            ) : null}
+                            {item.Type === 'file' ? renderIcon() : null}
+                            <Typography
+                              noWrap
+                              sx={{
+                                overflow: 'hidden',
+                                textOverflow: 'ellipsis',
+                                whiteSpace: 'nowrap',
+                                width: '100%',
+                              }}
+                            >
+                              {item.Name}
+                            </Typography>
+                            <Typography variant="body2" color="textSecondary">
+                              {dayjs(item.TimeLastModified).format('Do MMMM')}
+                            </Typography>
+                          </CardContent>
+                        </CardActionArea>
+                      </Card>
+                    </Grid>
+                  );
+                })}
+              </Grid>
             ) : null}
-            {!loading &&
-            !error &&
-            displayType === 'list' &&
-            items &&
-            items.length !== 0 ? (
-              <ListView
-                items={items}
-                onFolderClick={handleFolderClick}
-                onFileClick={handleFileClick}
-              />
+            {!errorOrLoading && itemsHaveValue && displayType === 'list' ? (
+              <List
+                sx={{
+                  overflow: 'auto',
+                }}
+              >
+                {createNewFolder.open && !isFadingOut ? (
+                  <NewFolder
+                    displayType="list"
+                    value={createNewFolder.value}
+                    onChange={(event) =>
+                      handleNewFolderNameChange(event.target.value)
+                    }
+                    onSave={handleNewFolderSave}
+                    onCancel={handleNewFolderDismiss}
+                  />
+                ) : null}
+                {items.map((item) => {
+                  let props: IItemDefaultProps = {
+                    onClick: undefined,
+                  };
+
+                  if (item.Type === 'folder') {
+                    props = {
+                      ...props,
+                      onClick: () =>
+                        handleFolderClick({
+                          Name: item.Name,
+                          ServerRelativeUrl: item.ServerRelativeUrl,
+                        }),
+                    };
+                  }
+
+                  if (item.Type === 'file') {
+                    props = {
+                      ...props,
+                      onClick: () =>
+                        handleFileClick({
+                          Name: item.Name,
+                          ServerRelativeUrl: item.ServerRelativeUrl,
+                        }),
+                    };
+                  }
+
+                  const renderIcon = (): JSX.Element => {
+                    return item.Extension !== 'unknown' ? (
+                      <SvgIcon>
+                        <FileIcon
+                          extension={item.Extension}
+                          type="vector"
+                          {...defaultStyles[
+                            item.Extension as DefaultExtensionType
+                          ]}
+                        />
+                      </SvgIcon>
+                    ) : (
+                      <InsertDriveFile color="primary" />
+                    );
+                  };
+
+                  return (
+                    <ListItemButton
+                      key={item.UniqueId}
+                      {...props}
+                      disableRipple
+                    >
+                      <ListItemIcon>
+                        {item.Type === 'folder' ? (
+                          <Folder color="primary" />
+                        ) : null}
+                        {item.Type === 'file' ? renderIcon() : null}
+                      </ListItemIcon>
+                      <ListItemText
+                        primary={item.Name}
+                        secondary={dayjs(item.TimeLastModified).format(
+                          'Do MMMM'
+                        )}
+                      />
+                    </ListItemButton>
+                  );
+                })}
+              </List>
             ) : null}
-            {!loading && !error && items && items.length === 0 ? (
+            {!errorOrLoading && itemsDoNotHaveValue ? (
               <Box
                 sx={{
                   display: 'flex',

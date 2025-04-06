@@ -8,11 +8,7 @@ import {
   BaseClientSideWebPart,
   WebPartContext,
 } from '@microsoft/sp-webpart-base';
-import {
-  Grid2Props as GridProps,
-  PaperProps,
-  TextFieldProps,
-} from '@mui/material';
+import { GridProps, PaperProps, TextFieldProps } from '@mui/material';
 import {
   Elanguages,
   IColumnReturnProperty,
