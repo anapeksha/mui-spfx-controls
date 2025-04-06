@@ -29,7 +29,7 @@ Once installed, you can import and use the components in your SPFx web part or e
 
 ![Explorer](https://github.com/anapeksha/mui-spfx-controls/blob/main/assets/explorer.png?raw=true)
 
-A document library explorer component for traversing document libraries.
+A document library explorer component for traversing SharePoint libraries.
 
 ### Props
 
