@@ -9,7 +9,7 @@ import {
   Checkbox,
   CircularProgress,
   FormControlLabel,
-  Grid2 as Grid,
+  Grid,
   MenuItem,
   TextField,
   Typography,
