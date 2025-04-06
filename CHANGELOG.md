@@ -1,5 +1,10 @@
 # Changelog
 
+## **v0.8.0** (Feature & Improvement Release)
+
+- Added `Explorer` component with for navigating document libraries.
+- Introduced various props to control the component.
+
 ## **v0.7.1** (Bug Fix Release)
 
 - Fixed an export problem with the library for CodeEditor

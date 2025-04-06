@@ -25,6 +25,38 @@ npm install mui-spfx-controls --save
 
 Once installed, you can import and use the components in your SPFx web part or extension. Alternatively, prebuilt webparts can be used after deploying solution to site's AppCatalog. For example:
 
+### Explorer
+
+![Explorer](https://github.com/anapeksha/mui-spfx-controls/blob/main/assets/explorer.png?raw=true)
+
+A document library explorer component for traversing document libraries.
+
+### Props
+
+- context (required): SP context
+- library (required): Required library to traverse
+- defaultDisplayType (optional): View type Grid or List
+- height (optional): Height of the container
+- onFileOpen (optional): Triggers when file is clicked
+
+```jsx
+import * as React from 'react';
+import { Explorer } from 'mui-spfx-controls';
+
+const ExplorerWebPart = ({ context, library }) => {
+  return (
+    <Explorer
+      context={context}
+      library={library}
+      defaultDisplayType="grid"
+      height={750}
+    />
+  );
+};
+
+export default ExplorerWebPart;
+```
+
 ### Code Editor
 
 ![Code Editor](https://github.com/anapeksha/mui-spfx-controls/blob/main/assets/code-editor.png?raw=true)
