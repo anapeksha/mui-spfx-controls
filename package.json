@@ -2,7 +2,7 @@
   "$schema": "https://json.schemastore.org/package",
   "name": "mui-spfx-controls",
   "description": "SPFx component library built with MUI",
-  "version": "0.7.1",
+  "version": "0.8.0",
   "license": "MIT",
   "engines": {
     "node": ">=16.13.0 <17.0.0 || >=18.17.1 <19.0.0"
@@ -105,8 +105,8 @@
     "@microsoft/sp-property-pane": "^1.20.0",
     "@microsoft/sp-webpart-base": "^1.20.0",
     "@monaco-editor/react": "^4.7.0",
-    "@mui/icons-material": "^6.4.8",
-    "@mui/material": "^6.4.8",
+    "@mui/icons-material": "^7.0.1",
+    "@mui/material": "^7.0.1",
     "@mui/x-data-grid": "^7.28.0",
     "@mui/x-date-pickers": "^7.28.0",
     "@mui/x-tree-view": "^7.28.0",
