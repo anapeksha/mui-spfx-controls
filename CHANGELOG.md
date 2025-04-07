@@ -1,5 +1,9 @@
 # Changelog
 
+## **v0.8.1** (Feature & Improvement Release)
+
+- Deletion feature with `Explorer` component.
+
 ## **v0.8.0** (Feature & Improvement Release)
 
 - Added `Explorer` component with for navigating document libraries.
