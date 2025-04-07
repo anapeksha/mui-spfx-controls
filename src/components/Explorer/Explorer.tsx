@@ -1,5 +1,7 @@
 import {
   Add,
+  Close,
+  Delete,
   Folder,
   Grid3x3,
   Home,
@@ -11,15 +13,18 @@ import {
   Breadcrumbs,
   Button,
   Card,
-  CardActionArea,
+  CardActions,
   CardContent,
+  Checkbox,
   CircularProgress,
   Divider,
   Fade,
   Grid,
+  IconButton,
   InputBase,
   Link,
   List,
+  ListItem,
   ListItemButton,
   ListItemIcon,
   ListItemText,
@@ -29,7 +34,9 @@ import {
   ToggleButton,
   ToggleButtonGroup,
   Typography,
+  TypographyProps,
 } from '@mui/material';
+import { Logger } from '@pnp/logging';
 import dayjs from 'dayjs';
 import advancedFormat from 'dayjs/plugin/advancedFormat';
 import React, {
@@ -40,21 +47,33 @@ import React, {
   MouseEventHandler,
   RefObject,
   useEffect,
+  useRef,
   useState,
 } from 'react';
 import { DefaultExtensionType, defaultStyles, FileIcon } from 'react-file-icon';
 import { LibraryService, Permission } from '../../services/LibraryService';
-import { IExplorerProps } from './IExplorerProps';
+import { IBreadcrumbData, IExplorerProps } from './IExplorerProps';
 
 dayjs.extend(advancedFormat);
 
+const MESSAGE_TIMEOUT = 3000;
+
 type DisplayType = 'grid' | 'list';
+
+interface IMessageState {
+  type: TypographyProps['color'];
+  message: string;
+}
 
 interface IToolbarProps {
   displayType: DisplayType;
   permissions: Permission[];
+  message: IMessageState;
+  selected: number[];
   onNewFolderCreate: () => void;
   onDisplayTypeChange: (displayType: DisplayType) => void;
+  onSelectionCancel: () => void;
+  onDelete: () => void;
 }
 
 interface INewFolderProps {
@@ -63,11 +82,6 @@ interface INewFolderProps {
   onChange: ChangeEventHandler<HTMLInputElement>;
   onCancel: () => void;
   onSave: () => void;
-}
-
-interface IBreadcrumbData {
-  Name: string;
-  ServerRelativeUrl: string;
 }
 
 interface ICreateNewFolderData {
@@ -82,31 +96,76 @@ interface IItemDefaultProps {
 const Toolbar: FC<IToolbarProps> = ({
   displayType,
   permissions,
+  selected,
+  message,
   onNewFolderCreate,
   onDisplayTypeChange,
+  onSelectionCancel,
+  onDelete,
 }) => {
   return (
-    <Stack direction="row" spacing={1}>
-      {permissions.includes(Permission.Add) ? (
-        <Button startIcon={<Add />} size="small" onClick={onNewFolderCreate}>
-          New Folder
-        </Button>
-      ) : null}
-      <ToggleButtonGroup
-        size="small"
-        aria-label="display-type"
-        value={displayType}
-        exclusive
-        onChange={(event, newValue) => onDisplayTypeChange(newValue)}
-      >
-        <ToggleButton value="grid">
-          <Grid3x3 />
-        </ToggleButton>
-        <ToggleButton value="list">
-          <ListIcon />
-        </ToggleButton>
-      </ToggleButtonGroup>
-    </Stack>
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+      }}
+    >
+      <Box>
+        <Stack direction="row" spacing={1}>
+          {permissions.includes(Permission.Add) ? (
+            <Button
+              startIcon={<Add />}
+              size="small"
+              onClick={onNewFolderCreate}
+            >
+              New Folder
+            </Button>
+          ) : null}
+          {permissions.includes(Permission.Delete) && selected.length !== 0 ? (
+            <Fade in>
+              <Button
+                startIcon={<Delete />}
+                size="small"
+                color="error"
+                onClick={onDelete}
+              >
+                Delete
+              </Button>
+            </Fade>
+          ) : null}
+          <ToggleButtonGroup
+            size="small"
+            aria-label="display-type"
+            value={displayType}
+            exclusive
+            onChange={(event, newValue) => onDisplayTypeChange(newValue)}
+          >
+            <ToggleButton value="grid">
+              <Grid3x3 />
+            </ToggleButton>
+            <ToggleButton value="list">
+              <ListIcon />
+            </ToggleButton>
+          </ToggleButtonGroup>
+        </Stack>
+      </Box>
+      <Box>
+        {message ? (
+          <Fade in={Boolean(message)} unmountOnExit>
+            <Typography color={message.type}>{message.message}</Typography>
+          </Fade>
+        ) : null}
+        {selected.length !== 0 && !message ? (
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+            <IconButton onClick={onSelectionCancel} size="small">
+              <Close />
+            </IconButton>
+            <Typography>{selected.length} selected</Typography>
+          </Box>
+        ) : null}
+      </Box>
+    </Box>
   );
 };
 
@@ -121,15 +180,27 @@ const NewFolder: FC<INewFolderProps> = ({
     <>
       {displayType === 'grid' ? (
         <Fade in timeout={300}>
-          <Grid>
+          <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3, xl: 2 }}>
             <Card
               variant="outlined"
-              sx={{ width: 150, borderWidth: 2, borderColor: 'primary.main' }}
-              onBlur={(event) => {
+              sx={{
+                borderWidth: 2,
+                borderColor: 'primary.main',
+                height: '100%',
+              }}
+              onBlur={() => {
                 onCancel();
               }}
             >
-              <CardContent sx={{ textAlign: 'center' }}>
+              <CardContent
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  textAlign: 'center',
+                  height: '100%',
+                }}
+              >
                 <Folder fontSize="large" color="primary" />
                 <InputBase
                   value={value}
@@ -144,6 +215,9 @@ const NewFolder: FC<INewFolderProps> = ({
                   }}
                   autoFocus
                   fullWidth
+                  sx={{
+                    width: '100%',
+                  }}
                 />
               </CardContent>
             </Card>
@@ -190,12 +264,13 @@ const Explorer: ForwardRefExoticComponent<IExplorerProps> = forwardRef(
     ref: RefObject<HTMLDivElement>
   ) => {
     const [displayType, setDisplayType] = useState<DisplayType>(
-      defaultDisplayType || 'grid'
+      defaultDisplayType ?? 'grid'
     );
     const [items, setItems] = useState<any[]>([]);
-    const [loading, setLoading] = useState<boolean>(true);
+    const [loading, setLoading] = useState<boolean>(!!library);
     const [error, setError] = useState<string | null>(null);
     const [breadcrumbData, setBreadcrumbData] = useState<IBreadcrumbData[]>([]);
+    const [message, setMessage] = useState<IMessageState | null>(null);
     const [permissions, setPermissions] = useState<Permission[]>([]);
     const [initial, setInitial] = useState(true);
     const [isFadingOut, setIsFadingOut] = useState(false);
@@ -204,7 +279,13 @@ const Explorer: ForwardRefExoticComponent<IExplorerProps> = forwardRef(
         open: false,
         value: '',
       });
+    const cardRef = useRef<HTMLDivElement | null>(null);
+    const [selected, setSelected] = useState<number[]>([]);
     const libraryService = new LibraryService(context);
+
+    const handleSelectionCancel = (): void => {
+      setSelected([]);
+    };
 
     const fetchItems = async (libraryUrl: string): Promise<void> => {
       setLoading(true);
@@ -215,15 +296,18 @@ const Explorer: ForwardRefExoticComponent<IExplorerProps> = forwardRef(
           setBreadcrumbData([
             ...breadcrumbData,
             {
-              Name: library.title as string,
-              ServerRelativeUrl: library.url as string,
+              Name: library?.title as string,
+              ServerRelativeUrl: library?.url as string,
             },
           ]);
+          console.log(items);
           setInitial(false);
         }
         setError(null);
+        handleSelectionCancel();
       } catch (err) {
         setError(err.message);
+        Logger.error(err);
       } finally {
         setLoading(false);
       }
@@ -238,6 +322,7 @@ const Explorer: ForwardRefExoticComponent<IExplorerProps> = forwardRef(
         setPermissions(tempPermissions);
       } catch (err) {
         setError(err.message);
+        Logger.error(err);
       } finally {
         setLoading(false);
       }
@@ -251,11 +336,27 @@ const Explorer: ForwardRefExoticComponent<IExplorerProps> = forwardRef(
           breadcrumbData[breadcrumbData.length - 1].ServerRelativeUrl,
           createNewFolder.value
         );
-        await fetchItems(
-          breadcrumbData[breadcrumbData.length - 1].ServerRelativeUrl
-        );
+        handleSelectionCancel();
       } catch (err) {
         setError(err.message);
+        Logger.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    const deleteItem = async (): Promise<void> => {
+      setLoading(true);
+      try {
+        await libraryService.recycleItems(library?.id, selected);
+        handleSelectionCancel();
+        setMessage({ type: 'success', message: 'Item(s) deleted' });
+        setTimeout(() => {
+          setMessage(null);
+        }, MESSAGE_TIMEOUT);
+      } catch (err) {
+        setError(err.message);
+        Logger.error(err);
       } finally {
         setLoading(false);
       }
@@ -274,7 +375,11 @@ const Explorer: ForwardRefExoticComponent<IExplorerProps> = forwardRef(
     };
 
     const handleFileClick = (item: IBreadcrumbData): void => {
-      window.open(`${item.ServerRelativeUrl}?web=1`);
+      if (onFileOpen && typeof onFileOpen === 'function') {
+        onFileOpen(item);
+      } else {
+        window.open(`${item.ServerRelativeUrl}?web=1`);
+      }
     };
 
     const handleBreadcrumbClick = (
@@ -289,7 +394,7 @@ const Explorer: ForwardRefExoticComponent<IExplorerProps> = forwardRef(
 
     const handleNewFolderClick = (): void => {
       if (isFadingOut) {
-        setCreateNewFolder((prevValue) => ({
+        setCreateNewFolder(() => ({
           open: false,
           value: '',
         }));
@@ -301,14 +406,37 @@ const Explorer: ForwardRefExoticComponent<IExplorerProps> = forwardRef(
       }
     };
 
+    const handleItemsDelete = async (): Promise<void> => {
+      await deleteItem();
+      await fetchItems(
+        breadcrumbData[breadcrumbData.length - 1].ServerRelativeUrl
+      );
+    };
+
+    const handleItemSelection = (id: number): void => {
+      const currentIndex = selected.indexOf(id);
+      const newSelected = [...selected];
+
+      if (currentIndex === -1) {
+        newSelected.push(id);
+      } else {
+        newSelected.splice(currentIndex, 1);
+      }
+
+      setSelected(newSelected);
+    };
+
     const handleNewFolderNameChange = (newName: string): void => {
       setCreateNewFolder({ ...createNewFolder, value: newName });
     };
 
-    const handleNewFolderSave = (): void => {
-      createFolder();
+    const handleNewFolderSave = async (): Promise<void> => {
+      await createFolder();
       setIsFadingOut(false);
       setCreateNewFolder({ ...createNewFolder, open: false, value: '' });
+      await fetchItems(
+        breadcrumbData[breadcrumbData.length - 1].ServerRelativeUrl
+      );
     };
 
     const handleNewFolderDismiss = (): void => {
@@ -320,7 +448,9 @@ const Explorer: ForwardRefExoticComponent<IExplorerProps> = forwardRef(
     };
 
     useEffect(() => {
-      Promise.all([fetchPermissions(), fetchItems(library.url as string)]);
+      if (library) {
+        Promise.all([fetchPermissions(), fetchItems(library?.url as string)]);
+      }
     }, [library]);
 
     const errorOrLoading = error ?? loading;
@@ -333,8 +463,12 @@ const Explorer: ForwardRefExoticComponent<IExplorerProps> = forwardRef(
           <Toolbar
             displayType={displayType}
             permissions={permissions}
+            selected={selected}
+            message={message as IMessageState}
             onNewFolderCreate={handleNewFolderClick}
             onDisplayTypeChange={handleDisplayTypeChange}
+            onDelete={handleItemsDelete}
+            onSelectionCancel={handleSelectionCancel}
           />
           <Divider />
           {breadcrumbData && breadcrumbData.length !== 0 ? (
@@ -400,13 +534,16 @@ const Explorer: ForwardRefExoticComponent<IExplorerProps> = forwardRef(
                   alignItems: 'center',
                 }}
               >
-                <Typography color="error" sx={{ justifySelf: 'center' }}>
-                  {error}
-                </Typography>
+                <Typography color="error">{error}</Typography>
               </Box>
             ) : null}
             {!errorOrLoading && itemsHaveValue && displayType === 'grid' ? (
-              <Grid container spacing={1} width="100%" overflow="auto">
+              <Grid
+                container
+                spacing={1}
+                width="100%"
+                sx={{ overflowY: 'auto' }}
+              >
                 {createNewFolder.open && !isFadingOut ? (
                   <NewFolder
                     displayType="grid"
@@ -462,15 +599,40 @@ const Explorer: ForwardRefExoticComponent<IExplorerProps> = forwardRef(
                   };
 
                   return (
-                    <Grid key={item.Name}>
-                      <Card variant="outlined" sx={{ width: 150 }}>
-                        <CardActionArea {...props}>
-                          <CardContent sx={{ textAlign: 'center' }}>
-                            {item.Type === 'folder' ? (
-                              <Folder fontSize="large" color="primary" />
-                            ) : null}
-                            {item.Type === 'file' ? renderIcon() : null}
-                            <Typography
+                    <Grid
+                      key={item.Name}
+                      size={{ xs: 12, sm: 6, md: 4, lg: 3, xl: 2 }}
+                    >
+                      <Card ref={cardRef} variant="outlined">
+                        <CardActions>
+                          <Checkbox
+                            size="small"
+                            edge="end"
+                            checked={selected.includes(
+                              item?.ListItemAllFields?.Id
+                            )}
+                            onChange={() =>
+                              handleItemSelection(item?.ListItemAllFields?.Id)
+                            }
+                          />
+                        </CardActions>
+                        <CardContent>
+                          <Box
+                            sx={{
+                              display: 'flex',
+                              width: '100%',
+                              flexDirection: 'column',
+                              justifyContent: 'center',
+                              textAlign: 'center',
+                            }}
+                          >
+                            <Box>
+                              {item.Type === 'folder' ? (
+                                <Folder fontSize="large" color="primary" />
+                              ) : null}
+                              {item.Type === 'file' ? renderIcon() : null}
+                            </Box>
+                            <Link
                               noWrap
                               sx={{
                                 overflow: 'hidden',
@@ -478,14 +640,26 @@ const Explorer: ForwardRefExoticComponent<IExplorerProps> = forwardRef(
                                 whiteSpace: 'nowrap',
                                 width: '100%',
                               }}
+                              underline="hover"
+                              href="#"
+                              {...props}
                             >
                               {item.Name}
-                            </Typography>
-                            <Typography variant="body2" color="textSecondary">
+                            </Link>
+                            <Typography
+                              variant="body2"
+                              color="textSecondary"
+                              sx={{
+                                overflow: 'hidden',
+                                textOverflow: 'ellipsis',
+                                whiteSpace: 'nowrap',
+                                width: '100%',
+                              }}
+                            >
                               {dayjs(item.TimeLastModified).format('Do MMMM')}
                             </Typography>
-                          </CardContent>
-                        </CardActionArea>
+                          </Box>
+                        </CardContent>
                       </Card>
                     </Grid>
                   );
@@ -553,24 +727,37 @@ const Explorer: ForwardRefExoticComponent<IExplorerProps> = forwardRef(
                   };
 
                   return (
-                    <ListItemButton
+                    <ListItem
                       key={item.UniqueId}
-                      {...props}
-                      disableRipple
+                      disablePadding
+                      secondaryAction={
+                        <Checkbox
+                          size="small"
+                          edge="end"
+                          checked={selected.includes(
+                            item?.ListItemAllFields?.Id
+                          )}
+                          onChange={() =>
+                            handleItemSelection(item?.ListItemAllFields?.Id)
+                          }
+                        />
+                      }
                     >
-                      <ListItemIcon>
-                        {item.Type === 'folder' ? (
-                          <Folder color="primary" />
-                        ) : null}
-                        {item.Type === 'file' ? renderIcon() : null}
-                      </ListItemIcon>
-                      <ListItemText
-                        primary={item.Name}
-                        secondary={dayjs(item.TimeLastModified).format(
-                          'Do MMMM'
-                        )}
-                      />
-                    </ListItemButton>
+                      <ListItemButton {...props} disableRipple>
+                        <ListItemIcon>
+                          {item.Type === 'folder' ? (
+                            <Folder color="primary" />
+                          ) : null}
+                          {item.Type === 'file' ? renderIcon() : null}
+                        </ListItemIcon>
+                        <ListItemText
+                          primary={item.Name}
+                          secondary={dayjs(item.TimeLastModified).format(
+                            'Do MMMM'
+                          )}
+                        />
+                      </ListItemButton>
+                    </ListItem>
                   );
                 })}
               </List>
