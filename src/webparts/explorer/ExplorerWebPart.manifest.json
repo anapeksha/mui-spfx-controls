@@ -6,18 +6,18 @@
   "version": "*",
   "manifestVersion": 2,
   "requiresCustomScript": false,
+  "supportsFullBleed": true,
   "supportedHosts": ["SharePointWebPart", "SharePointFullPage"],
   "supportsThemeVariants": true,
-
   "preconfiguredEntries": [
     {
       "groupId": "5c03119e-3074-46fd-976b-c60198311f70",
       "group": { "default": "Advanced" },
       "title": { "default": "Explorer" },
       "description": { "default": "Explorer description" },
-      "officeFabricIconFontName": "Page",
+      "officeFabricIconFontName": "FolderSearch",
       "properties": {
-        "description": "Explorer"
+        "displayType": "grid"
       }
     }
   ]

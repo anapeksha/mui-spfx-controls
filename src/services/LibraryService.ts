@@ -83,8 +83,12 @@ class LibraryService {
    */
   public async getLibraryItems(path: string): Promise<any[]> {
     const libraryRoot = this.sp.web.getFolderByServerRelativePath(path);
-    const files = await libraryRoot.files.select('*')();
-    const folders = await libraryRoot.folders.select('*')();
+    const files = await libraryRoot.files
+      .select('ListItemAllFields/Id', '*')
+      .expand('ListItemAllFields')();
+    const folders = await libraryRoot.folders
+      .select('ListItemAllFields/Id', '*')
+      .expand('ListItemAllFields')();
 
     return [
       ...folders.map((folder) => ({ ...folder, Type: 'folder' })),
@@ -96,6 +100,26 @@ class LibraryService {
           : 'unknown',
       })),
     ];
+  }
+
+  /**
+   * Deletes items (files or folders) from a SharePoint document library.
+   * @param {string} listId - The ID of the SharePoint library.
+   * @param {number[]} itemIds - The array of item IDs to delete.
+   * @returns {Promise<any[]>} void
+   */
+  public async recycleItems(listId: string, itemIds: number[]): Promise<any[]> {
+    const [batched, execute] = this.sp.batched();
+    const list = batched.web.lists.getById(listId);
+    const res: any[] = [];
+
+    itemIds.forEach(async (id) => {
+      res.push(list.items.getById(Number(id)).recycle());
+    });
+
+    await execute();
+
+    return res;
   }
 }
 
