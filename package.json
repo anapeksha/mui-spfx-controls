@@ -110,8 +110,8 @@
     "@mui/x-data-grid": "^7.28.0",
     "@mui/x-date-pickers": "^7.28.0",
     "@mui/x-tree-view": "^7.28.0",
-    "@pnp/graph": "^4.11.0",
-    "@pnp/sp": "^4.11.0",
+    "@pnp/graph": "^4.12.0",
+    "@pnp/sp": "^4.12.0",
     "@pnp/spfx-property-controls": "^3.19.0",
     "dayjs": "^1.11.13",
     "react": "^17.0.1",
@@ -146,7 +146,7 @@
     "jest-environment-jsdom": "^29.7.0",
     "spfx-fast-serve-helpers": "^1.20.4",
     "ts-jest": "^29.2.6",
-    "typescript": "^4.7.4",
+    "typescript": "^5.3.3",
     "webpack-bundle-analyzer": "^4.10.2"
   }
 }
