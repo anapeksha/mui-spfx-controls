@@ -1,5 +1,9 @@
 # Changelog
 
+## **v0.8.2** (Feature & Improvement Release)
+
+- Updated SPFx version to 1.21
+
 ## **v0.8.1** (Feature & Improvement Release)
 
 - Deletion feature with `Explorer` component.
@@ -22,7 +26,7 @@
 ### Enhancements
 
 - Added SonarQube integration with GitHub Actions.
-- Enhanced Jest coverage reporting and integrated with SonarQube.
+- Enhanced Jest coverage reporting and integration with SonarQube.
 
 ### Bug Fixes
 
