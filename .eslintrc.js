@@ -1,17 +1,15 @@
 require('@rushstack/eslint-config/patch/modern-module-resolution');
-
 module.exports = {
   extends: ['@microsoft/eslint-config-spfx/lib/profiles/react'],
-  parserOptions: { tsconfigRootDir: __dirname },
   overrides: [
-    // build
     {
-      files: ['**/src/**/*.ts', '**/src/**/*.tsx'],
+      files: ['src/**/*.ts', 'src/**/*.tsx'],
       parser: '@typescript-eslint/parser',
       parserOptions: {
         project: './tsconfig.json',
         ecmaVersion: 2018,
         sourceType: 'module',
+        tsconfigRootDir: __dirname,
       },
       rules: {
         // Prevent usage of the JavaScript null value, while allowing code to access existing APIs that may require null. https://www.npmjs.com/package/@rushstack/eslint-plugin
@@ -40,7 +38,6 @@ module.exports = {
         // Rationale to disable: although this is a recommended rule, it is up to dev to select coding style.
         // Set to 1 (warning) or 2 (error) to enable.
         '@typescript-eslint/explicit-member-accessibility': 0,
-        '@typescript-eslint/no-duplicate-enum-values': 0,
         // STANDARDIZED BY:   @typescript-eslint\eslint-plugin\dist\configs\recommended.json
         '@typescript-eslint/no-array-constructor': 1,
         // STANDARDIZED BY:   @typescript-eslint\eslint-plugin\dist\configs\recommended.json
@@ -293,25 +290,10 @@ module.exports = {
         '@microsoft/spfx/pair-react-dom-render-unmount': 1,
       },
     },
-    //test
     {
-      files: [
-        // Test files
-        '*.test.ts',
-        '*.test.tsx',
-        '*.spec.ts',
-        '*.spec.tsx',
-
-        // Facebook convention
-        '**/__mocks__/*.ts',
-        '**/__mocks__/*.tsx',
-        '**/__tests__/*.ts',
-        '**/__tests__/*.tsx',
-
-        // Microsoft convention
-        '**/test/*.ts',
-        '**/test/*.tsx',
-      ],
+      // For unit tests, we can be a little bit less strict.  The settings below revise the
+      // defaults specified in the extended configurations, as well as above.
+      files: ['tests/**/*.ts', 'tests/**/*.tsx'],
       parser: '@typescript-eslint/parser',
       parserOptions: {
         project: './tsconfig.test.json',
@@ -332,10 +314,6 @@ module.exports = {
         ],
         '@rushstack/hoist-jest-mock': 1,
       },
-    },
-    // scripts
-    {
-      files: ['./*.js'],
     },
   ],
 };
