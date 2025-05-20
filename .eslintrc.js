@@ -1,17 +1,17 @@
 require('@rushstack/eslint-config/patch/modern-module-resolution');
 
 module.exports = {
+  extends: ['@microsoft/eslint-config-spfx/lib/profiles/react'],
+  parserOptions: { tsconfigRootDir: __dirname },
   overrides: [
     // build
     {
       files: ['**/src/**/*.ts', '**/src/**/*.tsx'],
-      extends: ['@microsoft/eslint-config-spfx/lib/profiles/react'],
       parser: '@typescript-eslint/parser',
       parserOptions: {
         project: './tsconfig.json',
         ecmaVersion: 2018,
         sourceType: 'module',
-        tsconfigRootDir: __dirname,
       },
       rules: {
         // Prevent usage of the JavaScript null value, while allowing code to access existing APIs that may require null. https://www.npmjs.com/package/@rushstack/eslint-plugin
@@ -295,8 +295,23 @@ module.exports = {
     },
     //test
     {
-      files: ['*.test.ts', '*.test.tsx', '**/tests/*.ts', '**/tests/*.tsx'],
-      extends: ['@microsoft/eslint-config-spfx/lib/profiles/react'],
+      files: [
+        // Test files
+        '*.test.ts',
+        '*.test.tsx',
+        '*.spec.ts',
+        '*.spec.tsx',
+
+        // Facebook convention
+        '**/__mocks__/*.ts',
+        '**/__mocks__/*.tsx',
+        '**/__tests__/*.ts',
+        '**/__tests__/*.tsx',
+
+        // Microsoft convention
+        '**/test/*.ts',
+        '**/test/*.tsx',
+      ],
       parser: '@typescript-eslint/parser',
       parserOptions: {
         project: './tsconfig.test.json',
@@ -320,8 +335,7 @@ module.exports = {
     },
     // scripts
     {
-      files: ['./*.mjs'],
-      extends: ['@microsoft/eslint-config-spfx/lib/profiles/default'],
+      files: ['./*.js'],
     },
   ],
 };
