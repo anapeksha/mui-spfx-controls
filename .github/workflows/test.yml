@@ -24,9 +24,7 @@ jobs:
       - name: Run gulp test
         run: npm run test
       - name: Run unit test
-        run: npm run test:unit
-      - name: Run coverage tests
-        run: npm run test:coverage
+        run: npm run test
       - name: Push coverage to sonarqube
         uses: SonarSource/sonarqube-scan-action@v5.1.0
         env:
