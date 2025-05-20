@@ -29,7 +29,7 @@ export default class ExplorerWebPart extends BaseClientSideWebPart<IExplorerWebP
         context: this.context,
         library: this.properties.library,
         defaultDisplayType: this.properties.displayType,
-      }
+      },
     );
 
     ReactDom.render(element, this.domElement);
@@ -76,7 +76,7 @@ export default class ExplorerWebPart extends BaseClientSideWebPart<IExplorerWebP
                   ],
                   includeListTitleAndUrl: true,
                   properties: this.properties,
-                  context: this.context,
+                  context: this.context as any,
                   deferredValidationTime: 0,
                   key: 'listPickerFieldId',
                 }),
