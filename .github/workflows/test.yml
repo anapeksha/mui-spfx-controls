@@ -17,13 +17,11 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18.x'
+          node-version: '22.x'
           cache: 'npm'
       - name: Install dependencies
         run: npm install
-      - name: Run gulp test
-        run: npm run test
-      - name: Run unit test
+      - name: Run test
         run: npm run test
       - name: Push coverage to sonarqube
         uses: SonarSource/sonarqube-scan-action@v5.1.0
