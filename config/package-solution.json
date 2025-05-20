@@ -1,25 +1,25 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
   "solution": {
-    "name": "MUI SPFx Controls",
-    "id": "56349e28-8743-4224-a1b1-bdfb85be224c",
+    "name": "mui-spfx-controls-client-side-solution",
+    "id": "f151e048-ee7e-47b3-8c5c-0528de1cd566",
     "version": "1.0.0.0",
     "includeClientSideAssets": true,
     "skipFeatureDeployment": true,
     "isDomainIsolated": false,
     "developer": {
-      "name": "Anapeksha Mukherjee",
-      "websiteUrl": "https://anapeksha.in",
+      "name": "",
+      "websiteUrl": "",
       "privacyUrl": "",
       "termsOfUseUrl": "",
-      "mpnId": "Undefined-1.18.2"
+      "mpnId": "Undefined-1.21.1"
     },
     "metadata": {
       "shortDescription": {
-        "default": "Enhance SharePoint customizations with modern Material-UI components for sleek, consistent web parts."
+        "default": "mui-spfx-controls description"
       },
       "longDescription": {
-        "default": "Integrate Material-UI components into SPFx web parts for a modern and visually appealing SharePoint experience. Customizable and easy to use."
+        "default": "mui-spfx-controls description"
       },
       "screenshotPaths": [],
       "videoUrl": "",
@@ -29,7 +29,7 @@
       {
         "title": "mui-spfx-controls Feature",
         "description": "The feature that activates elements of the mui-spfx-controls solution.",
-        "id": "671b3189-088f-4194-acf9-4e3eaa0e0a10",
+        "id": "bd0f3a9e-165c-47fb-97f4-2b2deb8151ab",
         "version": "1.0.0.0"
       }
     ]

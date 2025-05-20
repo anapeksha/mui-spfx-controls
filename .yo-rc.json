@@ -3,12 +3,10 @@
     "plusBeta": false,
     "isCreatingSolution": true,
     "nodeVersion": "22.15.0",
-    "sdksVersions": {
-      "@microsoft/microsoft-graph-client": "3.0.2"
-    },
+    "sdksVersions": {},
     "version": "1.21.1",
-    "libraryName": "mui-spfx0controls",
-    "libraryId": "63b1d75f-68c9-45c1-a8bf-67e6990bf00a",
+    "libraryName": "mui-spfx-controls",
+    "libraryId": "f151e048-ee7e-47b3-8c5c-0528de1cd566",
     "environment": "spo",
     "packageManager": "npm",
     "solutionName": "mui-spfx-controls",

@@ -36,11 +36,8 @@ sonar-project.properties
 .prettierrc
 
 #Test files
-jest.config.mjs
+jest.config.js
 
 #Markdowns
 *.md
 !README.md
-
-#Schema Directory
-schemas

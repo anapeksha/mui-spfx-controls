@@ -1,5 +1,4 @@
 {
-  "$schema": "https://json.schemastore.org/package",
   "name": "mui-spfx-controls",
   "description": "SPFx component library built with MUI",
   "version": "0.8.2",
@@ -10,67 +9,9 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "analyze": "gulp bundle --ship --analyze",
-    "build": "gulp build",
-    "build:ship": "gulp bundle --ship",
+    "build": "gulp bundle",
     "clean": "gulp clean",
-    "serve": "fast-serve --reactProfiling",
-    "test": "gulp test",
-    "test:unit": "jest",
-    "test:coverage": "jest --coverage",
-    "package-solution": "gulp package-solution --ship"
-  },
-  "exports": {
-    ".": {
-      "import": "./lib/index.js",
-      "require": "./lib/index.js",
-      "types": "./lib/index.d.ts"
-    },
-    "./Dashboard": {
-      "import": "./lib/components/Dashboard/index.js",
-      "require": "./lib/components/Dashboard/index.js",
-      "types": "./lib/components/Dashboard/index.d.ts"
-    },
-    "./ListForm": {
-      "import": "./lib/components/ListForm/index.js",
-      "require": "./lib/components/ListForm/index.js",
-      "types": "./lib/components/ListForm/index.d.ts"
-    },
-    "./ListItemPicker": {
-      "import": "./lib/components/ListItemPicker/index.js",
-      "require": "./lib/components/ListItemPicker/index.js",
-      "types": "./lib/components/ListItemPicker/index.d.ts"
-    },
-    "./Navigation": {
-      "import": "./lib/components/Navigation/index.js",
-      "require": "./lib/components/Navigation/index.js",
-      "types": "./lib/components/Navigation/index.d.ts"
-    },
-    "./PeoplePicker": {
-      "import": "./lib/components/PeoplePicker/index.js",
-      "require": "./lib/components/PeoplePicker/index.js",
-      "types": "./lib/components/PeoplePicker/index.d.ts"
-    },
-    "./Searchbar": {
-      "import": "./lib/components/SearchBar/index.js",
-      "require": "./lib/components/SearchBar/index.js",
-      "types": "./lib/components/SearchBar/index.d.ts"
-    },
-    "./SiteBreadcrumb": {
-      "import": "./lib/components/SiteBreadcrumb/index.js",
-      "require": "./lib/components/SiteBreadcrumb/index.js",
-      "types": "./lib/components/SiteBreadcrumb/index.d.ts"
-    },
-    "./CodeEditor": {
-      "import": "./lib/components/CodeEditor/index.js",
-      "require": "./lib/components/CodeEditor/index.js",
-      "types": "./lib/components/CodeEditor/index.d.ts"
-    },
-    "./Explorer": {
-      "import": "./lib/components/Explorer/index.js",
-      "require": "./lib/components/Explorer/index.js",
-      "types": "./lib/components/Explorer/index.d.ts"
-    }
+    "test": "jest --coverage"
   },
   "author": {
     "name": "Anapeksha Mukherjee",
@@ -97,13 +38,13 @@
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
-    "@fluentui/react": "^8.122.19",
-    "@microsoft/sp-component-base": "^1.21.1",
-    "@microsoft/sp-core-library": "^1.21.1",
-    "@microsoft/sp-lodash-subset": "^1.21.1",
-    "@microsoft/sp-office-ui-fabric-core": "^1.21.1",
-    "@microsoft/sp-property-pane": "^1.21.1",
-    "@microsoft/sp-webpart-base": "^1.21.1",
+    "@fluentui/react": "^8.106.4",
+    "@microsoft/sp-component-base": "1.21.1",
+    "@microsoft/sp-core-library": "1.21.1",
+    "@microsoft/sp-lodash-subset": "1.21.1",
+    "@microsoft/sp-office-ui-fabric-core": "1.21.1",
+    "@microsoft/sp-property-pane": "1.21.1",
+    "@microsoft/sp-webpart-base": "1.21.1",
     "@monaco-editor/react": "^4.7.0",
     "@mui/icons-material": "^7.1.0",
     "@mui/material": "^7.1.0",
@@ -112,41 +53,38 @@
     "@mui/x-tree-view": "^8.3.1",
     "@pnp/graph": "^4.13.0",
     "@pnp/sp": "^4.13.0",
-    "@pnp/spfx-property-controls": "^3.20.0",
+    "@pnp/spfx-property-controls": "^3.13.0",
     "dayjs": "^1.11.13",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1",
+    "react": "17.0.1",
+    "react-dom": "17.0.1",
     "react-file-icon": "^1.6.0",
-    "tslib": "^2.3.1"
+    "tslib": "2.3.1"
   },
   "devDependencies": {
-    "@microsoft/eslint-config-spfx": "^1.21.1",
-    "@microsoft/eslint-plugin-spfx": "^1.21.1",
+    "@microsoft/eslint-config-spfx": "1.21.1",
+    "@microsoft/eslint-plugin-spfx": "1.21.1",
     "@microsoft/microsoft-graph-types": "^2.40.0",
-    "@microsoft/rush-stack-compiler-5.3": "^0.1.0",
-    "@microsoft/sp-build-web": "^1.21.1",
-    "@microsoft/sp-module-interfaces": "^1.21.1",
-    "@rushstack/eslint-config": "^4.0.1",
+    "@microsoft/rush-stack-compiler-5.3": "0.1.0",
+    "@microsoft/sp-build-web": "1.21.1",
+    "@microsoft/sp-module-interfaces": "1.21.1",
+    "@rushstack/eslint-config": "4.0.1",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^12.1.5",
     "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^29.5.14",
-    "@types/react": "^17.0.45",
-    "@types/react-dom": "^17.0.17",
+    "@types/react": "17.0.45",
+    "@types/react-dom": "17.0.17",
     "@types/react-file-icon": "^1.0.4",
-    "@types/webpack-bundle-analyzer": "^4.7.0",
     "@types/webpack-env": "~1.15.2",
     "ajv": "^6.12.5",
-    "eslint": "^8.57.1",
-    "eslint-plugin-jest": "^25.3.0",
+    "eslint": "8.57.1",
+    "eslint-plugin-jest": "^28.11.0",
     "eslint-plugin-react-hooks": "^4.3.0",
-    "gulp": "^4.0.2",
+    "gulp": "4.0.2",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
-    "spfx-fast-serve-helpers": "^1.20.4",
-    "ts-jest": "^29.2.6",
-    "typescript": "~5.3.3",
-    "webpack-bundle-analyzer": "^4.10.2"
+    "ts-jest": "^29.3.4",
+    "typescript": "~5.3.3"
   }
 }
