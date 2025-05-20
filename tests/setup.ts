@@ -1,6 +1,11 @@
 import '@testing-library/jest-dom';
 import { configure } from '@testing-library/react';
 
+import { TextDecoder, TextEncoder } from 'util';
+
+(globalThis as any).TextEncoder = TextEncoder;
+(globalThis as any).TextDecoder = TextDecoder;
+
 (globalThis as any).__themeState__ = {
   theme: {
     bodyBackground: '#ffffff',
