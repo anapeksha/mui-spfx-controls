@@ -1,27 +1,49 @@
-import { Check, Close, Search } from '@mui/icons-material';
 import {
+  Cancel,
+  Check,
+  Close,
+  FileDownload,
+  FilterList,
+  Search,
+  TableRows,
+  ViewColumn,
+} from '@mui/icons-material';
+import {
+  Badge,
   Box,
+  Divider,
   Fade,
-  IconButton,
-  InputBase,
-  Paper,
+  InputAdornment,
+  ListItemIcon,
+  ListItemText,
+  Menu,
+  MenuItem,
+  styled,
   Tab,
   Tabs,
+  TextField,
+  Tooltip,
   Typography,
 } from '@mui/material';
 import {
+  ColumnsPanelTrigger,
   DataGrid,
+  ExportCsv,
+  ExportPrint,
+  FilterPanelTrigger,
   GridColDef,
-  GridToolbarColumnsButton,
-  GridToolbarContainer,
-  GridToolbarDensitySelector,
-  GridToolbarExport,
-  GridToolbarFilterButton,
+  GridDensity,
   GridToolbarProps,
+  QuickFilter,
+  QuickFilterClear,
+  QuickFilterControl,
+  QuickFilterTrigger,
+  Toolbar,
+  ToolbarButton,
 } from '@mui/x-data-grid';
 import { Logger } from '@pnp/logging';
 import * as React from 'react';
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 import { ListService } from '../../services/ListService';
 import { generateDashboardColumn } from '../../utils/generateDashboardColumn';
 import { IDashboardProps, ITabSchema } from './IDashboardProps';
@@ -37,10 +59,47 @@ interface ICustomGridToolbarProps extends GridToolbarProps {
   tabValue?: ITabSchema[];
   currentTabValue: ITabSchema;
   updateMessage?: { text: string; type: 'success' | 'error' };
+  density: GridDensity;
+  onDensityChange: (density: GridDensity) => void;
   onTabChange: (tabValue: ITabSchema | undefined) => void;
-  onQueryChange: (newQuery: string) => void;
-  onSearch: () => void;
 }
+
+type OwnerState = {
+  expanded: boolean;
+};
+
+const DENSITY_OPTIONS: { label: string; value: GridDensity }[] = [
+  { label: 'Compact density', value: 'compact' },
+  { label: 'Standard density', value: 'standard' },
+  { label: 'Comfortable density', value: 'comfortable' },
+];
+
+const StyledQuickFilter = styled(QuickFilter)({
+  display: 'grid',
+  alignItems: 'center',
+});
+
+const StyledToolbarButton = styled(ToolbarButton)<{ ownerState: OwnerState }>(
+  ({ theme, ownerState }) => ({
+    gridArea: '1 / 1',
+    width: 'min-content',
+    height: 'min-content',
+    zIndex: 1,
+    opacity: ownerState.expanded ? 0 : 1,
+    pointerEvents: ownerState.expanded ? 'none' : 'auto',
+    transition: theme.transitions.create(['opacity']),
+  })
+);
+
+const StyledTextField = styled(TextField)<{
+  ownerState: OwnerState;
+}>(({ theme, ownerState }) => ({
+  gridArea: '1 / 1',
+  overflowX: 'clip',
+  width: ownerState.expanded ? 260 : 'var(--trigger-width)',
+  opacity: ownerState.expanded ? 1 : 0,
+  transition: theme.transitions.create(['width', 'opacity']),
+}));
 
 const CustomGridToolbar: FC<ICustomGridToolbarProps> = ({
   loading,
@@ -53,53 +112,23 @@ const CustomGridToolbar: FC<ICustomGridToolbarProps> = ({
   currentTabValue,
   searchAction,
   updateMessage,
+  density,
+  onDensityChange,
   onTabChange,
-  onQueryChange,
-  onSearch,
 }) => {
+  const [exportMenuOpen, setExportMenuOpen] = useState(false);
+  const [densityMenuOpen, setDensityMenuOpen] = useState(false);
+  const exportMenuTriggerRef = useRef<HTMLButtonElement>(null);
+  const densityMenuTriggerRef = useRef<HTMLButtonElement>(null);
+
   return (
     <Box display="flex" flexDirection="column" rowGap={1}>
-      {searchAction ? (
-        <GridToolbarContainer>
-          <Paper
-            component="form"
-            role="search"
-            sx={{
-              p: '2px 4px',
-              display: 'flex',
-              alignItems: 'center',
-              width: '100%',
-            }}
-            variant="outlined"
-            onSubmit={(event: React.FormEvent) => {
-              event.preventDefault();
-              onSearch();
-            }}
-          >
-            <InputBase
-              sx={{ ml: 1, flex: 1 }}
-              placeholder="Search"
-              inputProps={{ 'aria-label': 'search', role: 'searchbox' }}
-              onChange={(event) => onQueryChange(event.target.value)}
-              fullWidth
-            />
-            <IconButton
-              type="submit"
-              sx={{ p: '10px' }}
-              aria-label="search"
-              color="primary"
-            >
-              <Search />
-            </IconButton>
-          </Paper>
-        </GridToolbarContainer>
-      ) : null}
-      {columnAction || densityAction || filterAction || exportAction ? (
-        <GridToolbarContainer sx={{ display: 'flex', alignItems: 'center' }}>
-          {columnAction ? <GridToolbarColumnsButton /> : null}
-          {densityAction ? <GridToolbarDensitySelector /> : null}
-          {filterAction ? <GridToolbarFilterButton /> : null}
-          {exportAction ? <GridToolbarExport /> : null}
+      {columnAction ||
+      densityAction ||
+      filterAction ||
+      exportAction ||
+      searchAction ? (
+        <Toolbar style={{ display: 'flex', alignItems: 'center' }}>
           {updateMessage ? (
             <Box>
               <Fade in timeout={500}>
@@ -130,10 +159,179 @@ const CustomGridToolbar: FC<ICustomGridToolbarProps> = ({
               </Fade>
             </Box>
           ) : null}
-        </GridToolbarContainer>
+          {columnAction ? (
+            <Tooltip title="Columns">
+              <ColumnsPanelTrigger render={<ToolbarButton />}>
+                <ViewColumn fontSize="small" />
+              </ColumnsPanelTrigger>
+            </Tooltip>
+          ) : null}
+          {densityAction ? (
+            <>
+              <Tooltip title="Density">
+                <ToolbarButton
+                  ref={densityMenuTriggerRef}
+                  id="density-menu-trigger"
+                  aria-controls="density-menu"
+                  aria-haspopup="true"
+                  aria-expanded={densityMenuOpen ? 'true' : undefined}
+                  onClick={() => setDensityMenuOpen(true)}
+                >
+                  <TableRows fontSize="small" />
+                </ToolbarButton>
+              </Tooltip>
+
+              <Menu
+                id="export-menu"
+                anchorEl={densityMenuTriggerRef.current}
+                open={densityMenuOpen}
+                onClose={() => setDensityMenuOpen(false)}
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+                slotProps={{
+                  list: {
+                    'aria-labelledby': 'export-menu-trigger',
+                  },
+                }}
+              >
+                {DENSITY_OPTIONS.map((option) => (
+                  <MenuItem
+                    key={option.value}
+                    selected={density === option.value}
+                    onClick={() => onDensityChange(option.value)}
+                  >
+                    <ListItemIcon>
+                      {density === option.value && <Check fontSize="small" />}
+                    </ListItemIcon>
+                    <ListItemText>{option.label}</ListItemText>
+                  </MenuItem>
+                ))}
+              </Menu>
+            </>
+          ) : null}
+          {filterAction ? (
+            <Tooltip title="Filters">
+              <FilterPanelTrigger
+                render={(props, state) => (
+                  <ToolbarButton {...(props as any)} color="default">
+                    <Badge
+                      badgeContent={state.filterCount}
+                      color="primary"
+                      variant="dot"
+                    >
+                      <FilterList fontSize="small" />
+                    </Badge>
+                  </ToolbarButton>
+                )}
+              />
+            </Tooltip>
+          ) : null}
+          <Divider
+            orientation="vertical"
+            variant="middle"
+            flexItem
+            sx={{ mx: 0.5 }}
+          />
+          {exportAction ? (
+            <>
+              <Tooltip title="Export">
+                <ToolbarButton
+                  ref={exportMenuTriggerRef}
+                  id="export-menu-trigger"
+                  aria-controls="export-menu"
+                  aria-haspopup="true"
+                  aria-expanded={exportMenuOpen ? 'true' : undefined}
+                  onClick={() => setExportMenuOpen(true)}
+                >
+                  <FileDownload fontSize="small" />
+                </ToolbarButton>
+              </Tooltip>
+
+              <Menu
+                id="export-menu"
+                anchorEl={exportMenuTriggerRef.current}
+                open={exportMenuOpen}
+                onClose={() => setExportMenuOpen(false)}
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+                slotProps={{
+                  list: {
+                    'aria-labelledby': 'export-menu-trigger',
+                  },
+                }}
+              >
+                <ExportPrint
+                  render={<MenuItem />}
+                  onClick={() => setExportMenuOpen(false)}
+                >
+                  Print
+                </ExportPrint>
+                <ExportCsv
+                  render={<MenuItem />}
+                  onClick={() => setExportMenuOpen(false)}
+                >
+                  Download as CSV
+                </ExportCsv>
+              </Menu>
+            </>
+          ) : null}
+          {searchAction ? (
+            <StyledQuickFilter>
+              <QuickFilterTrigger
+                render={(triggerProps, state) => (
+                  <Tooltip title="Search" enterDelay={0}>
+                    <StyledToolbarButton
+                      {...triggerProps}
+                      ownerState={{ expanded: state.expanded }}
+                      color="default"
+                      aria-disabled={state.expanded}
+                    >
+                      <Search fontSize="small" />
+                    </StyledToolbarButton>
+                  </Tooltip>
+                )}
+              />
+              <QuickFilterControl
+                render={({ ref, ...controlProps }, state) => (
+                  <StyledTextField
+                    {...controlProps}
+                    ownerState={{ expanded: state.expanded }}
+                    inputRef={ref}
+                    aria-label="Search"
+                    placeholder="Search..."
+                    size="small"
+                    slotProps={{
+                      input: {
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <Search fontSize="small" />
+                          </InputAdornment>
+                        ),
+                        endAdornment: state.value ? (
+                          <InputAdornment position="end">
+                            <QuickFilterClear
+                              edge="end"
+                              size="small"
+                              aria-label="Clear search"
+                              material={{ sx: { marginRight: -0.75 } }}
+                            >
+                              <Cancel fontSize="small" />
+                            </QuickFilterClear>
+                          </InputAdornment>
+                        ) : null,
+                        ...controlProps.slotProps?.input,
+                      },
+                      ...controlProps.slotProps,
+                    }}
+                  />
+                )}
+              />
+            </StyledQuickFilter>
+          ) : null}
+        </Toolbar>
       ) : null}
       {tabAction ? (
-        <GridToolbarContainer>
+        <Toolbar>
           <Tabs
             value={currentTabValue}
             onChange={(event, value) => onTabChange(value)}
@@ -153,7 +351,7 @@ const CustomGridToolbar: FC<ICustomGridToolbarProps> = ({
                 ))
               : null}
           </Tabs>
-        </GridToolbarContainer>
+        </Toolbar>
       ) : null}
     </Box>
   );
@@ -185,10 +383,10 @@ const Dashboard: React.ForwardRefExoticComponent<IDashboardProps> =
       const [cachedColumns, setCachedColumns] = useState<GridColDef[]>([]);
       const [rows, setRows] = useState<Record<string, any>[]>([]);
       const [cachedRows, setCachedRows] = useState<any[]>([]);
+      const [density, setDensity] = useState<GridDensity>('standard');
       const [currentTabValue, setCurrentTabValue] = useState<
         ITabSchema | undefined
       >(tabValue ? tabValue[0] : undefined);
-      const [searchQuery, setSearchQuery] = useState('');
       const [loading, setLoading] = useState(false);
       const [updateMessage, setUpdateMessage] = useState<{
         text: string;
@@ -266,11 +464,10 @@ const Dashboard: React.ForwardRefExoticComponent<IDashboardProps> =
       ): void => {
         const tempColumns: GridColDef[] = [];
         const filteredRows = currentTabValue
-          ? [...cachedRows].filter(
-              (value) =>
-                String(value[currentTabValue.fieldToMatch]).indexOf(
-                  currentTabValue.stringToMatch
-                ) !== -1
+          ? [...cachedRows].filter((value) =>
+              String(value[currentTabValue.fieldToMatch]).includes(
+                currentTabValue.stringToMatch
+              )
             )
           : [...cachedRows];
         [...cachedColumns].forEach((value) => {
@@ -284,34 +481,6 @@ const Dashboard: React.ForwardRefExoticComponent<IDashboardProps> =
         setColumns(tempColumns);
         setRows(filteredRows);
         setCurrentTabValue(currentTabValue);
-      };
-
-      const handleSearch = (): void => {
-        const filteredRows = [...cachedRows].filter((row: any) =>
-          fields.some(
-            (field) =>
-              row[field] &&
-              String(row[field])
-                .toLowerCase()
-                .indexOf(searchQuery.toLowerCase()) !== -1
-          )
-        );
-        setRows(filteredRows);
-      };
-
-      const handleSearchQueryChange = (newQuery: string): void => {
-        setSearchQuery(newQuery);
-        if (newQuery.length === 0) {
-          setRows(() =>
-            currentTabValue
-              ? [...cachedRows].filter(
-                  (value) =>
-                    value[currentTabValue.fieldToMatch] ===
-                    currentTabValue.stringToMatch
-                )
-              : [...cachedRows]
-          );
-        }
       };
 
       const processRowUpdate = async (
@@ -334,6 +503,10 @@ const Dashboard: React.ForwardRefExoticComponent<IDashboardProps> =
         }
       };
 
+      const onDensityChange = (density: GridDensity): void => {
+        setDensity(density);
+      };
+
       return (
         <Box
           data-testid="mui-spfx-dashboard"
@@ -346,6 +519,8 @@ const Dashboard: React.ForwardRefExoticComponent<IDashboardProps> =
             columns={columns}
             rows={rows}
             editMode="row"
+            density={density}
+            onDensityChange={onDensityChange}
             processRowUpdate={editable ? processRowUpdate : undefined}
             initialState={{
               pagination: {
@@ -355,6 +530,7 @@ const Dashboard: React.ForwardRefExoticComponent<IDashboardProps> =
               },
             }}
             slots={{ toolbar: CustomGridToolbar }}
+            showToolbar
             slotProps={{
               toolbar: {
                 loading: loading,
@@ -367,9 +543,9 @@ const Dashboard: React.ForwardRefExoticComponent<IDashboardProps> =
                 tabValue: tabValue,
                 currentTabValue: currentTabValue,
                 updateMessage: updateMessage,
+                density: density,
+                onDensityChange: onDensityChange,
                 onTabChange: handleTabChange,
-                onQueryChange: handleSearchQueryChange,
-                onSearch: handleSearch,
               } as ICustomGridToolbarProps,
             }}
             sx={sx}
