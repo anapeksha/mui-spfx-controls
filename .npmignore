@@ -18,6 +18,9 @@ lib/extensions
 #scripts
 *.ps1
 
+#serve
+fast-serve
+
 #build files
 tsconfig.*
 tslint.json
