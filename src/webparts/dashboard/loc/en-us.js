@@ -9,6 +9,7 @@ define([], function () {
     ResizableActionFieldLabel: 'Resizable',
     ExportActionFieldLabel: 'Enable Export',
     TabActionFieldLabel: 'Enable Tabs',
+    FilterActionFieldLabel: 'Enable Filter',
     SearchActionFieldLabel: 'Enable Search',
     DensityActionFieldLabel: 'Enable Density',
     ColumnActionFieldLabel: 'Enable Columns',

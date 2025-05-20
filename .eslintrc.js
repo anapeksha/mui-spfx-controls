@@ -310,7 +310,7 @@ module.exports = {
         '@typescript-eslint/ban-ts-comment': 'off',
         '@typescript-eslint/no-unused-vars': [
           'warn',
-          { argsIgnorePattern: '^_' },
+          { argsIgnorePattern: '^_', varsIgnorePattern: '^React$' },
         ],
         '@rushstack/hoist-jest-mock': 1,
       },

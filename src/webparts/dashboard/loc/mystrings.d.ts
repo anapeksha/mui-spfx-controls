@@ -7,6 +7,7 @@ declare interface IDashboardWebPartStrings {
   DensityActionFieldLabel: string;
   EditableActionFieldLabel: string;
   ResizableActionFieldLabel: string;
+  FilterActionFieldLabel: string;
   ExportActionFieldLabel: string;
   TabActionFieldLabel: string;
   TabValueFieldLabel: string;
