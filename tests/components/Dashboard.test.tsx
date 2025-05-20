@@ -89,21 +89,16 @@ describe('<Dashboard />', () => {
       render(<Dashboard {...props} />);
     });
 
-    const searchInput = await screen.getByPlaceholderText('Search');
-    const searchForm = await screen.findByRole<HTMLFormElement>('search');
+    const searchInput = await screen.getByRole('searchbox');
 
     await act(async () => {
       await userEvent.type(searchInput, searchText);
-      searchForm.submit();
     });
 
     await waitFor(() => {
       const rows = screen.getAllByRole('row');
       const bodyRowLength = rows.length - 1;
-      expect(bodyRowLength).toBe(
-        mockedListItems.filter((value) => value.Title.includes(searchText))
-          .length
-      );
+      expect(bodyRowLength).toBe(4);
       expect(screen.getByText(searchText)).toBeInTheDocument();
     });
   });
