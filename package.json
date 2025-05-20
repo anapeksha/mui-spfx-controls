@@ -9,6 +9,7 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
+    "serve": "fast-serve --reactProfiling --hotRefresh",
     "build": "gulp bundle",
     "clean": "gulp clean",
     "test": "jest --coverage"
@@ -50,7 +51,7 @@
     "@mui/material": "^7.1.0",
     "@mui/x-data-grid": "^8.3.1",
     "@mui/x-date-pickers": "^8.3.1",
-    "@mui/x-tree-view": "^8.3.1",
+    "@mui/x-tree-view": "^7.29.1",
     "@pnp/graph": "^4.13.0",
     "@pnp/sp": "^4.13.0",
     "@pnp/spfx-property-controls": "^3.13.0",
@@ -84,6 +85,7 @@
     "identity-obj-proxy": "^3.0.0",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
+    "spfx-fast-serve-helpers": "~1.21.0",
     "ts-jest": "^29.3.4",
     "typescript": "~5.3.3"
   }
