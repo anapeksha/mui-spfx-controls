@@ -1,5 +1,5 @@
 /** @type {import('jest').Config} */
-export default {
+module.exports = {
   testEnvironment: 'jsdom',
   maxWorkers: 4,
   silent: true,
