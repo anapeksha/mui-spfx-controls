@@ -28,6 +28,7 @@ export interface IDashboardWebPartProps {
   editable: boolean;
   resizable: boolean;
   exportAction: boolean;
+  filterAction: boolean;
   tabAction: true;
   searchAction: boolean;
   densityAction: boolean;
@@ -52,6 +53,7 @@ export default class DashboardWebPart extends BaseClientSideWebPart<IDashboardWe
       columnAction: this.properties.columnAction,
       exportAction: this.properties.exportAction,
       tabAction: this.properties.tabAction,
+      filterAction: this.properties.filterAction,
       densityAction: this.properties.densityAction,
       searchAction: this.properties.searchAction,
       height: this.properties.height,
@@ -120,6 +122,9 @@ export default class DashboardWebPart extends BaseClientSideWebPart<IDashboardWe
                 }),
                 PropertyPaneToggle('columnAction', {
                   label: strings.ColumnActionFieldLabel,
+                }),
+                PropertyPaneToggle('filterAction', {
+                  label: strings.FilterActionFieldLabel,
                 }),
                 PropertyPaneToggle('densityAction', {
                   label: strings.DensityActionFieldLabel,
