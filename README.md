@@ -1,9 +1,17 @@
 # SPFx Material-UI Component Library
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![NPM publish](https://github.com/anapeksha/mui-spfx-controls/actions/workflows/npm-publish.yml/badge.svg)](https://github.com/anapeksha/mui-spfx-controls/actions/workflows/npm-publish.yml)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/anapeksha/mui-spfx-controls/blob/main/License)
+[![Publish](https://github.com/anapeksha/mui-spfx-controls/actions/workflows/publish.yml/badge.svg)](https://github.com/anapeksha/mui-spfx-controls/actions/workflows/publish.yml)
+[![Test](https://github.com/anapeksha/mui-spfx-controls/actions/workflows/test.yml/badge.svg)](https://github.com/anapeksha/mui-spfx-controls/actions/workflows/test.yml)
+[![SonarCloud](https://sonarcloud.io/api/project_badges/measure?project=mui-spfx-controls&metric=alert_status)](https://sonarcloud.io/project?id=mui-spfx-controls)
 
 This is a SharePoint Framework (SPFx) component library built using Material-UI (MUI). It provides reusable React components for building modern and visually appealing user interfaces in SharePoint.
+
+## Deployment
+
+A .sppkg solution package is available in [Releases](https://github.com/anapeksha/mui-spfx-controls/releases). You can upload this package to your SharePoint App Catalog for direct deployment.
+
+This package includes built-in configurable web parts, making it easy to use without additional development.
 
 ## Installation
 
@@ -15,160 +23,91 @@ npm install mui-spfx-controls --save
 
 ## Usage
 
-Once installed, you can import and use the components in your SPFx web part or extension. Alternatively, prebuilt webparts can be used after deploying solution to site's AppCatalog For example:
+Once installed, you can import and use the components in your SPFx web part or extension. Alternatively, prebuilt webparts can be used after deploying solution to site's AppCatalog. For example:
 
-```JSX
+### Explorer
+
+![Explorer](https://github.com/anapeksha/mui-spfx-controls/blob/main/assets/explorer.png?raw=true)
+
+A document library explorer component for traversing SharePoint libraries.
+
+### Props
+
+- context (required): SP context
+- library (required): Required library to traverse
+- defaultDisplayType (optional): View type Grid or List
+- height (optional): Height of the container
+- onFileOpen (optional): Triggers when file is clicked
+
+```jsx
 import * as React from 'react';
-import * as ReactDom from "react-dom";
-import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
-import { PeoplePicker, IPeoplePickerProps } from 'mui-spfx-controls';
+import { Explorer } from 'mui-spfx-controls';
 
-export default class PeoplePickerWebPart extends BaseClientWebPart {
-  public render(): void {
-    const element: React.ReactElement<IPeoplePickerProps> = React.createElement(
-      PeoplePicker,
-      {
-        context: this.context,
-        label: "People",
-        size: "small",
-        disabled: false,
-        variant: "outlined",
-        tagVariant: "filled",
-        color: "primary",
-        tagColor: "secondary",
-      }
-    );
-    ReactDom.render(element, this.domElement);
-  }
-}
+const ExplorerWebPart = ({ context, library }) => {
+  return (
+    <Explorer
+      context={context}
+      library={library}
+      defaultDisplayType="grid"
+      height={750}
+    />
+  );
+};
+
+export default ExplorerWebPart;
 ```
 
-```JSX
-import * as React from 'react';
-import * as ReactDom from "react-dom";
-import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
-import { Dashboard, IDashboardProps } from 'mui-spfx-controls';
+### Code Editor
 
-export default class DashboardWebPart extends BaseClientWebPart {
-  public render(): void {
-    const element: React.ReactElement<IDashboardProps> = React.createElement(
-      Dashboard,
-      {
-        context: this.context,
-        list: "ListName",
-        fields: ["Field1", "Field2", "Field3", "Field4"],
-        columnAction: false,
-        exportAction: true,
-        tabAction: true,
-        densityAction: false,
-        searchAction: true,
-        tabValue: [{fieldToMatch: "Field1", stringToMatch: "Test", label: "Tab1"}],
-        height: 750,
-      }
-    );
-    ReactDom.render(element, this.domElement);
-  }
-}
+![Code Editor](https://github.com/anapeksha/mui-spfx-controls/blob/main/assets/code-editor.png?raw=true)
+
+A code editor component powered by Monaco Editor with MUI integration.
+
+#### Props
+
+- renderControls (optional): Render controls for the editor
+
+```jsx
+import * as React from 'react';
+import { CodeEditor } from 'mui-spfx-controls';
+
+const CodeEditorWebPart = () => {
+  return <CodeEditor renderControls={true} />;
+};
+
+export default CodeEditorWebPart;
 ```
 
-```JSX
-import * as React from 'react';
-import * as ReactDom from "react-dom";
-import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
-import { ListForm, IListFormProps } from 'mui-spfx-controls';
+---
 
-export default class ListFormWebPart extends BaseClientWebPart {
-  public render(): void {
-    const element: React.ReactElement<IListFormProps> = React.createElement(
-      ListForm,
-      {
-        context: this.context,
-        list: "ListName",
-        fields: ["Field1", "Field2", "Field3", "Field4"],
-        paperVariant: "elevation",
-        paperElevation: 2,
-        inputVariant: "outlined",
-        inputSize: "medium",
-        fieldSpacing: 2,
-      }
-    );
-    ReactDom.render(element, this.domElement);
-  }
-}
+### Site Breadcrumb
+
+![Site Breadcrumb](https://github.com/anapeksha/mui-spfx-controls/blob/main/assets/site-breadcrumb.png?raw=true)
+
+### Site Breadcrumb
+
+A breadcrumb component for nested multi level deep SharePoint sites.
+
+#### Props
+
+- context (required): SP context
+
+```jsx
+import * as React from 'react';
+import { SiteBreadcrumb } from 'mui-spfx-controls';
+
+const SiteBreadcrumbWebPart = ({ context }) => {
+  return <SiteBreadcrumb context={context} />;
+};
+
+export default SiteBreadcrumbWebPart;
 ```
 
-```JSX
-import * as React from 'react';
-import * as ReactDom from "react-dom";
-import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
-import { ListItemPicker, IListItemPickerProps } from 'mui-spfx-controls';
-
-export default class ListFormWebPart extends BaseClientWebPart {
-  public render(): void {
-    const element: React.ReactElement<IListFormProps> = React.createElement(
-      ListItemPicker,
-      {
-        context: this.context,
-        list: "ListName",
-        fields: ["Field1", "Field2", "Field3", "Field4"],
-        displayField: "Title",
-        label: "List Items",
-        searchSuggestionLimit: 10,
-        multiple: true,
-        variant: "outlined",
-        size: "medium",
-      }
-    );
-    ReactDom.render(element, this.domElement);
-  }
-}
-```
-
-```JSX
-import * as React from 'react';
-import * as ReactDom from "react-dom";
-import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
-import { Navigation, INavigationProps } from 'mui-spfx-controls';
-
-export default class NavigationWebPart extends BaseClientWebPart {
-  public render(): void {
-    const element: React.ReactElement<INavigationProps> = React.createElement(
-      Navigation,
-      {
-        items: [{id: 'iron_man', label: 'Iron Man', children: [{ id: 'iron_man_1', label: 'Iron Man (2008)', link: 'https://www.imdb.com/title/tt0371746/' }]}],
-      }
-    );
-    ReactDom.render(element, this.domElement);
-  }
-}
-```
-
-```JSX
-import * as React from 'react';
-import * as ReactDom from "react-dom";
-import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
-import { SearchBar, ISearchBarProps } from 'mui-spfx-controls';
-
-export default class SearchBarWebPart extends BaseClientWebPart {
-  public render(): void {
-    const element: React.ReactElement<ISearchBarProps> = React.createElement(
-      SearchBar,
-      {
-        context: this.context,
-        label: "Search",
-        size: "small",
-        scope: "https://acme.sharepoint.com/sites/include",
-        excludedScope: "https://acme.sharepoint.com/sites/exclude",
-      }
-    );
-    ReactDom.render(element, this.domElement);
-  }
-}
-```
-
-## Components
+---
 
 ### PeoplePicker
+
+![People Picker](https://github.com/anapeksha/mui-spfx-controls/blob/main/assets/people-picker.png?raw=true)
 
 A SharePoint people picker component with MUI library integration
 
@@ -186,9 +125,36 @@ A SharePoint people picker component with MUI library integration
 - tagColor (optional): Chip color, e.g., "default" or "secondary"
 - size (optional): Size of component
 - LoadingComponent (optional): A loading component
+- renderInput (optional): Render a custom input component
 - sx (optional): MUI's sx prop
 
+```jsx
+import * as React from 'react';
+import { PeoplePicker } from 'mui-spfx-controls';
+
+const PeoplePickerWebPart = ({ context }) => {
+  return (
+    <PeoplePicker
+      context={context}
+      label="People"
+      size="small"
+      disabled={false}
+      variant="outlined"
+      tagVariant="filled"
+      color="primary"
+      tagColor="secondary"
+    />
+  );
+};
+
+export default PeoplePickerWebPart;
+```
+
+---
+
 ### Dashboard
+
+![Dashboard](https://github.com/anapeksha/mui-spfx-controls/blob/main/assets/dashboard.png?raw=true)
 
 A dashboard component with MUI Data Grid
 
@@ -204,10 +170,44 @@ A dashboard component with MUI Data Grid
 - searchAction (optional): Enable/Disable search functionality
 - tabAction (optional): Enable/Disable tab feature
 - tabValue (required if tabAction is true): Array object for Tabs
+- editable (optional): Enable/Disable editing feature
+- resizable (optional): Enable/Disable column resizing
 - height (optional): Absolute or relative container height
 - sx (optional): MUI's sx prop
 
+```jsx
+import * as React from 'react';
+import { Dashboard } from 'mui-spfx-controls';
+
+const DashboardWebPart = ({ context }) => {
+  return (
+    <Dashboard
+      context={context}
+      list="ListName"
+      fields={['Field1', 'Field2', 'Field3', 'Field4']}
+      columnAction={false}
+      exportAction={true}
+      tabAction={true}
+      densityAction={false}
+      searchAction={true}
+      editable={true}
+      resizable={true}
+      tabValue={[
+        { fieldToMatch: 'Field1', stringToMatch: 'Test', label: 'Tab1' },
+      ]}
+      height={750}
+    />
+  );
+};
+
+export default DashboardWebPart;
+```
+
+---
+
 ### List Form
+
+![List Form](https://github.com/anapeksha/mui-spfx-controls/blob/main/assets/list-form.png?raw=true)
 
 A List Form component with MUI TextFields and Pickers to create form from lists
 
@@ -222,7 +222,33 @@ A List Form component with MUI TextFields and Pickers to create form from lists
 - inputSize (optional): Textfield size ('small', 'medium'),
 - fieldSpacing (optional): Spacing between fields,
 
+```jsx
+import * as React from 'react';
+import { ListForm } from 'mui-spfx-controls';
+
+const ListFormWebPart = ({ context }) => {
+  return (
+    <ListForm
+      context={context}
+      list="ListName"
+      fields={['Field1', 'Field2', 'Field3', 'Field4']}
+      paperVariant="elevation"
+      paperElevation={2}
+      inputVariant="outlined"
+      inputSize="medium"
+      fieldSpacing={2}
+    />
+  );
+};
+
+export default ListFormWebPart;
+```
+
+---
+
 ### List Item Picker
+
+![List Item Picker](https://github.com/anapeksha/mui-spfx-controls/blob/main/assets/list-item-picker.png?raw=true)
 
 A List Item Picker component with MUI integration
 
@@ -243,7 +269,34 @@ A List Item Picker component with MUI integration
 - color (optional): Button color, e.g., "primary" or "secondary"
 - sx (optional): MUI's sx prop
 
+```jsx
+import * as React from 'react';
+import { ListItemPicker } from 'mui-spfx-controls';
+
+const ListItemPickerWebPart = ({ context }) => {
+  return (
+    <ListItemPicker
+      context={context}
+      list="ListName"
+      fields={['Field1', 'Field2', 'Field3', 'Field4']}
+      displayField="Title"
+      label="List Items"
+      searchSuggestionLimit={10}
+      multiple={true}
+      variant="outlined"
+      size="medium"
+    />
+  );
+};
+
+export default ListItemPickerWebPart;
+```
+
+---
+
 ### Navigation
+
+![Navigation](https://github.com/anapeksha/mui-spfx-controls/blob/main/assets/navigation.png?raw=true)
 
 A Navigation component with MUI integration using MUI TreeView
 
@@ -255,7 +308,38 @@ A Navigation component with MUI integration using MUI TreeView
 - viewProps (optional): Props for Tree View
 - sx (optional): MUI's sx prop
 
-### SearchBar
+```jsx
+import * as React from 'react';
+import { Navigation } from 'mui-spfx-controls';
+
+const NavigationWebPart = () => {
+  return (
+    <Navigation
+      items={[
+        {
+          id: 'iron_man',
+          label: 'Iron Man',
+          children: [
+            {
+              id: 'iron_man_1',
+              label: 'Iron Man (2008)',
+              link: 'https://www.imdb.com/title/tt0371746/',
+            },
+          ],
+        },
+      ]}
+    />
+  );
+};
+
+export default NavigationWebPart;
+```
+
+---
+
+### Searchbar
+
+![Searchbar](https://github.com/anapeksha/mui-spfx-controls/blob/main/assets/searchbar.png?raw=true)
 
 A search bar component with MUI library integration
 
@@ -271,9 +355,30 @@ A search bar component with MUI library integration
 - excludedScope (optional): Search scope to exclude (URL)
 - sx (optional): MUI's sx prop
 
+```jsx
+import * as React from 'react';
+import { SearchBar } from 'mui-spfx-controls';
+
+const SearchBarWebPart = ({ context }) => {
+  return (
+    <SearchBar
+      context={context}
+      label="Search"
+      size="small"
+      scope="https://acme.sharepoint.com/sites/include"
+      excludedScope="https://acme.sharepoint.com/sites/exclude"
+    />
+  );
+};
+
+export default SearchBarWebPart;
+```
+
+---
+
 ## Development
 
-If you want to contribute to the library, you can follow these steps:
+Run the solution in development mode:
 
 Clone the repository:
 
@@ -294,8 +399,8 @@ Serve the solution
 npm run serve:fast
 ```
 
-Test the components/webparts in a sample SPFx project
+Test the components/webparts in the workbench
 
 ## License
 
-This project is licensed under the MIT License - see the `LICENSE.md` file for details.
+This project is licensed under the MIT License - see [LICENSE](https://github.com/anapeksha/mui-spfx-controls/blob/main/License) file for details.

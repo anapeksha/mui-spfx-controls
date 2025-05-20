@@ -10,12 +10,5 @@
     "**/lib-amd": true,
     "src/**/*.scss.ts": true
   },
-  "typescript.tsdk": ".\\node_modules\\typescript\\lib",
-  "editor.formatOnSave": true,
-  "editor.formatOnPaste": true,
-  "editor.codeActionsOnSave": {
-    "source.sortImports": "always",
-    "source.organizeImports": "always",
-    "source.addMissingImports.ts": "always"
-  }
+  "typescript.tsdk": ".\\node_modules\\typescript\\lib"
 }

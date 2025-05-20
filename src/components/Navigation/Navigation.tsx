@@ -1,69 +1,48 @@
 import * as React from 'react';
 
+import { SimpleTreeView, TreeItem, type TreeItemProps } from '@mui/x-tree-view';
 import {
-  KeyboardArrowDown,
-  KeyboardArrowRight,
-  Link,
-} from '@mui/icons-material';
-import { Box } from '@mui/material';
-import { TreeItem, TreeView, type TreeItemProps } from '@mui/x-tree-view';
-import { FC, ReactNode } from 'react';
-import type { INavigationModel } from './INavigationModel';
-import type { INavigationProps } from './INavigationProps';
+  forwardRef,
+  ForwardRefExoticComponent,
+  ReactNode,
+  RefObject,
+} from 'react';
+import type { INavigationModel, INavigationProps } from './INavigationProps';
 
 const renderTree = (
   item: INavigationModel,
-  props?: Omit<TreeItemProps, 'onClick' | 'nodeId' | 'label'>
+  target?: string,
+  props?: Omit<TreeItemProps, 'onClick' | 'itemId' | 'label' | 'key'>
 ): ReactNode => (
   <TreeItem
     {...props}
     key={item.id}
-    nodeId={item.id}
+    itemId={item.id}
     label={item.label}
-    onClick={() => window.open(new URL(item.link as string))}
+    onClick={
+      item.children ? undefined : () => window.open(new URL(item.link!), target)
+    }
   >
-    {item.children?.map((child) => renderTree(child, props))}
+    {item.children?.map((child) => renderTree(child, target, props))}
   </TreeItem>
 );
 
-export const Navigation: FC<INavigationProps> = ({
-  items,
-  itemProps,
-  viewProps,
-  sx,
-}) => {
-  return (
-    <Box
-      sx={
-        sx
-          ? sx
-          : (theme) => {
-              return {
-                minHeight: 352,
-                minWidth: 250,
-                border: `2px solid ${theme.palette.primary.main}`,
-                backgroundColor: theme.palette.grey[100],
-                borderRadius: theme.shape.borderRadius,
-              };
-            }
-      }
-    >
-      <TreeView
-        defaultCollapseIcon={
-          viewProps?.defaultCollapseIcon || (
-            <KeyboardArrowDown color="primary" />
-          )
-        }
-        defaultExpandIcon={
-          viewProps?.defaultExpandIcon || <KeyboardArrowRight color="primary" />
-        }
-        {...viewProps}
-        defaultEndIcon={viewProps?.defaultEndIcon || <Link color="primary" />}
-      >
-        {items.map((item) => renderTree(item, itemProps))}
-      </TreeView>
-    </Box>
+export const Navigation: ForwardRefExoticComponent<INavigationProps> =
+  forwardRef(
+    (
+      { items, itemProps, viewProps, linkTarget },
+      ref: RefObject<HTMLUListElement>
+    ) => {
+      return (
+        <SimpleTreeView
+          {...viewProps}
+          ref={ref}
+          data-testid="mui-spfx-navigation"
+        >
+          {items.map((item) => renderTree(item, linkTarget, itemProps))}
+        </SimpleTreeView>
+      );
+    }
   );
-};
 
 export default Navigation;

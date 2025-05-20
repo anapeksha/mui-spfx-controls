@@ -10,23 +10,28 @@ import {
 } from '@microsoft/sp-webpart-base';
 import { GridProps, PaperProps, TextFieldProps } from '@mui/material';
 import {
+  Elanguages,
   IColumnReturnProperty,
   PropertyFieldColumnPicker,
   PropertyFieldColumnPickerOrderBy,
   PropertyFieldListPicker,
   PropertyFieldListPickerOrderBy,
+  PropertyFieldMonacoEditor,
 } from '@pnp/spfx-property-controls';
 import * as strings from 'ListFormWebPartStrings';
 import * as React from 'react';
 import * as ReactDom from 'react-dom';
+import { validateUserFunction } from '../../utils/validateUserFunction';
 import ListFormDisplay from './ListFormDisplay';
 
 export interface IListFormWebPartProps {
   context: WebPartContext;
   list: string;
   fields: string[];
-  onSave: (formData: Record<string, any>) => void;
+  stringOnSave: string;
+  onSave: ((formData: Record<string, any>) => void) | null;
   onCancel: () => void;
+  label?: string;
   paperVariant?: PaperProps['variant'];
   paperElevation?: PaperProps['elevation'];
   inputVariant?: TextFieldProps['variant'];
@@ -35,23 +40,19 @@ export interface IListFormWebPartProps {
 }
 
 export default class ListFormWebPart extends BaseClientSideWebPart<IListFormWebPartProps> {
-  private handleSave(formData: Record<string, any>): void {
-    console.log(formData);
-  }
-  private handleCancel(): void {
-    return;
-  }
+  private handleCancel(): void {}
   public render(): void {
     const element: React.ReactElement = React.createElement(ListFormDisplay, {
       context: this.context,
       list: this.properties.list,
       fields: this.properties.fields,
+      label: this.properties.label,
       paperVariant: this.properties.paperVariant,
       paperElevation: this.properties.paperElevation,
       inputVariant: this.properties.inputVariant,
       inputSize: this.properties.inputSize,
       fieldSpacing: this.properties.fieldSpacing,
-      onSave: this.handleSave,
+      onSave: this.properties.onSave || ((formData) => console.log(formData)),
       onCancel: this.handleCancel,
     });
     ReactDom.render(element, this.domElement);
@@ -67,6 +68,11 @@ export default class ListFormWebPart extends BaseClientSideWebPart<IListFormWebP
 
   protected get dataVersion(): Version {
     return Version.parse('1.0');
+  }
+
+  private parseOnSaveFn(value: string): void {
+    const parsedFn = validateUserFunction(value);
+    this.properties.onSave = parsedFn;
   }
 
   protected getPropertyPaneConfiguration(): IPropertyPaneConfiguration {
@@ -120,6 +126,9 @@ export default class ListFormWebPart extends BaseClientSideWebPart<IListFormWebP
                     },
                   ],
                 }),
+                PropertyPaneTextField('label', {
+                  label: strings.LabelFieldLabel,
+                }),
                 PropertyPaneTextField('paperElevation', {
                   label: strings.PaperElevationFieldLabel,
                 }),
@@ -157,6 +166,14 @@ export default class ListFormWebPart extends BaseClientSideWebPart<IListFormWebP
                 }),
                 PropertyPaneTextField('fieldSpacing', {
                   label: strings.FieldSpacingFieldLabel,
+                }),
+                PropertyFieldMonacoEditor('stringOnSave', {
+                  key: 'editor-onsaveFn',
+                  value: this.properties.stringOnSave,
+                  language: Elanguages.javascript,
+                  showMiniMap: true,
+                  showLineNumbers: true,
+                  onChange: (newValue) => this.parseOnSaveFn(newValue),
                 }),
               ],
             },

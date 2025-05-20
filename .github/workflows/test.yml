@@ -1,0 +1,32 @@
+name: Test
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18.x'
+          cache: 'npm'
+      - name: Install dependencies
+        run: npm install
+      - name: Run gulp test
+        run: npm run test
+      - name: Run unit test
+        run: npm run test
+      - name: Push coverage to sonarqube
+        uses: SonarSource/sonarqube-scan-action@v5.1.0
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}

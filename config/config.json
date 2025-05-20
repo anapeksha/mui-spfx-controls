@@ -45,20 +45,47 @@
     "search-bar-web-part": {
       "components": [
         {
-          "entrypoint": "./lib/webparts/searchBar/SearchBarWebPart.js",
-          "manifest": "./src/webparts/searchBar/SearchBarWebPart.manifest.json"
+          "entrypoint": "./lib/webparts/searchbar/SearchbarWebPart.js",
+          "manifest": "./src/webparts/searchbar/SearchbarWebPart.manifest.json"
+        }
+      ]
+    },
+    "site-breadcrumb-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/siteBreadcrumb/SiteBreadcrumbWebPart.js",
+          "manifest": "./src/webparts/siteBreadcrumb/SiteBreadcrumbWebPart.manifest.json"
+        }
+      ]
+    },
+    "code-editor-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/codeEditor/CodeEditorWebPart.js",
+          "manifest": "./src/webparts/codeEditor/CodeEditorWebPart.manifest.json"
+        }
+      ]
+    },
+    "explorer-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/explorer/ExplorerWebPart.js",
+          "manifest": "./src/webparts/explorer/ExplorerWebPart.manifest.json"
         }
       ]
     }
   },
   "externals": {},
   "localizedResources": {
+    "PropertyControlStrings": "node_modules/@pnp/spfx-property-controls/lib/loc/{locale}.js",
     "PeoplePickerWebPartStrings": "lib/webparts/peoplePicker/loc/{locale}.js",
     "DashboardWebPartStrings": "lib/webparts/dashboard/loc/{locale}.js",
-    "PropertyControlStrings": "node_modules/@pnp/spfx-property-controls/lib/loc/{locale}.js",
     "ListFormWebPartStrings": "lib/webparts/listForm/loc/{locale}.js",
     "ListItemPickerWebPartStrings": "lib/webparts/listItemPicker/loc/{locale}.js",
     "SitePickerWebPartStrings": "lib/webparts/navigation/loc/{locale}.js",
-    "SearchBarWebPartStrings": "lib/webparts/searchBar/loc/{locale}.js"
+    "SearchBarWebPartStrings": "lib/webparts/searchbar/loc/{locale}.js",
+    "SiteBreadcrumbWebPartStrings": "lib/webparts/siteBreadcrumb/loc/{locale}.js",
+    "CodeEditorWebPartStrings": "lib/webparts/codeEditor/loc/{locale}.js",
+    "ExplorerWebPartStrings": "lib/webparts/explorer/loc/{locale}.js"
   }
 }

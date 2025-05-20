@@ -3,6 +3,7 @@ declare interface IListFormWebPartStrings {
   BasicGroupName: string;
   ListFieldLabel: string;
   ColumnsFieldLabel: string;
+  LabelFieldLabel: string;
   PaperVariantFieldLabel: string;
   PaperElevationFieldLabel: string;
   InputVariantFieldLabel: string;

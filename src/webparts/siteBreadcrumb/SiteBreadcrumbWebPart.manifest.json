@@ -1,0 +1,26 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx/client-side-web-part-manifest.schema.json",
+  "id": "63d98ab0-864f-404a-b712-002a5c356135",
+  "alias": "SiteBreadcrumbWebPart",
+  "componentType": "WebPart",
+  "version": "*",
+  "manifestVersion": 2,
+  "requiresCustomScript": false,
+  "supportedHosts": ["SharePointWebPart", "SharePointFullPage"],
+  "supportsThemeVariants": true,
+
+  "preconfiguredEntries": [
+    {
+      "groupId": "5c03119e-3074-46fd-976b-c60198311f70",
+      "group": { "default": "Advanced" },
+      "title": { "default": "MUI Site Breadcrumb" },
+      "description": {
+        "default": "Breadcrumbs to visualize the current location within a SharePoint site and navigate easily"
+      },
+      "officeFabricIconFontName": "Breadcrumb",
+      "properties": {
+        "separator": "/"
+      }
+    }
+  ]
+}

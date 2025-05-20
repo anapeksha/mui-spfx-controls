@@ -21,7 +21,7 @@
       },
       "officeFabricIconFontName": "ClipboardList",
       "properties": {
-        "paperVariant": "elevation",
+        "paperVariant": "outlined",
         "paperElevation": 2,
         "inputVariant": "outlined",
         "inputSize": "medium",

@@ -5,6 +5,7 @@ define([], function () {
     BasicGroupName: 'Properties',
     ListFieldLabel: 'Select a List',
     ColumnsFieldLabel: 'Select List Columns',
+    LabelFieldLabel: 'Select Form Label',
     PaperVariantFieldLabel: 'Select Form Paper background variant',
     PaperElevationFieldLabel: 'Select Paper elevation',
     InputVariantFieldLabel: 'Select Input variants',

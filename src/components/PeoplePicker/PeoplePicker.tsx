@@ -3,6 +3,7 @@ import {
   Autocomplete,
   Avatar,
   Chip,
+  CircularProgress,
   ListItem,
   Skeleton,
   Stack,
@@ -11,149 +12,183 @@ import {
 } from '@mui/material';
 import { Logger } from '@pnp/logging';
 import * as React from 'react';
-import { FC, useEffect, useState } from 'react';
-import { PeopleSearchService } from '../../services';
-import { handleDuplicates } from '../../utils';
-import type { IExtendedPeoplePickerEntity } from './IExtendedPeoplePicker';
-import type { IPeoplePickerProps } from './IPeoplePickerProps';
+import {
+  ForwardRefExoticComponent,
+  forwardRef,
+  useEffect,
+  useState,
+} from 'react';
+import { PeopleService } from '../../services/PeopleService';
+import { handleDuplicates } from '../../utils/handleDuplicates';
+import type {
+  IPeoplePickerEntity,
+  IPeoplePickerProps,
+} from './IPeoplePickerProps';
 
-export const PeoplePicker: FC<IPeoplePickerProps> = ({
-  context,
-  label,
-  required,
-  multiple,
-  defaultValue,
-  onSelectionChange,
-  searchSuggestionLimit,
-  disabled,
-  variant,
-  tagVariant,
-  color,
-  tagColor,
-  size,
-  LoadingComponent,
-  name,
-  fullWidth,
-  sx,
-}) => {
-  const searchService = new PeopleSearchService(context);
-  const [query, setQuery] = useState<string>('');
-  const [searchResults, setSearchResults] = useState<
-    IExtendedPeoplePickerEntity[]
-  >([]);
-  const [selectedUsers, setSelectedUsers] = useState<
-    IExtendedPeoplePickerEntity[] | IExtendedPeoplePickerEntity | null
-  >([]);
-  const [error, setError] = useState<Error | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
+export const PeoplePicker: ForwardRefExoticComponent<IPeoplePickerProps> =
+  forwardRef(
+    (
+      {
+        context,
+        label,
+        required,
+        searchSuggestionLimit,
+        variant,
+        tagVariant,
+        color,
+        tagColor,
+        principalSource,
+        principalType,
+        LoadingComponent,
+        name,
+        fullWidth,
+        onChange,
+        renderInput,
+        ...props
+      },
+      ref: React.RefObject<HTMLDivElement>
+    ) => {
+      const peopleService = new PeopleService(context);
+      const [query, setQuery] = useState<string>('');
+      const [selectedUsers, setSelectedUsers] = useState<
+        IPeoplePickerEntity[] | IPeoplePickerEntity | null
+      >([]);
+      const [searchResults, setSearchResults] = useState<IPeoplePickerEntity[]>(
+        []
+      );
+      const [error, setError] = useState<Error | null>(null);
+      const [loading, setLoading] = useState<boolean>(false);
 
-  useEffect(() => {
-    if (query !== '') {
-      setLoading(true);
-      searchService
-        .resolveUser(context, query, searchSuggestionLimit)
-        .then((response) => {
-          setSearchResults(response);
-          setLoading(false);
-        })
-        .catch((error) => {
-          Logger.error(error);
-          setError(error);
-        });
-    } else {
-      setSearchResults([]);
-    }
-  }, [query]);
-
-  return (
-    <Autocomplete
-      multiple={multiple}
-      options={searchResults}
-      defaultValue={defaultValue}
-      getOptionLabel={(option: IExtendedPeoplePickerEntity) =>
-        option.DisplayText
-      }
-      filterOptions={(options) =>
-        handleDuplicates(
-          options as IExtendedPeoplePickerEntity[],
-          selectedUsers as IExtendedPeoplePickerEntity[]
-        )
-      }
-      popupIcon={null}
-      size={size}
-      loading={loading}
-      disabled={disabled}
-      sx={sx}
-      fullWidth
-      loadingText={
-        LoadingComponent || (
-          <Stack direction="row" spacing={1}>
-            <Skeleton variant="circular" width={40} height={40} />
-            <Skeleton width="100%" height={40} />
-          </Stack>
-        )
-      }
-      onChange={(
-        event,
-        value: IExtendedPeoplePickerEntity | IExtendedPeoplePickerEntity[],
-        reason
-      ) => {
-        if (reason === 'selectOption' || reason === 'removeOption') {
-          setSelectedUsers(value);
-          setQuery('');
-          if (onSelectionChange) {
-            onSelectionChange(value as any);
+      useEffect(() => {
+        const searchUser = async (): Promise<void> => {
+          if (query !== '') {
+            try {
+              setLoading(true);
+              const searchedUsers = await peopleService.searchUser(
+                context,
+                query,
+                searchSuggestionLimit,
+                principalSource,
+                principalType
+              );
+              setSearchResults(searchedUsers);
+            } catch (error) {
+              Logger.error(error);
+              setError(error);
+            } finally {
+              setLoading(false);
+            }
+          } else {
+            setSearchResults([]);
           }
-        } else if (reason === 'clear') {
-          setSelectedUsers([]);
-          setQuery('');
-          if (onSelectionChange) {
-            onSelectionChange([] as any);
+        };
+
+        searchUser();
+      }, [query]);
+
+      return (
+        <Autocomplete
+          {...props}
+          ref={ref}
+          data-testid="mui-spfx-peoplepicker"
+          fullWidth={fullWidth ?? true}
+          options={searchResults}
+          getOptionLabel={(option: IPeoplePickerEntity) =>
+            option?.DisplayText || ''
           }
-        }
-      }}
-      onInputChange={(event, newValue) => setQuery(newValue)}
-      renderTags={(users, getTagProps) => {
-        return users.map((user: IExtendedPeoplePickerEntity, index) => (
-          <Chip
-            {...getTagProps({ index })}
-            key={index}
-            color={tagColor}
-            variant={tagVariant}
-            avatar={<Avatar src={user.Image} />}
-            label={user.DisplayText}
-          />
-        ));
-      }}
-      renderOption={(props, option: IExtendedPeoplePickerEntity) => (
-        <ListItem {...props}>
-          <Stack direction="row" spacing={1} alignItems="center">
-            {option.Image !== '' ? (
-              <Avatar sx={{ width: 40, height: 40 }} src={option.Image} />
-            ) : (
-              <Avatar sx={{ width: 40, height: 40 }}>
-                <AccountCircle />
-              </Avatar>
-            )}
-            <Typography variant="body2">{option.DisplayText}</Typography>
-          </Stack>
-        </ListItem>
-      )}
-      renderInput={(params) => (
-        <TextField
-          {...params}
-          name={name}
-          variant={variant}
-          required={required}
-          color={color}
-          error={error !== null ? true : false}
-          helperText={error ? 'Something went wrong' : ''}
-          label={label}
-          fullWidth={fullWidth || true}
+          filterOptions={(options) =>
+            handleDuplicates(
+              options as IPeoplePickerEntity[],
+              selectedUsers as IPeoplePickerEntity[]
+            )
+          }
+          popupIcon={null}
+          loading={loading}
+          loadingText={
+            LoadingComponent || (
+              <Stack direction="row" spacing={1}>
+                <Skeleton variant="circular" width={40} height={40} />
+                <Skeleton width="100%" height={40} />
+              </Stack>
+            )
+          }
+          onChange={(
+            event,
+            value: IPeoplePickerEntity | IPeoplePickerEntity[],
+            reason
+          ) => {
+            if (reason === 'selectOption' || reason === 'removeOption') {
+              setSelectedUsers(value);
+              setQuery('');
+              if (onChange) {
+                onChange(value as any);
+              }
+            } else if (reason === 'clear') {
+              setSelectedUsers([]);
+              setQuery('');
+              if (onChange) {
+                onChange([] as any);
+              }
+            }
+          }}
+          onInputChange={(event, newValue) => setQuery(newValue)}
+          renderTags={(users, getTagProps) => {
+            return users.map((user: IPeoplePickerEntity, index) => (
+              <Chip
+                {...getTagProps({ index })}
+                key={user.Key}
+                color={tagColor}
+                variant={tagVariant}
+                avatar={<Avatar src={user.Image} />}
+                label={user.DisplayText}
+              />
+            ));
+          }}
+          renderOption={(props, option: IPeoplePickerEntity) => (
+            <ListItem {...props}>
+              <Stack direction="row" spacing={1} alignItems="center">
+                {option.Image !== '' ? (
+                  <Avatar sx={{ width: 40, height: 40 }} src={option.Image} />
+                ) : (
+                  <Avatar sx={{ width: 40, height: 40 }}>
+                    <AccountCircle />
+                  </Avatar>
+                )}
+                <Typography variant="body2">{option.DisplayText}</Typography>
+              </Stack>
+            </ListItem>
+          )}
+          renderInput={
+            renderInput ||
+            ((params) => (
+              <TextField
+                {...params}
+                name={name}
+                variant={variant}
+                required={required}
+                color={color}
+                error={error !== null}
+                helperText={error ? 'Something went wrong' : ''}
+                label={label}
+                slotProps={{
+                  input: {
+                    ...params.InputProps,
+                    endAdornment: (
+                      <React.Fragment>
+                        {props.loading ? (
+                          <CircularProgress color="inherit" size={20} />
+                        ) : null}
+                        {params.InputProps.endAdornment}
+                      </React.Fragment>
+                    ),
+                  },
+                }}
+              />
+            ))
+          }
         />
-      )}
-    />
+      );
+    }
   );
-};
 
 export default PeoplePicker;

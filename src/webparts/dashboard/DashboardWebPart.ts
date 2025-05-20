@@ -18,13 +18,15 @@ import {
 import * as strings from 'DashboardWebPartStrings';
 import * as React from 'react';
 import * as ReactDom from 'react-dom';
-import { ITabSchema } from '../../components/Dashboard/ITabSchema';
+import { ITabSchema } from '../../components/Dashboard/IDashboardProps';
 import DashboardDisplay from './DashboardDisplay';
 
 export interface IDashboardWebPartProps {
   list: string;
   fields: string[];
   height: number;
+  editable: boolean;
+  resizable: boolean;
   exportAction: boolean;
   tabAction: true;
   searchAction: boolean;
@@ -39,12 +41,14 @@ export default class DashboardWebPart extends BaseClientSideWebPart<IDashboardWe
     try {
       parsedTabValue = JSON.parse(this.properties.tabValue);
     } catch (error) {
-      Logger.error(error);
+      Logger.error(error as Error);
     }
     const element = React.createElement(DashboardDisplay, {
       context: this.context,
       list: this.properties.list,
       fields: this.properties.fields,
+      editable: this.properties.editable,
+      resizable: this.properties.resizable,
       columnAction: this.properties.columnAction,
       exportAction: this.properties.exportAction,
       tabAction: this.properties.tabAction,
@@ -119,6 +123,12 @@ export default class DashboardWebPart extends BaseClientSideWebPart<IDashboardWe
                 }),
                 PropertyPaneToggle('densityAction', {
                   label: strings.DensityActionFieldLabel,
+                }),
+                PropertyPaneToggle('editable', {
+                  label: strings.EditableActionFieldLabel,
+                }),
+                PropertyPaneToggle('resizable', {
+                  label: strings.ResizableActionFieldLabel,
                 }),
                 PropertyFieldMonacoEditor('tabValue', {
                   key: 'tabValue-editor',

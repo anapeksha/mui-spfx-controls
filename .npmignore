@@ -4,8 +4,10 @@ config
 !lib/config
 release
 src
+tests
 temp
 sharepoint
+assets
 .vscode
 .github
 
@@ -13,14 +15,29 @@ sharepoint
 lib/webparts
 lib/extensions
 
-#build required files
-tsconfig.json
+#scripts
+*.ps1
+
+#build files
+tsconfig.*
+tslint.json
 gulpfile.mjs
 .yo-rc.json
 .eslintrc.js
+
+#sonarqube
+sonar-project.properties
+.sonarlint
 
 #logs
 *.log
 
 #Prettier
 .prettierrc
+
+#Test files
+jest.config.js
+
+#Markdowns
+*.md
+!README.md
