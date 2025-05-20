@@ -1,8 +1,12 @@
 # Changelog
 
+## **v0.8.3** (Feature & Improvement Release)
+
+- Updated MUI Data Grid and MUI Date Pickers v8.
+
 ## **v0.8.2** (Feature & Improvement Release)
 
-- Updated SPFx version to 1.21
+- Updated SPFx version to 1.21.
 
 ## **v0.8.1** (Feature & Improvement Release)
 
