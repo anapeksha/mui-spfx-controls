@@ -1,15 +1,14 @@
 {
   "@microsoft/generator-sharepoint": {
     "plusBeta": false,
-    "isCreatingSolution": false,
-    "nodeVersion": "18.20.7",
+    "isCreatingSolution": true,
+    "nodeVersion": "22.15.0",
     "sdksVersions": {
-      "@microsoft/microsoft-graph-client": "3.0.2",
-      "@microsoft/teams-js": "2.24.0"
+      "@microsoft/microsoft-graph-client": "3.0.2"
     },
-    "version": "1.18.2",
-    "libraryName": "mui-spfx-controls",
-    "libraryId": "56349e28-8743-4224-a1b1-bdfb85be224c",
+    "version": "1.21.1",
+    "libraryName": "mui-spfx0controls",
+    "libraryId": "63b1d75f-68c9-45c1-a8bf-67e6990bf00a",
     "environment": "spo",
     "packageManager": "npm",
     "solutionName": "mui-spfx-controls",
