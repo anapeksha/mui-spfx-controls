@@ -4,7 +4,6 @@ jest.mock('../../src/services/PeopleService', () =>
 
 import { act, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import React from 'react';
 import {
   IPeoplePickerProps,
   PeoplePicker,
@@ -63,7 +62,7 @@ describe('<PeoplePicker />', () => {
     const input = await screen.findByRole<HTMLInputElement>('combobox');
 
     await act(async () => {
-      await userEvent.type(input, userQuery);
+      userEvent.type(input, userQuery);
     });
 
     const user = await screen.findByText(mockUsers[0].DisplayText);
