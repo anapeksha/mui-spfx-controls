@@ -27,6 +27,7 @@ tslint.json
 gulpfile.mjs
 .yo-rc.json
 .eslintrc.js
+gulpfile.js
 
 #sonarqube
 sonar-project.properties
