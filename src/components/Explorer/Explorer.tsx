@@ -300,7 +300,6 @@ const Explorer: ForwardRefExoticComponent<IExplorerProps> = forwardRef(
               ServerRelativeUrl: library?.url as string,
             },
           ]);
-          console.log(items);
           setInitial(false);
         }
         setError(null);
