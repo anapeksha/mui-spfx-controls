@@ -15,7 +15,7 @@
   "editor.formatOnPaste": true,
   "editor.codeActionsOnSave": {
     "source.sortImports": "always",
-    "source.organizeImports": "never",
+    "source.organizeImports": "always",
     "source.addMissingImports.ts": "always"
   }
 }
