@@ -100,6 +100,7 @@ const Searchbar: ForwardRefExoticComponent<ISearchbarProps> = forwardRef(
 
     return (
       <Autocomplete
+        data-testid="mui-spfx-searchbar"
         ref={ref}
         open={open}
         role="searchbox"
