@@ -137,7 +137,6 @@ const CustomGridToolbar: FC<ICustomGridToolbarProps> = ({
                     display: 'flex',
                     gap: 1,
                     alignItems: 'center',
-                    p: '4px 5px',
                   }}
                 >
                   {updateMessage.type === 'success' ? (
