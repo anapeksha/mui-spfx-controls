@@ -3,7 +3,6 @@ jest.mock('../../src/services/LibraryService', () =>
 );
 
 import { act, render, screen } from '@testing-library/react';
-import React from 'react';
 import { Explorer, IExplorerProps } from '../../src/components/Explorer';
 import { mockedContext } from '../mocks/context';
 
