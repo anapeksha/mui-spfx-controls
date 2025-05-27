@@ -17,5 +17,10 @@
     "noEmit": true,
     "resolveJsonModule": true
   },
-  "include": ["tests/**/*.test.ts", "tests/**/*.test.tsx", "tests/setup.ts"]
+  "include": [
+    "tests/**/*.test.ts",
+    "tests/**/*.test.tsx",
+    "tests/setup.ts",
+    "tests/mocks/**/*.ts"
+  ]
 }
