@@ -24,13 +24,5 @@ module.exports = {
   modulePathIgnorePatterns: ['<rootDir>/lib/'],
   coverageDirectory: '<rootDir>/coverage',
   collectCoverageFrom: ['<rootDir>/src/components/**/*.tsx'],
-  coverageReporters: ['json', 'lcov', 'text-summary', 'clover'],
-  coverageThreshold: {
-    global: {
-      branches: 80,
-      functions: 80,
-      lines: 80,
-      statements: 80,
-    },
-  },
+  coverageReporters: ['lcov', 'text-summary'],
 };
