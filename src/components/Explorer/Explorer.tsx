@@ -457,7 +457,7 @@ const Explorer: ForwardRefExoticComponent<IExplorerProps> = forwardRef(
     const itemsDoNotHaveValue = !loading && items && items.length === 0;
 
     return (
-      <Paper ref={ref} variant="outlined">
+      <Paper data-testid="mui-spfx-explorer" ref={ref} variant="outlined">
         <Stack flexDirection="column" spacing={2} padding={2}>
           <Toolbar
             displayType={displayType}

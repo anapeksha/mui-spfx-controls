@@ -67,6 +67,7 @@ export const ListItemPicker: ForwardRefExoticComponent<IListItemPickerProps> =
 
       return (
         <Autocomplete
+          data-testid="mui-spfx-list-item-picker"
           ref={ref}
           multiple={multiple}
           disableCloseOnSelect={multiple}

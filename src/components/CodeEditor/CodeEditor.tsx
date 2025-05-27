@@ -97,6 +97,7 @@ const CodeEditor: ForwardRefExoticComponent<ICodeEditorProps> = forwardRef(
 
     return (
       <Paper
+        data-testid="mui-spfx-code-editor"
         variant="outlined"
         sx={{
           height: height ?? { xs: 300, md: 400, xl: 500 },
