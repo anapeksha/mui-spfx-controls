@@ -12,7 +12,7 @@
     "serve": "fast-serve --reactProfiling --hotRefresh",
     "build": "gulp bundle",
     "clean": "gulp clean",
-    "test": "jest"
+    "test": "jest --coverage"
   },
   "author": {
     "name": "Anapeksha Mukherjee",

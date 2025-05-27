@@ -1,6 +1,5 @@
 import { act, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import React from 'react';
 import { INavigationProps } from '../../src/components/Navigation/INavigationProps';
 import Navigation from '../../src/components/Navigation/Navigation';
 

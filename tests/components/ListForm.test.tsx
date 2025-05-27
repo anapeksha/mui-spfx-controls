@@ -3,7 +3,6 @@ jest.mock('../../src/services/ListService', () =>
 );
 
 import { act, render, screen } from '@testing-library/react';
-import React from 'react';
 import { IListFormProps, ListForm } from '../../src/components/ListForm';
 import { mockedContext } from '../mocks/context';
 
