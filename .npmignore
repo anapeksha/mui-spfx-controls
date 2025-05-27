@@ -24,7 +24,6 @@ fast-serve
 #build files
 tsconfig.*
 tslint.json
-gulpfile.mjs
 .yo-rc.json
 .eslintrc.js
 gulpfile.js
