@@ -114,7 +114,7 @@ const CodeEditor: ForwardRefExoticComponent<ICodeEditorProps> = forwardRef(
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
             <Box sx={{ width: 150 }}>
               <TextField
-                id="code-editor-language"
+                data-testid="code-editor-language"
                 value={language}
                 label="Language"
                 fullWidth
@@ -133,7 +133,7 @@ const CodeEditor: ForwardRefExoticComponent<ICodeEditorProps> = forwardRef(
             </Box>
             <Box sx={{ width: 150 }}>
               <TextField
-                id="code-editor-theme"
+                data-testid="code-editor-theme"
                 value={theme}
                 label="Theme"
                 fullWidth
@@ -152,7 +152,7 @@ const CodeEditor: ForwardRefExoticComponent<ICodeEditorProps> = forwardRef(
             </Box>
             <Box sx={{ width: 150 }}>
               <TextField
-                id="code-editor-font-size"
+                data-testid="code-editor-font-size"
                 value={fontSize}
                 type="number"
                 label="Font Size"
@@ -165,7 +165,7 @@ const CodeEditor: ForwardRefExoticComponent<ICodeEditorProps> = forwardRef(
             </Box>
             <Box sx={{ width: 150 }}>
               <TextField
-                id="code-editor-tab-size"
+                data-testid="code-editor-tab-size"
                 value={tabSize}
                 type="number"
                 label="Tab Size"
@@ -179,6 +179,7 @@ const CodeEditor: ForwardRefExoticComponent<ICodeEditorProps> = forwardRef(
             <FormControlLabel
               control={
                 <Switch
+                  data-testid="code-editor-word-wrap"
                   checked={wordWrap === 'on'}
                   onChange={(event) =>
                     setWordWrap(event.target.checked ? 'on' : 'off')
@@ -190,6 +191,7 @@ const CodeEditor: ForwardRefExoticComponent<ICodeEditorProps> = forwardRef(
             <FormControlLabel
               control={
                 <Switch
+                  data-testid="code-editor-line-numbers"
                   checked={lineNumbers === 'on'}
                   onChange={(event) =>
                     setLineNumbers(event.target.checked ? 'on' : 'off')
@@ -201,6 +203,7 @@ const CodeEditor: ForwardRefExoticComponent<ICodeEditorProps> = forwardRef(
             <FormControlLabel
               control={
                 <Switch
+                  data-testid="code-editor-minimap"
                   checked={minimap.enabled}
                   onChange={(event) =>
                     setMinimap({ ...minimap, enabled: event.target.checked })
