@@ -1,46 +1,22 @@
-#directories
-dist
-config
-!lib/config
-release
-src
-tests
-temp
-sharepoint
-assets
-.vscode
-.github
+# Ignore everything by default
+**
 
-#webparts and extensions
-lib/webparts
-lib/extensions
+# Use negative patterns to bring back the specific things we want to publish
+!/bin/**
+!/dist/**
+!/EULA/**
+!/lib/**
+!ThirdPartyNotice.txt
 
-#scripts
-*.ps1
+# Ignore certain files in the above folders
+/dist/*.stats.*
+/dist/**/*.js.map
+/lib/**/*.js.map
+/lib/**/test/**
 
-#serve
-fast-serve
-
-#build files
-tsconfig.*
-tslint.json
-.yo-rc.json
-.eslintrc.js
-gulpfile.js
-
-#sonarqube
-sonar-project.properties
-.sonarlint
-
-#logs
-*.log
-
-#Prettier
-.prettierrc
-
-#Test files
-jest.config.js
-
-#Markdowns
-*.md
-!README.md
+# NOTE: These don't need to be specified, because NPM includes them automatically.
+#
+# package.json
+# README (and its variants)
+# CHANGELOG (and its variants)
+# LICENSE / LICENCE

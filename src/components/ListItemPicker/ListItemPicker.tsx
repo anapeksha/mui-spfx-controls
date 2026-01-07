@@ -2,6 +2,7 @@ import { Autocomplete, Skeleton, TextField } from '@mui/material';
 import { Logger } from '@pnp/logging';
 import debounce from 'lodash/debounce';
 import React, {
+  ForwardedRef,
   forwardRef,
   ForwardRefExoticComponent,
   RefObject,
@@ -34,7 +35,7 @@ export const ListItemPicker: ForwardRefExoticComponent<IListItemPickerProps> =
         sx,
         onChange,
       },
-      ref: RefObject<HTMLDivElement>
+      ref: ForwardedRef<HTMLDivElement>
     ) => {
       const [listItems, setListItems] = useState<any[]>([]);
       const [query, setQuery] = useState('');
@@ -55,8 +56,8 @@ export const ListItemPicker: ForwardRefExoticComponent<IListItemPickerProps> =
             );
             setListItems(itemResponse);
           } catch (error) {
-            Logger.error(error);
-            setError(error);
+            Logger.error(error as Error);
+            setError(error as Error);
           } finally {
             setLoading(false);
           }

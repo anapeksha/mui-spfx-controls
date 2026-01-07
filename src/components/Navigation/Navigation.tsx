@@ -31,7 +31,7 @@ export const Navigation: ForwardRefExoticComponent<INavigationProps> =
   forwardRef(
     (
       { items, itemProps, viewProps, linkTarget },
-      ref: RefObject<HTMLUListElement>
+      ref: React.ForwardedRef<HTMLUListElement>
     ) => {
       return (
         <SimpleTreeView

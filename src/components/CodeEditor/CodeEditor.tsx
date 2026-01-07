@@ -8,9 +8,9 @@ import {
   TextField,
 } from '@mui/material';
 import React, {
+  ForwardedRef,
   forwardRef,
   ForwardRefExoticComponent,
-  RefObject,
   useMemo,
   useState,
 } from 'react';
@@ -67,7 +67,7 @@ const themes: Array<IThemeArray> = [
 const CodeEditor: ForwardRefExoticComponent<ICodeEditorProps> = forwardRef(
   (
     { height, value, renderControls = true, onChange, ...props },
-    ref: RefObject<HTMLDivElement>
+    ref: ForwardedRef<HTMLDivElement>
   ) => {
     const [language, setLanguage] = useState<Languages>(Languages.javascript);
     const [theme, setTheme] = useState<Theme>(Theme.vs);

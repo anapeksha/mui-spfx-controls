@@ -12,6 +12,7 @@ import { Logger } from '@pnp/logging';
 import { ISearchResult } from '@pnp/sp/search';
 import debounce from 'lodash/debounce';
 import React, {
+  ForwardedRef,
   forwardRef,
   ForwardRefExoticComponent,
   Fragment,
@@ -36,7 +37,7 @@ const Searchbar: ForwardRefExoticComponent<ISearchbarProps> = forwardRef(
       context,
       onSearchResultSelect,
     },
-    ref: RefObject<HTMLDivElement>
+    ref: ForwardedRef<HTMLDivElement>
   ) => {
     const [options, setOptions] = useState<ISearchResult[]>([]);
     const [loading, setLoading] = useState(false);

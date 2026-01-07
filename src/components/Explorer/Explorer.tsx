@@ -42,6 +42,7 @@ import advancedFormat from 'dayjs/plugin/advancedFormat';
 import React, {
   ChangeEventHandler,
   FC,
+  ForwardedRef,
   forwardRef,
   ForwardRefExoticComponent,
   MouseEventHandler,
@@ -50,7 +51,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { DefaultExtensionType, defaultStyles, FileIcon } from 'react-file-icon';
+import { type DefaultExtensionType, defaultStyles, FileIcon } from 'react-file-icon';
 import { LibraryService, Permission } from '../../services/LibraryService';
 import { IBreadcrumbData, IExplorerProps } from './IExplorerProps';
 
@@ -261,7 +262,7 @@ const NewFolder: FC<INewFolderProps> = ({
 const Explorer: ForwardRefExoticComponent<IExplorerProps> = forwardRef(
   (
     { context, library, defaultDisplayType, height, onFileOpen },
-    ref: RefObject<HTMLDivElement>
+    ref: ForwardedRef<HTMLDivElement>
   ) => {
     const [displayType, setDisplayType] = useState<DisplayType>(
       defaultDisplayType ?? 'grid'
@@ -304,9 +305,9 @@ const Explorer: ForwardRefExoticComponent<IExplorerProps> = forwardRef(
         }
         setError(null);
         handleSelectionCancel();
-      } catch (err) {
-        setError(err.message);
-        Logger.error(err);
+      } catch (error) {
+        setError((error as Error).message);
+        Logger.error(error as Error);
       } finally {
         setLoading(false);
       }
@@ -319,9 +320,9 @@ const Explorer: ForwardRefExoticComponent<IExplorerProps> = forwardRef(
           library.id
         );
         setPermissions(tempPermissions);
-      } catch (err) {
-        setError(err.message);
-        Logger.error(err);
+      } catch (error) {
+        setError((error as Error).message);
+        Logger.error(error as Error);
       } finally {
         setLoading(false);
       }
@@ -336,9 +337,9 @@ const Explorer: ForwardRefExoticComponent<IExplorerProps> = forwardRef(
           createNewFolder.value
         );
         handleSelectionCancel();
-      } catch (err) {
-        setError(err.message);
-        Logger.error(err);
+      } catch (error) {
+        setError((error as Error).message);
+        Logger.error(error as Error);
       } finally {
         setLoading(false);
       }
@@ -353,9 +354,9 @@ const Explorer: ForwardRefExoticComponent<IExplorerProps> = forwardRef(
         setTimeout(() => {
           setMessage(null);
         }, MESSAGE_TIMEOUT);
-      } catch (err) {
-        setError(err.message);
-        Logger.error(err);
+      } catch (error) {
+        setError((error as Error).message);
+        Logger.error(error as Error);
       } finally {
         setLoading(false);
       }

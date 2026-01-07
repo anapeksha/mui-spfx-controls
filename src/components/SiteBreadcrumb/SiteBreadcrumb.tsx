@@ -2,6 +2,7 @@ import { Home } from '@mui/icons-material';
 import { Breadcrumbs, Link, Typography } from '@mui/material';
 import { Logger } from '@pnp/logging';
 import React, {
+  ForwardedRef,
   forwardRef,
   ForwardRefExoticComponent,
   RefObject,
@@ -21,7 +22,7 @@ const SiteBreadcrumb: ForwardRefExoticComponent<ISiteBreadcrumbProps> =
         renderLastItem,
         ...breadcrumbProps
       },
-      ref: RefObject<HTMLElement>
+      ref: ForwardedRef<HTMLElement>
     ) => {
       const siteService = new SiteService(context);
       const [breadcrumbData, setBreadcrumbData] = useState<
@@ -35,7 +36,7 @@ const SiteBreadcrumb: ForwardRefExoticComponent<ISiteBreadcrumbProps> =
               await siteService.getBreadcrumbData();
             setBreadcrumbData(generatedBreadcrumbData);
           } catch (error) {
-            Logger.error(error);
+            Logger.error(error as Error);
           }
         };
 

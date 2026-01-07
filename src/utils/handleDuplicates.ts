@@ -1,4 +1,4 @@
-import { IPeoplePickerEntity } from '../components/PeoplePicker/IPeoplePickerProps';
+import { IPeoplePickerEntity } from "../components/PeoplePicker/IPeoplePickerProps";
 
 /**
  * Checks if a given user exists within a list of users.
@@ -9,7 +9,7 @@ import { IPeoplePickerEntity } from '../components/PeoplePicker/IPeoplePickerPro
  */
 const listContainsPeople = (
   user: IPeoplePickerEntity,
-  users: IPeoplePickerEntity[]
+  users: IPeoplePickerEntity[],
 ): IPeoplePickerEntity[] | boolean => {
   if (!users || !users.length || users.length === 0) {
     return false;
@@ -27,9 +27,9 @@ const listContainsPeople = (
  */
 export const handleDuplicates = (
   searchResults: IPeoplePickerEntity[],
-  currentValue: IPeoplePickerEntity[]
+  currentValue: IPeoplePickerEntity[],
 ): IPeoplePickerEntity[] => {
   return searchResults.filter(
-    (result) => !listContainsPeople(result, currentValue)
+    (result) => !listContainsPeople(result, currentValue),
   );
 };

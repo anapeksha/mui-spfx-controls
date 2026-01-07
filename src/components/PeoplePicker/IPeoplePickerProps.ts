@@ -1,13 +1,13 @@
-import { WebPartContext } from '@microsoft/sp-webpart-base';
+import { WebPartContext } from "@microsoft/sp-webpart-base";
 import {
   AutocompleteProps,
   ChipOwnProps,
   TextFieldProps,
   TextFieldVariants,
-} from '@mui/material';
-import { PrincipalSource, PrincipalType } from '@pnp/sp';
-import { IPeoplePickerEntity as IBasePeoplePickerEntity } from '@pnp/sp/profiles';
-import { ReactNode } from 'react';
+} from "@mui/material";
+import { PrincipalSource, PrincipalType } from "@pnp/sp";
+import { IPeoplePickerEntity as IBasePeoplePickerEntity } from "@pnp/sp/profiles";
+import { ReactNode } from "react";
 
 /**
  * Base properties for the Autocomplete component in PeoplePicker.
@@ -54,21 +54,21 @@ interface IPeoplePickerBaseProps {
   /** Variant of the text field */
   variant?: TextFieldVariants;
   /** Custom render function for the input field */
-  renderInput?: AutocompleteBaseProps['renderInput'];
+  renderInput?: AutocompleteBaseProps["renderInput"];
   /** Variant of the selected tag */
-  tagVariant?: ChipOwnProps['variant'];
+  tagVariant?: ChipOwnProps["variant"];
   /** Color of the text field */
-  color?: TextFieldProps['color'];
+  color?: TextFieldProps["color"];
   /** Color of the selected tag */
-  tagColor?: ChipOwnProps['color'];
+  tagColor?: ChipOwnProps["color"];
   /** Size of the input field */
-  size?: AutocompleteBaseProps['size'];
+  size?: AutocompleteBaseProps["size"];
   /** MUI system styling (sx prop) */
-  sx?: AutocompleteBaseProps['sx'];
+  sx?: AutocompleteBaseProps["sx"];
   /** Name attribute for the input field */
-  name?: TextFieldProps['name'];
+  name?: TextFieldProps["name"];
   /** Whether the input field takes the full width */
-  fullWidth?: TextFieldProps['fullWidth'];
+  fullWidth?: TextFieldProps["fullWidth"];
   /** Custom loading component */
   LoadingComponent?: ReactNode;
 }
