@@ -1,12 +1,18 @@
 {
   "name": "mui-spfx-controls",
-  "version": "0.0.1",
+  "description": "SPFx component library built with MUI",
+  "version": "0.8.4",
+  "license": "MIT",
   "engines": {
     "node": ">=22.14.0 < 23.0.0"
   },
   "main": "lib-commonjs/index.js",
   "module": "lib/index.js",
   "types": "lib/index.d.ts",
+  "files": [
+    "lib",
+    "lib-commonjs"
+  ],
   "scripts": {
     "build": "heft test --clean --production && heft package-solution --production",
     "start": "heft start --clean",
