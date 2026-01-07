@@ -42,7 +42,7 @@ export const ListForm: React.ForwardRefExoticComponent<IListFormProps> =
         onSave,
         onCancel,
       },
-      ref: React.RefObject<HTMLDivElement>
+      ref: React.ForwardedRef<HTMLDivElement>
     ) => {
       const listService = new ListService(context, list);
       const [filteredFields, setFilteredFields] = useState<IFieldInfo[]>([]);
@@ -57,7 +57,7 @@ export const ListForm: React.ForwardRefExoticComponent<IListFormProps> =
               const response = await listService.getListFields(fields);
               setFilteredFields(response);
             } catch (error) {
-              Logger.error(error);
+              Logger.error(error as Error);
             } finally {
               setLoading(false);
             }
@@ -232,10 +232,10 @@ export const ListForm: React.ForwardRefExoticComponent<IListFormProps> =
                       label={field.Title}
                       name={field.InternalName}
                       disabled={field.ReadOnlyField}
-                      onChange={(value: dayjs.Dayjs) =>
+                      onChange={(value) =>
                         setFormData({
                           ...formData,
-                          [field.InternalName]: dayjs(value).toISOString(),
+                          [field.InternalName]: value? value.toISOString() : "",
                         })
                       }
                       slotProps={{

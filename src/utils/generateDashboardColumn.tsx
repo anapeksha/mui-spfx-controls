@@ -93,11 +93,15 @@ export const generateDashboardColumn = (
               api={params.api}
               context={context}
               query={params.value.EMail}
-              onChange={(selectedUser: IPeoplePickerEntity) => {
+              onChange={(selectedUser) => {
                 params.api.setEditCellValue({
                   id: params.id,
                   field: params.field,
-                  value: {
+                  value: Array.isArray(selectedUser)?selectedUser.map(user=>({
+                    Id: user.EntityData.SPUserID,
+                    EMail: user.EntityData.Email,
+                    Title: user.DisplayText,
+                  })) : {
                     Id: selectedUser.EntityData.SPUserID,
                     EMail: selectedUser.EntityData.Email,
                     Title: selectedUser.DisplayText,

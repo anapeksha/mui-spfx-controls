@@ -79,19 +79,21 @@ const StyledQuickFilter = styled(QuickFilter)({
   alignItems: 'center',
 });
 
-const StyledToolbarButton = styled(ToolbarButton)<{ ownerState: OwnerState }>(
-  ({ theme, ownerState }) => ({
-    gridArea: '1 / 1',
-    width: 'min-content',
-    height: 'min-content',
-    zIndex: 1,
-    opacity: ownerState.expanded ? 0 : 1,
-    pointerEvents: ownerState.expanded ? 'none' : 'auto',
-    transition: theme.transitions.create(['opacity']),
-  })
-);
+const StyledToolbarButton = styled(Box, {
+  shouldForwardProp: (prop) => prop !== 'ownerState',
+})<{ ownerState: OwnerState }>(({ theme, ownerState }) => ({
+  gridArea: '1 / 1',
+  width: 'min-content',
+  height: 'min-content',
+  zIndex: 1,
+  opacity: ownerState.expanded ? 0 : 1,
+  pointerEvents: ownerState.expanded ? 'none' : 'auto',
+  transition: theme.transitions.create(['opacity']),
+}));
 
-const StyledTextField = styled(TextField)<{
+const StyledTextField = styled(TextField, {
+  shouldForwardProp: (prop) => prop !== 'ownerState',
+})<{
   ownerState: OwnerState;
 }>(({ theme, ownerState }) => ({
   gridArea: '1 / 1',
@@ -375,7 +377,7 @@ const Dashboard: React.ForwardRefExoticComponent<IDashboardProps> =
         height,
         sx,
       },
-      ref: React.RefObject<HTMLDivElement>
+      ref: React.ForwardedRef<HTMLDivElement>
     ) => {
       const listService = new ListService(context, list);
       const [columns, setColumns] = useState<GridColDef[]>([]);
@@ -493,7 +495,7 @@ const Dashboard: React.ForwardRefExoticComponent<IDashboardProps> =
           setUpdateMessage({ text: 'Changes saved!', type: 'success' });
           return newRow;
         } catch (error) {
-          Logger.error(error);
+          Logger.error(error as Error);
           setUpdateMessage({ text: 'Error saving!', type: 'error' });
           return oldRow;
         } finally {
@@ -528,7 +530,7 @@ const Dashboard: React.ForwardRefExoticComponent<IDashboardProps> =
                 },
               },
             }}
-            slots={{ toolbar: CustomGridToolbar }}
+            slots={{ toolbar: CustomGridToolbar as any }}
             showToolbar
             slotProps={{
               toolbar: {

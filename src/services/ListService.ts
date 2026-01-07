@@ -182,7 +182,7 @@ class ListService {
         const user = await this.sp.web.siteUsers.getByEmail(email)();
         return user.Id;
       } catch (error) {
-        Logger.error(error);
+        Logger.error(error as Error);
         return null;
       }
     };
