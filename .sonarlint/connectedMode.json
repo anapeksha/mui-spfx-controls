@@ -1,5 +1,5 @@
 {
-  "sonarCloudOrganization": "anapeksha",
-  "projectKey": "mui-spfx-controls",
-  "region": "EU"
+    "sonarCloudOrganization": "anapeksha",
+    "projectKey": "mui-spfx-controls",
+    "region": "EU"
 }
