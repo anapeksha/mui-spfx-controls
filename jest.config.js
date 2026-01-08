@@ -10,7 +10,9 @@ module.exports = {
     ],
   },
   setupFilesAfterEnv: ['<rootDir>/tests/setup.ts'],
-  testRegex: '/tests/.*\\.test.(ts?|tsx?)$',
+  testRegex: String.raw({
+    raw: '/tests/.*.test.(ts?|tsx?)$'
+  }),
   moduleFileExtensions: ['ts', 'tsx', 'js', 'json'],
   moduleNameMapper: {
     '@microsoft/sp-webpart-base': 'identity-obj-proxy',
@@ -23,6 +25,6 @@ module.exports = {
   },
   modulePathIgnorePatterns: ['<rootDir>/lib/'],
   coverageDirectory: '<rootDir>/coverage',
-  collectCoverageFrom: ['<rootDir>/src/components/**/*.tsx'],
+  collectCoverageFrom: ['<rootDir>/src/**/*.tsx'],
   coverageReporters: ['lcov', 'text-summary'],
 };
