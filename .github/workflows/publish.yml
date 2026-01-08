@@ -4,13 +4,14 @@ on:
     types: [published]
   workflow_dispatch:
 
+permissions:
+      contents: read
+      id-token: write
+
 jobs:
   publish:
     name: Publish
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      id-token: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
