@@ -1,6 +1,2 @@
-import Explorer from './Explorer';
-import { IExplorerProps } from './IExplorerProps';
-
-export default Explorer;
-
-export { Explorer, type IExplorerProps };
+export { default as Explorer } from './Explorer';
+export type { IExplorerProps } from './IExplorerProps';

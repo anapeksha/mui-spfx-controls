@@ -1,6 +1,2 @@
-import { ISiteBreadcrumbProps } from './ISiteBreadcrumbProps';
-import SiteBreadcrumb from './SiteBreadcrumb';
-
-export default SiteBreadcrumb;
-
-export { SiteBreadcrumb, type ISiteBreadcrumbProps };
+export type { ISiteBreadcrumbProps } from './ISiteBreadcrumbProps';
+export { default as SiteBreadcrumb } from './SiteBreadcrumb';

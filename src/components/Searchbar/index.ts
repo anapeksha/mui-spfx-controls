@@ -1,6 +1,2 @@
-import { ISearchbarProps } from './ISearchbarProps';
-import Searchbar from './Searchbar';
-
-export default Searchbar;
-
-export { Searchbar, type ISearchbarProps };
+export type { ISearchbarProps } from './ISearchbarProps';
+export { default as Searchbar } from './Searchbar';

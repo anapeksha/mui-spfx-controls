@@ -1,6 +1,2 @@
-import { IListItemPickerProps } from './IListItemPickerProps';
-import ListItemPicker from './ListItemPicker';
-
-export default ListItemPicker;
-
-export { ListItemPicker, type IListItemPickerProps };
+export type { IListItemPickerProps } from './IListItemPickerProps';
+export { default as ListItemPicker } from './ListItemPicker';
