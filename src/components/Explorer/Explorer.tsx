@@ -475,7 +475,19 @@ const Explorer: ForwardRefExoticComponent<IExplorerProps> = forwardRef(
             <Box sx={{ width: '100%' }}>
               <Breadcrumbs>
                 {breadcrumbData.map((item, index) =>
-                  index !== breadcrumbData.length - 1 ? (
+                  index === breadcrumbData.length - 1 ? (
+                    
+                    <Typography
+                      key={`${item.Name}-${index}`}
+                      color="textDisabled"
+                      sx={{ display: 'flex', alignItems: 'center' }}
+                    >
+                      {index === 0 ? (
+                        <Home fontSize="inherit" sx={{ mr: 0.5 }} />
+                      ) : null}
+                      {item.Name}
+                    </Typography>
+                  ) : (
                     <Link
                       href="#"
                       underline="hover"
@@ -488,17 +500,6 @@ const Explorer: ForwardRefExoticComponent<IExplorerProps> = forwardRef(
                       ) : null}
                       {item.Name}
                     </Link>
-                  ) : (
-                    <Typography
-                      key={`${item.Name}-${index}`}
-                      color="textDisabled"
-                      sx={{ display: 'flex', alignItems: 'center' }}
-                    >
-                      {index === 0 ? (
-                        <Home fontSize="inherit" sx={{ mr: 0.5 }} />
-                      ) : null}
-                      {item.Name}
-                    </Typography>
                   )
                 )}
               </Breadcrumbs>
@@ -583,8 +584,10 @@ const Explorer: ForwardRefExoticComponent<IExplorerProps> = forwardRef(
                   }
 
                   const renderIcon = (): JSX.Element => {
-                    return item.Extension !== 'unknown' ? (
-                      <SvgIcon fontSize="large">
+                    return item.Extension === 'unknown' ? (
+                     <InsertDriveFile color="primary" />
+                    ) : (
+                       <SvgIcon fontSize="large">
                         <FileIcon
                           extension={item.Extension}
                           type="vector"
@@ -593,8 +596,6 @@ const Explorer: ForwardRefExoticComponent<IExplorerProps> = forwardRef(
                           ]}
                         />
                       </SvgIcon>
-                    ) : (
-                      <InsertDriveFile color="primary" />
                     );
                   };
 

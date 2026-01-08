@@ -41,15 +41,6 @@ describe('<CodeEditor />', () => {
     const tabSizeInput = screen.getByTestId(
       'code-editor-tab-size'
     ) as HTMLInputElement;
-    // const wordWrapToggle = screen.getByTestId(
-    //   'code-editor-word-wrap'
-    // ) as HTMLInputElement;
-    // const lineNumbersToggle = screen.getByTestId(
-    //   'code-editor-line-numbers'
-    // ) as HTMLInputElement;
-    // const minimapToggle = screen.getByTestId(
-    //   'code-editor-minimap'
-    // ) as HTMLInputElement;
 
     // Change events
     await act(async () => {
@@ -68,16 +59,5 @@ describe('<CodeEditor />', () => {
     expect(themeSelector.value).toBe('vs-dark');
     expect(fontSizeInput.value).toBe('18');
     expect(tabSizeInput.value).toBe('4');
-
-    // Toggle events
-    // await act(async () => {
-    //   fireEvent.click(wordWrapToggle);
-    //   fireEvent.click(lineNumbersToggle);
-    //   fireEvent.click(minimapToggle);
-    // });
-
-    // expect(wordWrapToggle.checked).toBe(true);
-    // expect(lineNumbersToggle.checked).toBe(true);
-    // expect(minimapToggle.checked).toBe(true);
   });
 });
