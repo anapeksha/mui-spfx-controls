@@ -26,7 +26,7 @@ let _graph: GraphFI;
  * @returns {SPFI} The initialized SPFI instance.
  */
 export const getSp = (context?: WebPartContext): SPFI => {
-  if (!!context) {
+  if (context) {
     _sp = spfi()
       .using(SpSPFx(context))
       .using(BrowserFetchWithRetry({ retries: 5 }));
@@ -42,7 +42,7 @@ export const getSp = (context?: WebPartContext): SPFI => {
  * @returns {GraphFI} The initialized GraphFI instance.
  */
 export const getGraph = (context?: WebPartContext): GraphFI => {
-  if (!!context) {
+  if (context) {
     _graph = graphfi()
       .using(GraphSPFx(context))
       .using(BrowserFetchWithRetry({ retries: 5 }));

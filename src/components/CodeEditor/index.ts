@@ -1,6 +1,2 @@
-import CodeEditor, { Languages } from './CodeEditor';
-import { ICodeEditorProps } from './ICodeEditorProps';
-
-export default CodeEditor;
-
-export { CodeEditor, Languages, type ICodeEditorProps };
+export {default as CodeEditor, Languages } from './CodeEditor';
+export type { ICodeEditorProps } from './ICodeEditorProps';

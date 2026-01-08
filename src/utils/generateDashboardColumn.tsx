@@ -142,7 +142,7 @@ export const generateDashboardColumn = (
         editable: !currentField.ReadOnlyField && editable,
         type: 'singleSelect',
         resizable: resizable,
-        valueOptions: currentField.Choices ? currentField.Choices : [],
+        valueOptions: currentField.Choices ?? [],
       };
     case FieldTypes.Number:
     case FieldTypes.Integer:
